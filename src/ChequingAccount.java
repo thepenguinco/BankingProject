@@ -32,7 +32,7 @@ public class ChequingAccount
     }
     
     /**
-     * Constructs a chequing account with a specificed balance
+     * Constructs a chequing account with a specified balance
      */
     public ChequingAccount(int initialBalance)
     {
@@ -46,7 +46,7 @@ public class ChequingAccount
     /**
      * Returns the balance of this chequing account
      * 
-     * @return balance the balance of 
+     * @return balance the balance of this chequing account
      */
     public int getBalance()
     {
