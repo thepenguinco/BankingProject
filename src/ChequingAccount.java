@@ -4,51 +4,63 @@
  * @author Eric Li 
  * @version 1.0 2017-10-08
  */
+
+//*****************************************************************************|
 public class ChequingAccount
 {
 	/*
 	 * Class fields
 	 */
 	
+	/**
+	 * Minimum balance required to be exempt from the cheque processing fee
+	 */
 	public static final double FEE_EXEMPTION_BALANCE = 1000;
+	
+	/**
+	 * Cheque processing fee
+	 */
 	public static final double PROCESSING_FEE = 0.15;
 	
     /*
      * Instance fields
      */
 	
-    private int balance;
+    private double balance;
     
     /*
      * Constructors
      */
     
     /**
-     * Constructs a chequing account with default characteristics
+     * Constructs a chequing account with a zero balance.
      */
     public ChequingAccount()
     {
         balance = 0;
-    }
+    } // end of constructor ChequingAccount()
     
     /**
-     * Constructs a chequing account with a specified balance
+     * Constructs a chequing account with a specified balance.
+     * 
+     * @param initialBalance the initial balance of this chequing account, may not be negative
      */
     public ChequingAccount(int initialBalance)
     {
         balance = initialBalance;
-    }
+        if (balance < 0) balance = 0;
+    } // end of constructor ChequingAccount(int initialBalance)
     
     /*
      * Accessors
      */
     
     /**
-     * Returns the balance of this chequing account
+     * Returns the balance of this chequing account.
      * 
-     * @return balance the balance of this chequing account
+     * @return the balance of this chequing account
      */
-    public int getBalance()
+    public double getBalance()
     {
     	return balance;
     } // end of getBalance()
@@ -58,7 +70,7 @@ public class ChequingAccount
      */
 
     /**
-     * Deposits funds into this savings account
+     * Deposits funds into this chequing account.
      * 
      * @param amount amount to be deposited, may not be negative
      */
@@ -68,17 +80,49 @@ public class ChequingAccount
     } // end of depositFunds(int amount)
     
     /**
-     * Withdraws funds from this savings account
+     * Levies the transaction fee on this chequing account.
+     */
+    public void levyFee()
+    {
+    	if (balance > FEE_EXEMPTION_BALANCE) balance = balance - PROCESSING_FEE;
+    } // end of levyFee()
+    
+    /**
+     * Processes a cheque from this chequing account.
+     * 
+     * @param amount amount to be processed, may not be negative
+     */
+    public void processCheque(int amount)
+    {
+    	if (amount > 0) balance = balance - amount;
+    } // end of withdrawFunds(int amount)
+    
+    /**
+     * Withdraws funds from this chequing account.
      * 
      * @param amount amount to be withdrawn, may not be negative
      */
     public void withdrawFunds(int amount)
     {
     	if (amount > 0) balance = balance - amount;
-    } // end of withDrawFunds(int amount)
+    } // end of withdrawFunds(int amount)
     
     /*
      * Other methods
      */
     
-}
+    /**
+     * Shows a string representation of this ChequingAccount.
+     * 
+     * @return the string representation of this ChequingAccount
+     */
+    public String toString()
+    {
+        return
+        getClass().getName() 
+        + "["
+        + "Current Balance: " + balance
+        + "]";
+    } // end of toString()
+    
+} // end of class ChequingAccount
