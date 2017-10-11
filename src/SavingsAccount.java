@@ -8,15 +8,11 @@
 //*****************************************************************************|
 public class SavingsAccount
 {
-    /*
-     * Instance fields
-     */
+    // instance fields
 	
     private double balance;
     
-    /*
-     * Constructors
-     */
+    // constructors
     
     /**
      * Constructs a savings account with a zero balance.
@@ -37,9 +33,7 @@ public class SavingsAccount
         if (balance < 0) balance = 0;
     } // end of constructor SavingsAccount(int initalBalance)
     
-    /*
-     * Accessors
-     */
+    // accessors
     
     /**
      * Returns the balance of this savings account.
@@ -51,9 +45,7 @@ public class SavingsAccount
     	return balance;
     } // end of getBalance()
     
-    /*
-     * Mutators
-     */
+    // mutators
 
     /**
      * Deposits funds into the savings account.
@@ -75,9 +67,7 @@ public class SavingsAccount
     	if (amount > 0) balance = balance - amount;
     } // end of withDrawFunds(int amount)
     
-    /*
-     * Other methods
-     */
+    // other methods
     
     /**
      * Shows a string representation of this savings account.

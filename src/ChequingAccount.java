@@ -8,9 +8,7 @@
 //*****************************************************************************|
 public class ChequingAccount
 {
-	/*
-	 * Class fields
-	 */
+	// class fields
 	
 	/**
 	 * Minimum balance required to be exempt from the cheque processing fee
@@ -22,15 +20,11 @@ public class ChequingAccount
 	 */
 	public static final double PROCESSING_FEE = 0.15;
 	
-    /*
-     * Instance fields
-     */
+    // instance fields
 	
     private double balance;
     
-    /*
-     * Constructors
-     */
+    // constructors
     
     /**
      * Constructs a chequing account with a zero balance.
@@ -51,9 +45,7 @@ public class ChequingAccount
         if (balance < 0) balance = 0;
     } // end of constructor ChequingAccount(int initialBalance)
     
-    /*
-     * Accessors
-     */
+    // accessors
     
     /**
      * Returns the balance of this chequing account.
@@ -65,9 +57,7 @@ public class ChequingAccount
     	return balance;
     } // end of getBalance()
     
-    /*
-     * Mutators
-     */
+    // mutators
 
     /**
      * Deposits funds into this chequing account.
@@ -107,9 +97,7 @@ public class ChequingAccount
     	if (amount > 0) balance = balance - amount;
     } // end of withdrawFunds(int amount)
     
-    /*
-     * Other methods
-     */
+    // other methods
     
     /**
      * Shows a string representation of this ChequingAccount.
