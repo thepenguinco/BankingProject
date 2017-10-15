@@ -2,11 +2,12 @@
  * A chequing account belonging to a customer
  * 
  * @author Eric Li 
- * @version 1.0 2017-10-08
+ * @version 1.0 2017-10-10
+ * https://www.youtube.com/watch?v=eR3sIf41xeI
  */
 
 //*****************************************************************************|
-public class ChequingAccount
+public class ChequingAccount extends Account
 {
 	// class fields
 	
@@ -21,8 +22,6 @@ public class ChequingAccount
 	public static final double PROCESSING_FEE = 0.15;
 	
     // instance fields
-	
-    private double balance;
     
     // constructors
     
@@ -31,51 +30,23 @@ public class ChequingAccount
      */
     public ChequingAccount()
     {
-        balance = 0;
+        super();
     } // end of constructor ChequingAccount()
     
     /**
      * Constructs a chequing account with a specified balance.
      * 
-     * @param initialBalance the initial balance of this chequing account, may not be negative
+     * @param initialBalance the initial balance of this chequing account,
+     * may not be negative
      */
     public ChequingAccount(int initialBalance)
     {
-        balance = initialBalance;
-        if (balance < 0) balance = 0;
+        super(initialBalance);
     } // end of constructor ChequingAccount(int initialBalance)
     
     // accessors
-    
-    /**
-     * Returns the balance of this chequing account.
-     * 
-     * @return the balance of this chequing account
-     */
-    public double getBalance()
-    {
-    	return balance;
-    } // end of getBalance()
-    
+        
     // mutators
-
-    /**
-     * Deposits funds into this chequing account.
-     * 
-     * @param amount amount to be deposited, may not be negative
-     */
-    public void depositFunds(int amount)
-    {
-    	if (amount > 0) balance = balance + amount;
-    } // end of depositFunds(int amount)
-    
-    /**
-     * Levies the transaction fee on this chequing account.
-     */
-    public void levyFee()
-    {
-    	if (balance > FEE_EXEMPTION_BALANCE) balance = balance - PROCESSING_FEE;
-    } // end of levyFee()
     
     /**
      * Processes a cheque from this chequing account.
@@ -84,33 +55,13 @@ public class ChequingAccount
      */
     public void processCheque(int amount)
     {
-    	if (amount > 0) balance = balance - amount;
-    } // end of withdrawFunds(int amount)
-    
-    /**
-     * Withdraws funds from this chequing account.
-     * 
-     * @param amount amount to be withdrawn, may not be negative
-     */
-    public void withdrawFunds(int amount)
-    {
-    	if (amount > 0) balance = balance - amount;
+    	if (amount > 0) this.withdrawFunds(amount);
+    	if (this.getBalance() < FEE_EXEMPTION_BALANCE) 
+    	{
+    		this.withdrawFunds(PROCESSING_FEE);
+    	}
     } // end of withdrawFunds(int amount)
     
     // other methods
-    
-    /**
-     * Shows a string representation of this ChequingAccount.
-     * 
-     * @return the string representation of this ChequingAccount
-     */
-    public String toString()
-    {
-        return
-        getClass().getName() 
-        + "["
-        + "Current Balance: " + balance
-        + "]";
-    } // end of toString()
     
 } // end of class ChequingAccount

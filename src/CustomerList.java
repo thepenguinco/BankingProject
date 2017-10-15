@@ -1,4 +1,104 @@
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class CustomerList {
+/**
+ * A customer list of the bank
+ * 
+ * @author Eric Li 
+ * @version 1.0 2017-10-10
+ */
 
-}
+//*****************************************************************************|
+public class CustomerList
+{
+	// class fields
+	
+    // instance fields
+
+    private ArrayList<Customer> customer;
+    
+    // constructors
+    
+    /**
+     * Constructs a default customer list
+     * 
+     */
+    public CustomerList()
+    {
+    	this.customer = new ArrayList<Customer>();
+    } // end of constructor CustomerList()
+    
+    // accessors
+    
+    /**
+     * Returns the customers in this customer list.
+     * 
+     * @return the customers in this customer list
+     */
+    public String getCustomers()
+    {
+    	String customers = "";
+        for (int i = 0; i < customer.size(); i++)
+            customers = customers + i + ": " + customer.get(i);
+        return customers;
+    } // end of getCustomers()
+    
+    
+    // mutators
+    
+    /**
+     * Adds a customer to this customer list
+     * 
+     * @param customer a customer to be added to this customer list
+     */
+	public void addCustomer(Customer customer) {
+		this.customer.add(customer);		
+	}
+	
+    /**
+     * Deletes a customer from this customer list
+     * 
+     * @param customer a customer to be deleted from to this customer list
+     */
+	// ???
+	public void removeCustomer(Customer customer) {
+		this.customer.remove(customer);		
+	}
+
+    /**
+     * Sorts the customers in this customer list by name
+     * 
+     * @return the customers in this customer list
+     */
+    public void sortByName() 
+    {
+    	Collections.sort(customer, Customer.compareByName);
+    }
+	
+    /**
+     * Sorts the customers in this customer list by sin
+     * 
+     * @return the customers in this customer list
+     */
+    public void sortBySin() 
+    {
+    	Collections.sort(customer, Customer.compareBySin);
+    }
+    
+    // other methods
+    
+    /**
+     * Shows a string representation of this transaction.
+     * 
+     * @return the string representation of this transaction
+     */
+    public String toString()
+    {
+        return
+        getClass().getName() 
+        + "["
+        + "Customers: " + customer
+        + "]";
+    } // end of toString()
+    
+} // end of class CustomerList
