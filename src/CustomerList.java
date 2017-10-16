@@ -31,6 +31,16 @@ public class CustomerList
     // accessors
     
     /**
+     * Returns the customer in this list with the specified index.
+     * 
+     * @return the customer in this list with the specified index
+     */
+    public Customer getCustomer(int index)
+    {
+    	return customer.get(index);
+    } // end of getCustomer() 
+    
+    /**
      * Returns the customers in this customer list.
      * 
      * @return the customers in this customer list
@@ -41,8 +51,7 @@ public class CustomerList
         for (int i = 0; i < customer.size(); i++)
             customers = customers + i + ": " + customer.get(i);
         return customers;
-    } // end of getCustomers()
-    
+    } // end of getCustomers()  
     
     // mutators
     

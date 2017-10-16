@@ -59,15 +59,15 @@ public abstract class Account
     } // end of getBalance()
     
     /**
-     * Returns the balance of this account.
+     * Returns the last 5 transactions of this account
      * 
-     * @return the balance of this account
+     * @return the last 5 transactions of this account
      */
     public String getTransactions()
     {
     	String transactions = "";
-        for (int i = 0; i < transaction.size(); i++)
-            transactions = transactions + i + ": " + transaction.get(i);
+        for (int i = 1; i <= TRANSACTION_HISTORY; i++)
+            transactions = transactions + (transaction.size() - 1) + ": " + transaction.get(transaction.size() - i);
         return transactions;
     } // end of getTransactions()
     
@@ -116,6 +116,7 @@ public abstract class Account
         getClass().getName() 
         + "["
         + "Current Balance: " + balance
+        + ", Transactions" + transaction
         + "]";
     } // end of toString()
     

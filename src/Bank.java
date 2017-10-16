@@ -1,5 +1,9 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.temporal.ChronoUnit;
 import java.io.IOException;
 
 /**
@@ -8,6 +12,7 @@ import java.io.IOException;
  * @author Eric Li 
  * @version 1.0 2017-10-08
  */
+//*****************************************************************************|
 public class Bank
 {
 	/**
@@ -25,7 +30,7 @@ public class Bank
                 new BufferedReader(new InputStreamReader(System.in));
 	    
 
-    	System.out.println("Please enter the directory location in which your customers are stored in");
+    	System.out.println("");
     	
     	CustomerList customerList = new CustomerList();
         
@@ -47,19 +52,11 @@ public class Bank
 	
 	        try
 	        {
-	        	// menu variables
-	        	Account account;
-	        	int birthYear;
-	        	int birthMonth;
-	        	int birthDate;
-	        	String firstName;
-	        	String lastName;
-	        	int selection;
-	        	int sin;
-	        	
 	            // Read console input
 	            int option = Integer.parseInt(console.readLine());
 	            System.out.println();
+	           
+	            boolean failure = false;
 	
 	            // Process the console input
 	            switch (option)
@@ -68,30 +65,78 @@ public class Bank
 	                    // Create a customer
 	                    try
 	                    {
-		                    System.out.print("What is the last name of the customer? ");
-		                    lastName = console.readLine();
-		                    System.out.print("What is the first name of the customer? ");
-		                    firstName = console.readLine();
-		                    System.out.print("What is the SIN number of the customer? ");
-		                    sin = Integer.parseInt(console.readLine());
-		                    System.out.print("What is the birth year of the customer? ");
-		                    birthYear = Integer.parseInt(console.readLine());
-		                    System.out.print("What is the birth month of the customer? ");
-		                    birthMonth = Integer.parseInt(console.readLine());
-		                    System.out.print("What is the birth date of the customer? ");
-		                    birthDate = Integer.parseInt(console.readLine());
-		                    // Validate birthday to ensure the customer is old enough to have certain accounts
-		                    // Add selection for what type of account to be created
-		                    // TODO
-		                    account = new ChequingAccount();
-		                    Customer customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDate, account);
+	                    	System.out.println("Creating a new customer:");
+	                    	System.out.println();
+		                    System.out.print("Enter the customer's first name: ");
+		                    String firstName = console.readLine();
+		                    System.out.print("Enter the customer's last name: ");
+		                    String lastName = console.readLine();
+		                    System.out.print("Enter the customer's SIN: ");
+		                    int sin = Integer.parseInt(console.readLine());
+		                    System.out.print("Enter the customer's birth year: ");
+		                    int birthYear = Integer.parseInt(console.readLine());
+		                    System.out.print("Enter the customer's birth month: ");
+		                    int birthMonth = Integer.parseInt(console.readLine());
+		                    System.out.print("Enter the customer's birth day? ");
+		                    int birthDay = Integer.parseInt(console.readLine());
+		                    System.out.println();
+		                    // Validate birthday
+		                    LocalDate birthDate = LocalDate.of(birthYear,
+		                    		birthMonth, birthDay);
+		                    LocalDate today = LocalDate.now();
+		                    long age = ChronoUnit.YEARS.between(birthDate, today);
+	                    	Account account = null;
+		                    if (age >= AGE_OF_MAJORITY)
+		                    {
+		                    	System.out.println("Select an account to be created: ");
+			                    System.out.println("1. Chequing Account ");
+			                    System.out.println("2. Savings Account");
+			                    System.out.println("3. Credit Card ");
+			                   
+			                    int selection = Integer.parseInt(console.readLine());
+			                    switch (selection)
+			                    {
+			                    	case 1:
+					                    account = new ChequingAccount();
+					                    System.out.println("New chequing account created.");
+					                    break;
+			                    	case 2:
+					                    account = new SavingsAccount();
+					                    System.out.println("New savings account created.");
+					                    break;
+			                    	case 3:
+					                    account = new CreditCard();
+					                    System.out.println("New credit card created.");
+					                    break;
+					                default:
+					                	System.out.println("Please enter a valid menu selection.");
+					                	failure = true;
+			                    }
+		                    } // end of if (age >= AGE_OF_MAJORITY)
+		                    else
+		                    {
+		                    	System.out.println("The customer is under the age of "
+		                    			+ AGE_OF_MAJORITY + ".");
+		                    	System.out.println("A savings account has been generated.");
+		                    	account = new SavingsAccount();
+		                    }
+		                    if (failure)
+		                    {
+			                	System.out.println("Customer creation failed.");
+			                	break;
+		                    }
+		                    Customer customer = new Customer(firstName, lastName, sin,
+		                    		birthYear, birthMonth, birthDay, account);
+		                    customerList.addCustomer(customer);
 		                    System.out.println("Customer created successfully.");
 	                    } // end of try
-	                    catch (NumberFormatException exception)
+	                    catch (NumberFormatException | DateTimeException exception)
 	                    {
-	                        System.out.println("Please enter valid numerical data for the birthdate and the SIN number.");
-	                        break;
-	                    } // end of catch (InputMismatchException exception)
+	                        System.out.println("Please enter a valid "
+	                        		+ "birthdate and SIN number.");
+		                	System.out.println("Please enter a valid account type to be created.");
+		                	System.out.println("Customer creation failed.");
+	                    } // end of catch (NumberFormatException exception) ...
 	                    break;
 	                case 2:
 	                    // Delete a customer
@@ -99,16 +144,18 @@ public class Bank
 	                    System.out.print("1. By SIN.");
 	                    System.out.print("2. By first and last name.");
 	                    // TODO
+	                    // HANDLE FINDING MULTIPLES
 	                    break;
 	                  
 	                case 3:
 	                    // Sort customers by last name, first name ??? ASK
 	                	// TODO
-	                	customerList.sortBySin();
+	                	customerList.sortByName();
 	                	System.out.println("Successfully sorted by first name, then last name!");
+	                	break;
 	                case 4:
-	                    // Sort customers by SIN
-	                	// TODO
+	                	customerList.sortBySin();
+	                	System.out.println("Successfully sorted by SIN!");
 	                    break;
 	                case 5:
 	                    // Display customer summary (name, SIN)
@@ -134,7 +181,7 @@ public class Bank
 	        } // end of try
 	        catch (NumberFormatException exception) 
 	        {
-	            System.out.println("You didn't enter a valid numerical menu choice selection!");
+	            System.out.println("Please enter a valid numerical menu choice selection!");
 	            System.out.println();
 	        } // end of catch (InputMismatchException exception)
 	    } // end of while (true)

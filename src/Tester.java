@@ -12,13 +12,13 @@ public class Tester {
 		System.out.println(customer);
 		CustomerList list = new CustomerList();
 		list.addCustomer(customer);
-		customer = new Customer("Zoey", "Jack", 210, 2017, 10, 3, acc);
+		customer = new Customer("John", "Jack", 210, 2017, 10, 3, acc);
 		list.addCustomer(customer);
 		customer = new Customer("Jane", "Doe", 201, 2017, 10, 3, acc);
 		list.addCustomer(customer);
 		System.out.println(list);
-		list.sortBySin();
+		list.sortByName();
 		System.out.println(list);
-		
+		System.out.println(customer.getChequingAccounts());
 	}
 }

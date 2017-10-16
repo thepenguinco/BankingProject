@@ -89,6 +89,16 @@ public class Customer implements Comparable<Customer>
     } // end of getBirthYear()
     
     /**
+     * Returns the specified savings account of this customer.
+     * 
+     * @return the specified savings account of this customer
+     */
+    public Account getChequingAccount(int index)
+    {
+    	return savingsAccount.get(index);
+    } // end of getChequingAccount()
+    
+    /**
      * Returns the chequing accounts of this customer.
      * 
      * @return the chequing accounts of this customer
@@ -133,6 +143,16 @@ public class Customer implements Comparable<Customer>
     {
         return firstName;
     } // end of getLastName()
+    
+    /**
+     * Returns the specified savings account of this customer.
+     * 
+     * @return the specified savings account of this customer
+     */
+    public Account getSavingsAccount(int index)
+    {
+    	return savingsAccount.get(index);
+    } // end of getSavingsAccount()
     
     /**
      * Returns the savings accounts of this customer.
@@ -274,7 +294,7 @@ public class Customer implements Comparable<Customer>
         	// first sort by first name
         	int result = customer1.getFirstName().compareToIgnoreCase(customer2.getFirstName());
             // then sort by last name if first names are equivalent
-            if (result != 0) result = customer1.getLastName().compareToIgnoreCase(customer2.getLastName());
+            if (result == 0) result = customer1.getLastName().compareToIgnoreCase(customer2.getLastName());
             return result;
         }
     }; // end of Comparator<Customer> compareByName...
