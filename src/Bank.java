@@ -29,7 +29,6 @@ public class Bank
         BufferedReader console = 
                 new BufferedReader(new InputStreamReader(System.in));
 	    
-
     	System.out.println("");
     	
     	CustomerList customerList = new CustomerList();

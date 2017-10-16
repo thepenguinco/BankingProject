@@ -19,6 +19,18 @@ public class Tester {
 		System.out.println(list);
 		list.sortByName();
 		System.out.println(list);
-		System.out.println(customer.getChequingAccounts());
+		Transaction transaction = new Transaction(1,10,100);
+		list.getCustomer(0).getChequingAccount(0).addTransaction(transaction);
+		System.out.println(list);
+		/*
+		 * QUESTIONS:
+		 * - sorting by last name, first name?
+		 * - accessor methods needed when not necessary??
+		 * - export to file during running time or export upon closing
+		 * - file io in customerList??
+		 * - try catch for everything (also in methods?? or just use loops and booleans)
+		 * - column 80 issue?
+		 * - transaction ID??
+		 */
 	}
 }

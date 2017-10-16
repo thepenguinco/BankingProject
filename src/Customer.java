@@ -5,7 +5,7 @@ import java.util.Comparator;
  * A bank client who uses the banking services
  * 
  * @author Eric Li 
- * @version 1.0
+ * @version 1.0 2017-10-12
  */
 
 //*****************************************************************************|
@@ -95,7 +95,7 @@ public class Customer implements Comparable<Customer>
      */
     public Account getChequingAccount(int index)
     {
-    	return savingsAccount.get(index);
+    	return chequingAccount.get(index);
     } // end of getChequingAccount()
     
     /**
@@ -110,6 +110,16 @@ public class Customer implements Comparable<Customer>
             accounts = accounts + i + ": " + chequingAccount.get(i);
         return accounts;
     } // end of getChequingAccounts()
+    
+    /**
+     * Returns the specified credit card of this customer.
+     * 
+     * @return the specified credit card of this customer
+     */
+    public Account getCreditCard(int index)
+    {
+    	return creditCard.get(index);
+    } // end of getCreditCard()
     
     /**
      * Returns the credit card accounts of this customer.

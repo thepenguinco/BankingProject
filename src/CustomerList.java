@@ -1,3 +1,5 @@
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -92,6 +94,33 @@ public class CustomerList
     public void sortBySin() 
     {
     	Collections.sort(customer, Customer.compareBySin);
+    }
+    
+    // file IO
+    
+    /**
+     * Reads the bank database from a file
+     * 
+     * @throws IOException
+     */
+    public void exportList() throws IOException
+    {
+    	for (Customer customer : this.customer)
+    	{
+    		// TODO
+    	}
+    }
+    
+    /**
+     * Reads the bank database from a file
+     * 
+     * @param directory
+     * @throws IOException
+     */
+    public void populateList(String directory) throws IOException
+    {
+    	FileReader inputStream = null;
+    	// TODO
     }
     
     // other methods
