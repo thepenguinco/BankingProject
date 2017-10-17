@@ -66,10 +66,10 @@ public class Bank
 	                    {
 	                    	System.out.println("Creating a new customer:");
 	                    	System.out.println();
-		                    System.out.print("Enter the customer's first name: ");
-		                    String firstName = console.readLine();
 		                    System.out.print("Enter the customer's last name: ");
 		                    String lastName = console.readLine();
+		                    System.out.print("Enter the customer's first name: ");
+		                    String firstName = console.readLine();
 		                    System.out.print("Enter the customer's SIN: ");
 		                    int sin = Integer.parseInt(console.readLine());
 		                    System.out.print("Enter the customer's birth year: ");

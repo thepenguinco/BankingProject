@@ -24,13 +24,12 @@ public class Tester {
 		System.out.println(list);
 		/*
 		 * QUESTIONS:
-		 * - sorting by last name, first name?
+		 * - sorting by last name, then first name
 		 * - accessor methods needed when not necessary??
-		 * - export to file during running time or export upon closing
-		 * - file io in customerList??
+		 * - export upon closing
+		 * - file io in customerList
 		 * - try catch for everything (also in methods?? or just use loops and booleans)
 		 * - column 80 issue?
-		 * - transaction ID??
 		 */
 	}
 }
