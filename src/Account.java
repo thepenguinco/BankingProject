@@ -60,14 +60,12 @@ public abstract class Account
     /**
      * Adds a transaction into this account.
      * 
-     * @param transactionType transaction type
-     * @param amount amount transferred
-     * @param finalBalance final balance of this account
+     * @param transaction transaction to be added to this account
      */
-    public void addTransaction(int transactionType, int amount, int finalBalance)
+    public void addTransaction(Transaction transaction)
     {
-    	this.transaction.add(0, new Transaction(transactionType, amount, finalBalance));
-    } // end of addTransaction(int transactionType ...
+    	this.transaction.add(0, transaction);
+    } // end of addTransaction(Transaction transaction)
     
     /**
      * Adds funds into this account.

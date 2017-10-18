@@ -13,19 +13,19 @@ public class Customer
 	// class fields
 	
 	/**
-	 * The string ID of a chequing account belonging to a customer
+	 * The ID of a chequing account belonging to a customer
 	 */
-	public static final String CHEQUING_ID = "Chequing";
+	public static final int CHEQUING_ID = 1;
 	
 	/**
-	 * The string ID of a savings account belonging to a customer
+	 * The ID of a savings account belonging to a customer
 	 */
-	public static final String SAVINGS_ID = "Savings";
+	public static final int SAVINGS_ID = 2;
 	
 	/**
-	 * The string ID of a chequing account
+	 * The ID of a credit card
 	 */
-	public static final String CREDIT_CARD_ID = "Credit";
+	public static final int CREDIT_CARD_ID = 3;
 	
     // instance fields
     
@@ -42,8 +42,7 @@ public class Customer
     // constructors
     
     /**
-     * Constructs a customer with specified characteristics
-     * and an initial account and initial balance
+     * Constructs a customer with specified characteristics with no accounts
      * 
      * @param firstName the first name of this customer
      * @param lastName the last name of this customer
@@ -68,7 +67,7 @@ public class Customer
     
     /**
      * Constructs a customer with specified characteristics
-     * and an initial account and initialBalance
+     * and an initial account
      * 
      * @param firstName the first name of this customer
      * @param lastName the last name of this customer
@@ -76,11 +75,10 @@ public class Customer
      * @param birthYear the year this customer was born in
      * @param birthMonth the month this customer was born in
      * @param birthDay the day of the month this customer was born on
-     * @param accountID the integer representing the initial account type
-     * @param initialBalance initialBalance of the account
+     * @param account the initial account of this customer
      */
     public Customer(String firstName, String lastName, int sin, 
-            int birthYear, int birthMonth, int birthDay, String accountID, int initialBalance)
+            int birthYear, int birthMonth, int birthDay, Account account)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -91,12 +89,10 @@ public class Customer
         this.chequingAccount = new ArrayList<Account>();
         this.creditCard = new ArrayList<Account>();
         this.savingsAccount = new ArrayList<Account>();
-        if (accountID.equals(CHEQUING_ID)) chequingAccount.add(new ChequingAccount(initialBalance));
-        else if (accountID.equals(SAVINGS_ID)) savingsAccount.add(new SavingsAccount(initialBalance));
-        else if (accountID.equals(CREDIT_CARD_ID)) creditCard.add(new CreditCard(initialBalance));
+        if (account instanceof ChequingAccount) chequingAccount.add(account);
+        if (account instanceof SavingsAccount) savingsAccount.add(account);
+        if (account instanceof CreditCard) creditCard.add(account);
     } // end of constructor Customer(String firstName ...
-    
-    // TODO
     
     // accessors
 
@@ -193,33 +189,16 @@ public class Customer
     // mutators
     
     /**
-     * Adds a chequing account to this customer.
+     * Adds an account to this customer.
      * 
-     * @param initialBalance the initial balance of the chequing account
+     * @param account the account to be added to this customer
      */
-    public void addChequingAccount(int initialBalance)
+    public void addAccount(Account account)
     {
-    	chequingAccount.add(new ChequingAccount(initialBalance));
-    } // end of addChequingAccount(int initialBalance)
-    
-    /**
-     * Adds a credit card to this customer.
-     * 
-     */
-    public void addCreditCard()
-    {
-    	creditCard.add(new CreditCard());
-    } // end of addCreditCard()
-    
-    /**
-     * Adds a savings account to this customer.
-     * 
-     * @param initialBalance the initial balance of this savings account
-     */
-    public void addSavingsAccount(int initialBalance)
-    {
-    	savingsAccount.add(new SavingsAccount(initialBalance));
-    } // end of addSavingsAccount(int initialBalance)
+        if (account instanceof ChequingAccount) chequingAccount.add(account);
+        if (account instanceof SavingsAccount) savingsAccount.add(account);
+        if (account instanceof CreditCard) creditCard.add(account);
+    } // end of addAccount(Account account)
     
     /**
      * Removes a chequing account from this customer with the specified index.

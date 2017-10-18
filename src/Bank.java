@@ -84,7 +84,7 @@ public class Bank
 		                    		birthMonth, birthDay);
 		                    LocalDate today = LocalDate.now();
 		                    long age = ChronoUnit.YEARS.between(birthDate, today);
-	                    	String accountID = Customer.SAVINGS_ID;
+		                    Account account = null;
 		                    if (age >= AGE_OF_MAJORITY)
 		                    {
 		                    	System.out.println("Select an account to be created: ");
@@ -96,15 +96,15 @@ public class Bank
 			                    switch (selection)
 			                    {
 			                    	case 1:
-					                    accountID = Customer.CHEQUING_ID;
+					                    account = new ChequingAccount();
 					                    System.out.println("Creating new chequing account.");
 					                    break;
 			                    	case 2:
-					                    accountID = Customer.SAVINGS_ID;
+					                    account = new SavingsAccount();
 					                    System.out.println("Creating new savings account.");
 					                    break;
 			                    	case 3:
-					                    accountID = Customer.CREDIT_CARD_ID;
+					                    account = new CreditCard();
 					                    System.out.println("Creating new credit card.");
 					                    break;
 					                default:
@@ -117,6 +117,7 @@ public class Bank
 		                    	System.out.println("The customer is under the age of "
 		                    			+ AGE_OF_MAJORITY + ".");
 		                    	System.out.println("A savings account will be created.");
+		                    	account = new SavingsAccount();
 		                    }
 		                    if (failure)
 		                    {
@@ -125,8 +126,9 @@ public class Bank
 		                    }
 		                    System.out.println("What is the initial opening balance of this account: ");
 		                    int initialBalance = Integer.parseInt(console.readLine());
-		                    customerList.addCustomer(firstName, lastName, sin,
-		                    		birthYear, birthMonth, birthDay, accountID, initialBalance);
+		                    account.depositFunds(initialBalance);
+		                    Customer customer = new Customer(lastName, firstName, sin, birthYear, birthMonth, birthDay, account);
+		                    customerList.addCustomer(customer);
 		                    System.out.println("Customer created successfully.");
 	                    } // end of try
 	                    catch (NumberFormatException | DateTimeException exception)
