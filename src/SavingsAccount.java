@@ -5,7 +5,6 @@
  * @version 1.0 2017-10-10
  */
 
-//*****************************************************************************|
 public class SavingsAccount extends Account
 {
     // instance fields

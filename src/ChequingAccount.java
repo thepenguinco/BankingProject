@@ -5,7 +5,6 @@
  * @version 1.0 2017-10-10
  */
 
-//*****************************************************************************|
 public class ChequingAccount extends Account
 {
 	// class fields
@@ -40,7 +39,7 @@ public class ChequingAccount extends Account
      */
     public ChequingAccount(int initialBalance)
     {
-        super(initialBalance);
+    	super(initialBalance);    	
     } // end of constructor ChequingAccount(int initialBalance)
     
     // accessors

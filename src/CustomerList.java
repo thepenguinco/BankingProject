@@ -10,10 +10,13 @@ import java.util.Collections;
  * @version 1.0 2017-10-10
  */
 
-//*****************************************************************************|
 public class CustomerList
 {
 	// class fields
+	
+	/**
+	 * 
+	 */
 	
     // instance fields
 
@@ -26,6 +29,16 @@ public class CustomerList
      * 
      */
     public CustomerList()
+    {
+    	this.customer = new ArrayList<Customer>();
+    } // end of constructor CustomerList()
+    
+    /**
+     * Constructs a customer list from a specified file database
+     * 
+     * @throws IOException
+     */
+    public CustomerList(String fileName) throws IOException
     {
     	this.customer = new ArrayList<Customer>();
     } // end of constructor CustomerList()
@@ -43,17 +56,14 @@ public class CustomerList
     } // end of getCustomer() 
     
     /**
-     * Returns the customers in this customer list.
+     * Returns this customer list
      * 
-     * @return the customers in this customer list
+     * @return this customer list
      */
-    public String getCustomers()
+    public ArrayList<Customer> getList()
     {
-    	String customers = "";
-        for (int i = 0; i < customer.size(); i++)
-            customers = customers + i + ": " + customer.get(i);
-        return customers;
-    } // end of getCustomers()  
+    	return customer;
+    } // end of getList() 
     
     // mutators
     
@@ -62,18 +72,19 @@ public class CustomerList
      * 
      * @param customer a customer to be added to this customer list
      */
-	public void addCustomer(Customer customer) {
-		this.customer.add(customer);		
+	public void addCustomer(String firstName, String lastName, int sin, int birthYear, 
+			int birthMonth, int birthDay, int accountID, int initialBalance) {
+		this.customer.add(new Customer(firstName, lastName, sin,
+		                    		birthYear, birthMonth, birthDay, accountID, initialBalance));
 	}
 	
     /**
      * Deletes a customer from this customer list
      * 
-     * @param customer a customer to be deleted from to this customer list
+     * @param index the index in the list of this customer
      */
-	// ???
-	public void removeCustomer(Customer customer) {
-		this.customer.remove(customer);		
+	public void removeCustomer(int index) {
+		this.customer.remove(index);		
 	}
 
     /**
@@ -99,7 +110,7 @@ public class CustomerList
     // file IO
     
     /**
-     * Reads the bank database from a file
+     * Saves this customer list to a file database
      * 
      * @throws IOException
      */
@@ -110,31 +121,32 @@ public class CustomerList
     		// TODO
     	}
     }
+        
+    // other methods, string methods
     
     /**
-     * Reads the bank database from a file
+     * Returns the customers in this customer list.
      * 
-     * @param directory
-     * @throws IOException
+     * @return the customers in this customer list
      */
-    public void populateList(String directory) throws IOException
+    public String getCustomers()
     {
-    	FileReader inputStream = null;
-    	// TODO
-    }
-    
-    // other methods
+    	String customers = "";
+        for (int i = 0; i < customer.size(); i++)
+            customers = customers + (i + 1) + ": " + customer.get(i).getSummary();
+        return customers;
+    } // end of getCustomers()  
     
     /**
-     * Shows a string representation of this transaction.
+     * Shows a string representation of this customer list
      * 
-     * @return the string representation of this transaction
+     * @return the string representation of this customer list
      */
     public String toString()
     {
         return
         getClass().getName() 
-        + "["
+        + " ["
         + "Customers: " + customer
         + "]";
     } // end of toString()

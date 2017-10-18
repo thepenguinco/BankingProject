@@ -2,35 +2,44 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class Tester {
+public class Tester 
+{
 	public static void main(String[] args)
 	{
 		ChequingAccount acc = new ChequingAccount();
-		Customer customer = new Customer("John", "Doe", 300, 2017, 10, 3, acc);
+		Customer customer = new Customer("John", "Doe", 300, 2017, 10, 3, 0, 300);
 		System.out.println(customer.getChequingAccounts());
 		System.out.println(customer.getSavingsAccounts());
 		System.out.println(customer);
 		CustomerList list = new CustomerList();
 		list.addCustomer(customer);
-		customer = new Customer("John", "Jack", 210, 2017, 10, 3, acc);
+		customer = new Customer("John", "Jack", 210, 2017, 10, 3, 1, 300);
 		list.addCustomer(customer);
-		customer = new Customer("Jane", "Doe", 201, 2017, 10, 3, acc);
+		customer = new Customer("Jane", "Doe", 201, 2017, 10, 3, 1, 400);
 		list.addCustomer(customer);
 		System.out.println(list);
-		list.sortByName();
+		list.sortBySin();
 		System.out.println(list);
-		Transaction transaction = new Transaction(1,10,100);
-		list.getCustomer(0).getChequingAccount(0).addTransaction(transaction);
+		list.getCustomer(0).getChequingAccount(0).addTransaction(1,10,100);
+		list.getCustomer(0).getChequingAccount(0).addTransaction(1,20,100);
+
+		list.getCustomer(0).getChequingAccount(0).addTransaction(1,20,400);
+
+		list.getCustomer(0).getChequingAccount(0).addTransaction(1,20,400);
+
+		list.getCustomer(0).getChequingAccount(0).addTransaction(1,20,400);
+
+		list.getCustomer(0).getChequingAccount(0).addTransaction(1,20,400);
 		System.out.println(list);
+
+		System.out.println(list.getCustomer(0).getChequingAccount(0).getTransactions());
 		/*
-		 * QUESTIONS:
-		 * - sorting by last name, first name?
-		 * - accessor methods needed when not necessary??
-		 * - export to file during running time or export upon closing
-		 * - file io in customerList??
+		 * ANSWERS
+		 * - sorting by last name, first name
+		 * - accessor methods needed 
+		 * - export upon closing
+		 * - file io in customerList
 		 * - try catch for everything (also in methods?? or just use loops and booleans)
-		 * - column 80 issue?
-		 * - transaction ID??
 		 */
 	}
 }

@@ -8,10 +8,26 @@ import java.util.Comparator;
  * @version 1.0 2017-10-12
  */
 
-//*****************************************************************************|
-public class Customer implements Comparable<Customer>
+public class Customer
 {
-    // instance variables
+	// class fields
+	
+	/**
+	 * The ID of a chequing account belonging to a customer
+	 */
+	public static final int CHEQUING_ID = 0;
+	
+	/**
+	 * The ID of a savings account belonging to a customer
+	 */
+	public static final int SAVINGS_ID = 1;
+	
+	/**
+	 * The ID of a chequing account
+	 */
+	public static final int CREDIT_CARD_ID = 2;
+	
+    // instance fields
     
     private int birthDay;
     private int birthMonth;
@@ -35,10 +51,11 @@ public class Customer implements Comparable<Customer>
      * @param birthYear the year this customer was born in
      * @param birthMonth the month this customer was born in
      * @param birthDay the day of the month this customer was born on
-     * @param account the initial account of this customer
+     * @param accountID the integer representing the initial account type
+     * @param initialBalance initialBalance of the account
      */
     public Customer(String firstName, String lastName, int sin, 
-            int birthYear, int birthMonth, int birthDay, Account account)
+            int birthYear, int birthMonth, int birthDay, int accountID, int initialBalance)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,9 +66,9 @@ public class Customer implements Comparable<Customer>
         this.chequingAccount = new ArrayList<Account>();
         this.creditCard = new ArrayList<Account>();
         this.savingsAccount = new ArrayList<Account>();
-        if (account instanceof ChequingAccount) chequingAccount.add(account);
-        if (account instanceof SavingsAccount) savingsAccount.add(account);
-        if (account instanceof CreditCard) creditCard.add(account);
+        if (accountID == CHEQUING_ID) chequingAccount.add(new ChequingAccount(initialBalance));
+        else if (accountID == SAVINGS_ID) savingsAccount.add(new SavingsAccount(initialBalance));
+        else if (accountID == CREDIT_CARD_ID) creditCard.add(new CreditCard(initialBalance));
     } // end of constructor Customer(String firstName ...
     
     // TODO
@@ -89,27 +106,14 @@ public class Customer implements Comparable<Customer>
     } // end of getBirthYear()
     
     /**
-     * Returns the specified savings account of this customer.
+     * Returns the specified chequing account of this customer.
      * 
-     * @return the specified savings account of this customer
+     * @return the specified chequing account of this customer
      */
     public Account getChequingAccount(int index)
     {
     	return chequingAccount.get(index);
     } // end of getChequingAccount()
-    
-    /**
-     * Returns the chequing accounts of this customer.
-     * 
-     * @return the chequing accounts of this customer
-     */
-    public String getChequingAccounts()
-    {
-    	String accounts = "";
-        for (int i = 0; i < chequingAccount.size(); i++)
-            accounts = accounts + i + ": " + chequingAccount.get(i);
-        return accounts;
-    } // end of getChequingAccounts()
     
     /**
      * Returns the specified credit card of this customer.
@@ -120,20 +124,7 @@ public class Customer implements Comparable<Customer>
     {
     	return creditCard.get(index);
     } // end of getCreditCard()
-    
-    /**
-     * Returns the credit card accounts of this customer.
-     * 
-     * @return the credit cards accounts of this customer
-     */
-    public String getCreditCards()
-    {
-    	String accounts = "";
-        for (int i = 0; i < creditCard.size(); i++)
-            accounts = accounts + i + ": " + creditCard.get(i);
-        return accounts;
-    } // end of getCreditCards()
-    
+        
     /**
      * Returns the first name of this customer.
      * 
@@ -165,19 +156,6 @@ public class Customer implements Comparable<Customer>
     } // end of getSavingsAccount()
     
     /**
-     * Returns the savings accounts of this customer.
-     * 
-     * @return the savings accounts of this customer
-     */
-    public String getSavingsAccounts()
-    {
-    	String accounts = "";
-        for (int i = 0; i < savingsAccount.size(); i++)
-            accounts = accounts + i + ": " + savingsAccount.get(i);
-        return accounts;
-    } // end of getSavingsAccounts()
-    
-    /**
      * Returns the SIN of this customer.
      * 
      * @return the SIN of this customer 
@@ -190,16 +168,64 @@ public class Customer implements Comparable<Customer>
     // mutators
     
     /**
-     * Adds an account to this customer.
+     * Adds a chequing account to this customer.
      * 
-     * @param account account to be added to this customer
+     * @param initialBalance the initial balance of the chequing account
      */
-    public void addAccount(Account account)
+    public void addChequingAccount(int initialBalance)
     {
-    	if (account instanceof ChequingAccount) chequingAccount.add(account);
-        if (account instanceof SavingsAccount) savingsAccount.add(account);
-        if (account instanceof CreditCard) creditCard.add(account);
-    } // end of addAccount(Account account)
+    	chequingAccount.add(new ChequingAccount(initialBalance));
+    } // end of addChequingAccount(int initialBalance)
+    
+    /**
+     * Adds a credit card to this customer.
+     * 
+     */
+    public void addCreditCard()
+    {
+    	creditCard.add(new CreditCard());
+    } // end of addCreditCard()
+    
+    /**
+     * Adds a savings account to this customer.
+     * 
+     * @param initialBalance the initial balance of this savings account
+     */
+    public void addSavingsAccount(int initialBalance)
+    {
+    	savingsAccount.add(new SavingsAccount(initialBalance));
+    } // end of addSavingsAccount(int initialBalance)
+    
+    /**
+     * Removes a chequing account from this customer with the specified index.
+     * 
+     * @param index the index of the chequing account
+     */
+    public void removeChequingAccount(int index)
+    {
+    	chequingAccount.remove(index);
+    } // end of removeChequingAccount()
+    
+    /**
+     * Removes a credit card from this customer with the specified index.
+     * 
+     * @param index the index of the credit card
+     */
+    public void removeCreditCard(int index)
+    {
+    	creditCard.remove(index);
+    } // end of removeCreditCard()
+    
+    /**
+     * Adds a savings account to this customer.
+     * 
+     * @param initialBalance the initial balance of this savings account
+     */
+    public void removeSavingsAccount(int index)
+    {
+    	savingsAccount.remove(index);
+    } // end of addSavingsAccount(int initialBalance)
+
     
     /**
      * Sets the birth day of this customer.
@@ -261,8 +287,56 @@ public class Customer implements Comparable<Customer>
         this.sin = sin;
     } // end of setSin(int sin)
     
-    // other methods
- 
+    // other methods, string methods
+	
+	/**
+	 * Shows the basic summary of this customer.
+	 * 
+	 * @return the string containing the full name and SIN of this customer
+	 */
+	public String getSummary() {
+		return this.lastName + ", " + this.firstName + " " + this.sin + "\n";
+	}
+	
+    /**
+     * Returns the chequing accounts of this customer.
+     * 
+     * @return the chequing accounts of this customer
+     */
+    public String getChequingAccounts()
+    {
+    	String accounts = "";
+        for (int i = 0; i < chequingAccount.size(); i++)
+            accounts = accounts + i + ": " + chequingAccount.get(i);
+        return accounts;
+    } // end of getChequingAccounts()
+	
+    /**
+     * Returns the credit card accounts of this customer.
+     * 
+     * @return the credit cards accounts of this customer
+     */
+    public String getCreditCards()
+    {
+    	String accounts = "";
+        for (int i = 0; i < creditCard.size(); i++)
+            accounts = accounts + i + ": " + creditCard.get(i);
+        return accounts;
+    } // end of getCreditCards()
+	
+    /**
+     * Returns the savings accounts of this customer.
+     * 
+     * @return the savings accounts of this customer
+     */
+    public String getSavingsAccounts()
+    {
+    	String accounts = "";
+        for (int i = 0; i < savingsAccount.size(); i++)
+            accounts = accounts + i + ": " + savingsAccount.get(i);
+        return accounts;
+    } // end of getSavingsAccounts()
+    
     /**
      * Shows a string representation of this customer.
      * 
@@ -308,16 +382,5 @@ public class Customer implements Comparable<Customer>
             return result;
         }
     }; // end of Comparator<Customer> compareByName...
-
-	
-	/**
-	 * Compare this customer with another customer by SIN
-	 * 
-	 * @param customer another customer
-	 */
-    @Override
-	public int compareTo(Customer customer) {
-		return this.sin - customer.getSin();
-	} // end of compareTo(Customer customer)
     
 } // end of class Customer

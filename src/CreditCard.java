@@ -20,6 +20,14 @@ public class CreditCard extends Account
         super();
     } // end of constructor CreditCard()
     
+    /**
+     * Constructs a credit card account with the specified balance.
+     */
+    public CreditCard(int initialBalance)
+    {
+        super(initialBalance);
+    } // end of constructor CreditCard(initialBalance)
+    
     // accessors
         
     // mutators

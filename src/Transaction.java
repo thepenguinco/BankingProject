@@ -5,7 +5,6 @@
  * @version 1.0 2017-10-10
  */
 
-//*****************************************************************************|
 public class Transaction
 {
 	// class fields
@@ -14,12 +13,16 @@ public class Transaction
 	 * The transaction type ID for a deposit
 	 */
 	public static final int DEPOSIT_ID = 1;
-	
 
 	/**
 	 * The transaction type ID for a withdrawal
 	 */
 	public static final int WITHDRAWAL_ID = 2;
+	
+	/**
+	 * The transaction type ID for processing a cheque
+	 */
+	public static final int PROCESS_CHEQUE_ID = 3;
 	
     // instance fields
 
@@ -75,7 +78,19 @@ public class Transaction
     
     // mutators
     
-    // other methods
+    // other methods, string methods
+    
+    /**
+     * Returns the summary of this transaction
+     * 
+     * @return the summary of this transaction
+     */
+    public String getTransactionSummary()
+    {
+        return "Transaction type: " + transactionType
+        + ", Amount transferred: " + amount
+        + ", Final balance: " + finalBalance;
+    } // end of toString()
     
     /**
      * Shows a string representation of this transaction.
@@ -86,10 +101,10 @@ public class Transaction
     {
         return
         getClass().getName() 
-        + "["
+        + " ["
         + "Transaction type: " + transactionType
-        + ", Amount transferred" + amount
-        + ", Balance after transaction" + finalBalance
+        + ", Amount transferred: " + amount
+        + ", Balance after transaction: " + finalBalance
         + "]";
     } // end of toString()
     

@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Eric Li 
  * @version 1.0 2017-10-08
  */
-//*****************************************************************************|
+
 public class Bank
 {
 	/**
@@ -44,7 +44,7 @@ public class Bank
 			System.out.println("2: Delete a customer");
 			System.out.println("3: Sort customers by last name, first name");
 			System.out.println("4: Sort customers by SIN");
-			System.out.println("5: Display customer summary (name, SIN)");
+			System.out.println("5: Display customers in this bank (name, SIN)");
 			System.out.println("6: Find profile by last name, first name");
 			System.out.println("7: Find profile by SIN");
 			System.out.println("8: Quit");
@@ -66,10 +66,10 @@ public class Bank
 	                    {
 	                    	System.out.println("Creating a new customer:");
 	                    	System.out.println();
-		                    System.out.print("Enter the customer's first name: ");
-		                    String firstName = console.readLine();
 		                    System.out.print("Enter the customer's last name: ");
 		                    String lastName = console.readLine();
+		                    System.out.print("Enter the customer's first name: ");
+		                    String firstName = console.readLine();
 		                    System.out.print("Enter the customer's SIN: ");
 		                    int sin = Integer.parseInt(console.readLine());
 		                    System.out.print("Enter the customer's birth year: ");
@@ -84,7 +84,7 @@ public class Bank
 		                    		birthMonth, birthDay);
 		                    LocalDate today = LocalDate.now();
 		                    long age = ChronoUnit.YEARS.between(birthDate, today);
-	                    	Account account = null;
+	                    	int accountID = Customer.SAVINGS_ID;
 		                    if (age >= AGE_OF_MAJORITY)
 		                    {
 		                    	System.out.println("Select an account to be created: ");
@@ -96,16 +96,16 @@ public class Bank
 			                    switch (selection)
 			                    {
 			                    	case 1:
-					                    account = new ChequingAccount();
-					                    System.out.println("New chequing account created.");
+					                    accountID = Customer.CHEQUING_ID;
+					                    System.out.println("Creating new chequing account.");
 					                    break;
 			                    	case 2:
-					                    account = new SavingsAccount();
-					                    System.out.println("New savings account created.");
+					                    accountID = Customer.SAVINGS_ID;
+					                    System.out.println("Creating new savings account.");
 					                    break;
 			                    	case 3:
-					                    account = new CreditCard();
-					                    System.out.println("New credit card created.");
+					                    accountID = Customer.CREDIT_CARD_ID;
+					                    System.out.println("Creating new credit card.");
 					                    break;
 					                default:
 					                	System.out.println("Please enter a valid menu selection.");
@@ -116,17 +116,17 @@ public class Bank
 		                    {
 		                    	System.out.println("The customer is under the age of "
 		                    			+ AGE_OF_MAJORITY + ".");
-		                    	System.out.println("A savings account has been generated.");
-		                    	account = new SavingsAccount();
+		                    	System.out.println("A savings account will be created.");
 		                    }
 		                    if (failure)
 		                    {
 			                	System.out.println("Customer creation failed.");
 			                	break;
 		                    }
-		                    Customer customer = new Customer(firstName, lastName, sin,
-		                    		birthYear, birthMonth, birthDay, account);
-		                    customerList.addCustomer(customer);
+		                    System.out.println("What is the initial opening balance of this account: ");
+		                    int initialBalance = Integer.parseInt(console.readLine());
+		                    customerList.addCustomer(firstName, lastName, sin,
+		                    		birthYear, birthMonth, birthDay, accountID, initialBalance);
 		                    System.out.println("Customer created successfully.");
 	                    } // end of try
 	                    catch (NumberFormatException | DateTimeException exception)
@@ -147,25 +147,47 @@ public class Bank
 	                    break;
 	                  
 	                case 3:
-	                    // Sort customers by last name, first name ??? ASK
-	                	// TODO
+	                    // Sort customers by last name, then first name
 	                	customerList.sortByName();
 	                	System.out.println("Successfully sorted by first name, then last name!");
 	                	break;
 	                case 4:
+	                	// Sort customers by SIN
 	                	customerList.sortBySin();
 	                	System.out.println("Successfully sorted by SIN!");
 	                    break;
 	                case 5:
 	                    // Display customer summary (name, SIN)
-	                	// TODO
+	                	System.out.println(customerList.getCustomers());
 	                    break;
 	                case 6:
 	                    // Find profile by first name, last name
+	                	System.out.println("Enter the last name of the customer: ");
+	                	String lastName = console.readLine();
+	                	System.out.println("Enter the first name of the customer: ");
+	                	String firstName = console.readLine();
+	                	System.out.println("The following customers matched your search criteria: ");
+	                	for (Customer customer : customerList.getList())
+	                	{
+	                		if (customer.getLastName().equals(lastName) && customer.getFirstName().equals(firstName))
+	                		{
+	                			System.out.println(customer.getSummary());
+	                		}
+	                	}
 	                	// TODO
 	                    break;
 	                case 7:
 	                	// Find profile by SIN
+	                	System.out.println("Enter the SIN of the customer: ");
+	                	int sin = Integer.parseInt(console.readLine());
+	                	System.out.println("The following customers matched your search criteria: ");
+	                	for (Customer customer : customerList.getList())
+	                	{
+	                		if (customer.getSin() == sin)
+	                		{
+	                			System.out.println(customer.getSummary());
+	                		}
+	                	}
 	                	// TODO
 	                	break;
 	                case 8:
