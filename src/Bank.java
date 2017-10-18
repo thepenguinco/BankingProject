@@ -84,7 +84,7 @@ public class Bank
 		                    		birthMonth, birthDay);
 		                    LocalDate today = LocalDate.now();
 		                    long age = ChronoUnit.YEARS.between(birthDate, today);
-	                    	int accountID = Customer.SAVINGS_ID;
+	                    	String accountID = Customer.SAVINGS_ID;
 		                    if (age >= AGE_OF_MAJORITY)
 		                    {
 		                    	System.out.println("Select an account to be created: ");

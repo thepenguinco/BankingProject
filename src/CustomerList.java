@@ -16,14 +16,9 @@ public class CustomerList
 	// class fields
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 */
-=======
 	 * The delimiter for each customer in the file database 
 	 */
 	public static final String CUSTOMER_DELIMITER = "#";
->>>>>>> origin/master
 	
     // instance fields
 
@@ -39,20 +34,11 @@ public class CustomerList
     {
     	this.customer = new ArrayList<Customer>();
     } // end of constructor CustomerList()
-    
-    /**
-<<<<<<< HEAD
-     * Constructs a customer list from a specified file database
-     * 
-     * @throws IOException
-     */
-    public CustomerList(String fileName) throws IOException
-    {
-    	this.customer = new ArrayList<Customer>();
-    } // end of constructor CustomerList()
-=======
+       
+    /*
      * Constructs a customer list from a file database
      * 
+     * @throws IOException
      */
     public CustomerList(final String fileName) throws IOException
     {
@@ -72,21 +58,44 @@ public class CustomerList
         	int birthYear = Integer.parseInt(database.readLine());
         	int birthMonth = Integer.parseInt(database.readLine());
         	int birthDay = Integer.parseInt(database.readLine());
-        	Account account = null;
+        	customer.addCustomer(lastName, firstName, sin, birthYear, birthMonth, birthDay);
         	do
         	{
-        		// readline
+        		String line = database.readLine();
+        		Account account = null;
+        		if (line.equals(Customer.CHEQUING_ID))
+        		{
+        			account = new ChequingAccount();
+        		}
+        		else if (line.equals(Customer.SAVINGS_ID))
+        		{
+        			
+        		}
+        		else if (line.equals(Customer.CREDIT_CARD_ID))
+        		{
+        			
+        		}
+        		else if (line.equals(CUSTOMER_DELIMITER))
+        		{
+        			break;
+        		}
+        		else 
+        		{
+        			int transactionType = Integer.parseInt(database.readLine());
+        			int amount = Integer.parseInt(database.readLine());
+        			int finalBalance = Integer.parseInt(database.readLine());
+        			account.addTransaction(Integer.parseInt(transaction[0]), amount, finalBalance);
+        		}
         		// case
         		// new accounts
         		// add some transactions
-        	} while (!database.readLine().equals(CUSTOMER_DELIMITER));
+        	} while (!line.equals(CUSTOMER_DELIMITER));
            lineOfText = database.readLine();
         } // while(lineOfText != null)
         
         // Wrap up.
         database.close();
     } // end of constructor CustomerList(String fileName)
->>>>>>> origin/master
     
     // accessors
     
@@ -118,10 +127,22 @@ public class CustomerList
      * @param customer a customer to be added to this customer list
      */
 	public void addCustomer(String firstName, String lastName, int sin, int birthYear, 
-			int birthMonth, int birthDay, int accountID, int initialBalance) {
+			int birthMonth, int birthDay, String accountID, int initialBalance) {
 		this.customer.add(new Customer(firstName, lastName, sin,
 		                    		birthYear, birthMonth, birthDay, accountID, initialBalance));
 	}
+	
+    /**
+     * Adds a customer to this customer list
+     * 
+     * @param customer a customer to be added to this customer list
+     */
+	public void addCustomer(String firstName, String lastName, int sin, int birthYear, 
+			int birthMonth, int birthDay) {
+		this.customer.add(new Customer(firstName, lastName, sin,
+		                    		birthYear, birthMonth, birthDay));
+	}
+	
 	
     /**
      * Deletes a customer from this customer list

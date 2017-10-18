@@ -13,19 +13,19 @@ public class Customer
 	// class fields
 	
 	/**
-	 * The ID of a chequing account belonging to a customer
+	 * The string ID of a chequing account belonging to a customer
 	 */
-	public static final int CHEQUING_ID = 0;
+	public static final String CHEQUING_ID = "Chequing";
 	
 	/**
-	 * The ID of a savings account belonging to a customer
+	 * The string ID of a savings account belonging to a customer
 	 */
-	public static final int SAVINGS_ID = 1;
+	public static final String SAVINGS_ID = "Savings";
 	
 	/**
-	 * The ID of a chequing account
+	 * The string ID of a chequing account
 	 */
-	public static final int CREDIT_CARD_ID = 2;
+	public static final String CREDIT_CARD_ID = "Credit";
 	
     // instance fields
     
@@ -43,7 +43,32 @@ public class Customer
     
     /**
      * Constructs a customer with specified characteristics
-     * and an initial account
+     * and an initial account and initial balance
+     * 
+     * @param firstName the first name of this customer
+     * @param lastName the last name of this customer
+     * @param sin the social insurance number of this customer
+     * @param birthYear the year this customer was born in
+     * @param birthMonth the month this customer was born in
+     * @param birthDay the day of the month this customer was born on
+     */
+    public Customer(String firstName, String lastName, int sin, 
+            int birthYear, int birthMonth, int birthDay)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.sin = sin;
+        this.birthYear = birthYear;
+        this.birthMonth = birthMonth;
+        this.birthDay = birthDay;
+        this.chequingAccount = new ArrayList<Account>();
+        this.creditCard = new ArrayList<Account>();
+        this.savingsAccount = new ArrayList<Account>();
+    } // end of constructor Customer(String firstName ...
+    
+    /**
+     * Constructs a customer with specified characteristics
+     * and an initial account and initialBalance
      * 
      * @param firstName the first name of this customer
      * @param lastName the last name of this customer
@@ -55,7 +80,7 @@ public class Customer
      * @param initialBalance initialBalance of the account
      */
     public Customer(String firstName, String lastName, int sin, 
-            int birthYear, int birthMonth, int birthDay, int accountID, int initialBalance)
+            int birthYear, int birthMonth, int birthDay, String accountID, int initialBalance)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,9 +91,9 @@ public class Customer
         this.chequingAccount = new ArrayList<Account>();
         this.creditCard = new ArrayList<Account>();
         this.savingsAccount = new ArrayList<Account>();
-        if (accountID == CHEQUING_ID) chequingAccount.add(new ChequingAccount(initialBalance));
-        else if (accountID == SAVINGS_ID) savingsAccount.add(new SavingsAccount(initialBalance));
-        else if (accountID == CREDIT_CARD_ID) creditCard.add(new CreditCard(initialBalance));
+        if (accountID.equals(CHEQUING_ID)) chequingAccount.add(new ChequingAccount(initialBalance));
+        else if (accountID.equals(SAVINGS_ID)) savingsAccount.add(new SavingsAccount(initialBalance));
+        else if (accountID.equals(CREDIT_CARD_ID)) creditCard.add(new CreditCard(initialBalance));
     } // end of constructor Customer(String firstName ...
     
     // TODO

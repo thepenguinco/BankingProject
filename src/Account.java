@@ -102,7 +102,7 @@ public abstract class Account
         for (int i = 0; i < transaction.size(); i++)
         {
         	if (i >= TRANSACTION_HISTORY) break;
-            transactions = transactions + (i + 1) + ": " + transaction.get(i).getTransactionSummary() + "\n";
+            transactions = transactions + i + ": " + transaction.get(i).getTransactionSummary() + "\n";
         }
         return transactions;
     } // end of getTransactions()
