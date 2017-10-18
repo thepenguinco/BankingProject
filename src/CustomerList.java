@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,8 +16,14 @@ public class CustomerList
 	// class fields
 	
 	/**
+<<<<<<< HEAD
 	 * 
 	 */
+=======
+	 * The delimiter for each customer in the file database 
+	 */
+	public static final String CUSTOMER_DELIMITER = "#";
+>>>>>>> origin/master
 	
     // instance fields
 
@@ -34,6 +41,7 @@ public class CustomerList
     } // end of constructor CustomerList()
     
     /**
+<<<<<<< HEAD
      * Constructs a customer list from a specified file database
      * 
      * @throws IOException
@@ -42,6 +50,43 @@ public class CustomerList
     {
     	this.customer = new ArrayList<Customer>();
     } // end of constructor CustomerList()
+=======
+     * Constructs a customer list from a file database
+     * 
+     */
+    public CustomerList(final String fileName) throws IOException
+    {
+    	this.customer = new ArrayList<Customer>();
+        
+        // Establish connections to the text files.
+        BufferedReader database = new BufferedReader(new FileReader(fileName));
+        
+        // Read from the first file
+        String lineOfText = database.readLine();
+        
+        while (lineOfText != null)
+        {
+        	String lastName = database.readLine();
+        	String firstName = database.readLine();
+        	int sin = Integer.parseInt(database.readLine());
+        	int birthYear = Integer.parseInt(database.readLine());
+        	int birthMonth = Integer.parseInt(database.readLine());
+        	int birthDay = Integer.parseInt(database.readLine());
+        	Account account = null;
+        	do
+        	{
+        		// readline
+        		// case
+        		// new accounts
+        		// add some transactions
+        	} while (!database.readLine().equals(CUSTOMER_DELIMITER));
+           lineOfText = database.readLine();
+        } // while(lineOfText != null)
+        
+        // Wrap up.
+        database.close();
+    } // end of constructor CustomerList(String fileName)
+>>>>>>> origin/master
     
     // accessors
     

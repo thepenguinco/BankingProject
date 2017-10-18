@@ -34,12 +34,22 @@ public class Tester
 
 		System.out.println(list.getCustomer(0).getChequingAccount(0).getTransactions());
 		/*
+<<<<<<< HEAD
 		 * ANSWERS
 		 * - sorting by last name, first name
 		 * - accessor methods needed 
 		 * - export upon closing
 		 * - file io in customerList
 		 * - try catch for everything (also in methods?? or just use loops and booleans)
+=======
+		 * QUESTIONS:
+		 * - sorting by last name, then first name
+		 * - accessor methods needed when not necessary??
+		 * - export upon closing
+		 * - file io in customerList
+		 * - try catch for everything (also in methods?? or just use loops and booleans)
+		 * - column 80 issue?
+>>>>>>> origin/master
 		 */
 	}
 }
