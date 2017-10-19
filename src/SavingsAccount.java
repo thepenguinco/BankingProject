@@ -24,10 +24,10 @@ public class SavingsAccount extends Account
      * 
      * @param initialBalance the initial balance of this savings account, may not be negative
      */
-    public SavingsAccount(int initialBalance)
+    public SavingsAccount(double initialBalance)
     {
         super(initialBalance);
-    } // end of constructor SavingsAccount(int initalBalance)
+    } // end of constructor SavingsAccount(double initalBalance)
     
     // accessors
     

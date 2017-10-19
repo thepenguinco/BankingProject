@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -18,7 +20,7 @@ public class CustomerList
 	/**
 	 * The delimiter for each customer in the file database 
 	 */
-	public static final int CUSTOMER_LENGTH = 1;
+	public static final int CUSTOMER_LENGTH = 6;
 	
 	/**
 	 * The delimiter for each account in the file database 
@@ -60,40 +62,47 @@ public class CustomerList
         // Read from the first file
         String lineOfText = database.readLine();
         
-    	while (lineOfText != null)
+		Customer customer = null;
+		Account account = null;
+		Transaction transaction = null;
+		
+    	while (true)
     	{
-    		String[] line = database.readLine().split(" ");
-    		Account account = null;
-    		Customer customer = null;
+    		lineOfText = database.readLine();
+    		if (lineOfText == null) break;
+    		System.out.println(lineOfText);
+    		String[] line = lineOfText.split(" ");
     		if (line.length == CUSTOMER_LENGTH)
      		{
     			String lastName = line[0];
-            	String firstName = database.readLine();
-            	int sin = Integer.parseInt(database.readLine());
-            	int birthYear = Integer.parseInt(database.readLine());
-            	int birthMonth = Integer.parseInt(database.readLine());
-            	int birthDay = Integer.parseInt(database.readLine());
-            	customer = new Customer(lastName, firstName, sin, birthYear, birthMonth, birthDay);
+            	String firstName = line[1];
+            	int sin = Integer.parseInt(line[2]);
+            	int birthYear = Integer.parseInt(line[3]);
+            	int birthMonth = Integer.parseInt(line[4]);
+            	int birthDay = Integer.parseInt(line[5]);
+            	customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay);
+            	customerList.add(customer);
      		}
-    		
     		else if (line.length == ACCOUNT_LENGTH && customer != null)
     		{
-    			customer.addAccount(account);
     			if (Integer.parseInt(line[0]) == Customer.CHEQUING_ID)
-    					account = new ChequingAccount(Integer.parseInt(line[1]));
+    				account = new ChequingAccount(Double.parseDouble(line[1]));
     			else if (Integer.parseInt(line[0]) == Customer.SAVINGS_ID)
-					account = new SavingsAccount(Integer.parseInt(line[1]));
+					account = new SavingsAccount(Double.parseDouble(line[1]));
     			else if (Integer.parseInt(line[0]) == Customer.CREDIT_CARD_ID)
-					account = new CreditCard(Integer.parseInt(line[1]));
+					account = new CreditCard(Double.parseDouble(line[1]));
+    			customer.addAccount(account);
     		}
     		else if (line.length == TRANSACTION_LENGTH && account != null)
     		{
-    			Transaction transaction = new Transaction(Integer.parseInt(line[0]),Integer.parseInt(line[1]),Integer.parseInt(line[2]));
+    			transaction = new Transaction(Integer.parseInt(line[0]),Double.parseDouble(line[1]),Double.parseDouble(line[2]));
     			account.addTransaction(transaction);
     		}
     		else 
     		{
     			System.out.println("Your database is corrupt!");
+    			System.out.println("Halting program!");
+    			System.exit(0);
     		}
     	}
         
@@ -114,22 +123,40 @@ public class CustomerList
     } // end of getCustomer() 
     
     /**
-     * Returns the customers from this list that match the search criteria.
+     * Returns the customers from this list that match the name search criteria.
      * 
-     * @return the customers matching the search criteria
+     * @return the array list of customers matching the name search criteria
      */
     public ArrayList<Customer> getCustomersByName(String firstName, String lastName)
     {
     	ArrayList<Customer> customerSearch = new ArrayList<Customer>(); 
     	for (Customer customer : customerList)
     	{
-    		if (customer.getFirstName().equals(firstName) && customer.getLastName().equals(lastName))
+    		if (customer.getFirstName().equalsIgnoreCase(firstName) && customer.getLastName().equalsIgnoreCase(lastName))
     		{
     			customerSearch.add(customer);
     		}
     	}
     	return customerSearch;
-    } // end of ArrayList<Customer getCustomersByName()
+    } // end of ArrayList<Customer> getCustomersByName(String ...
+    
+    /**
+     * Returns the customers from this list that match the sin search criteria.
+     * 
+     * @return the array list of customers matching the sin search criteria
+     */
+    public ArrayList<Customer> getCustomersBySin(int sin)
+    {
+    	ArrayList<Customer> customerSearch = new ArrayList<Customer>(); 
+    	for (Customer customer : customerList)
+    	{
+    		if (customer.getSin() == sin)
+    		{
+    			customerSearch.add(customer);
+    		}
+    	}
+    	return customerSearch;
+    } // end of ArrayList<Customer> getCustomersBySin(int ...
     
     /**
      * Returns this customer list.
@@ -151,7 +178,7 @@ public class CustomerList
 	public void addCustomer(Customer customer)
 	{
 		customerList.add(customer);
-	}
+	} // end of addCustomer(Customer customer)
 	
     /**
      * Deletes a customer from this customer list
@@ -160,7 +187,7 @@ public class CustomerList
      */
 	public void removeCustomer(int index) {
 		customerList.remove(index);		
-	}
+	} // end of removeCustomer(int index)
 
     /**
      * Sorts the customers in this customer list by name
@@ -170,7 +197,7 @@ public class CustomerList
     public void sortByName() 
     {
     	Collections.sort(customerList, Customer.compareByName);
-    }
+    } // end of sortByName()
 	
     /**
      * Sorts the customers in this customer list by sin
@@ -180,22 +207,61 @@ public class CustomerList
     public void sortBySin() 
     {
     	Collections.sort(customerList, Customer.compareBySin);
-    }
+    } // end of sortBySin()
     
     // file IO
     
     /**
      * Saves this customer list to a file database
      * 
+     * @param fileName the name of the file containing the database
      * @throws IOException
      */
-    public void exportList() throws IOException
-    {
-    	for (Customer customer : customerList)
-    	{
-    		// TODO
-    	}
-    }
+    public void exportList(String fileName) throws IOException
+    {        
+    	// Establish connections to the text files.
+        PrintWriter database = new PrintWriter(new FileWriter(fileName));
+        
+        // Print first line
+        database.println("START");
+		
+        for (Customer customer : customerList)
+        {
+        	database.println(customer.getLastName() + " " + customer.getFirstName()
+        			+ " " + customer.getSin() + " " + customer.getBirthYear()
+        			+ " " + customer.getBirthMonth() + " " + customer.getBirthDay());
+        	for (Account chequingAccount : customer.getChequingAccounts())
+        	{
+        		System.out.println(chequingAccount.getBalance());
+        		database.println(Customer.CHEQUING_ID + " " + chequingAccount.getBalance());
+        		for (Transaction transaction : chequingAccount.getTransactionsReversed())
+        		{
+        			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
+        					+ " " + transaction.getFinalBalance());
+        		}
+        	}
+        	for (Account savingsAccount : customer.getSavingsAccounts())
+        	{
+        		database.println(Customer.SAVINGS_ID + " " + savingsAccount.getBalance());
+        		for (Transaction transaction : savingsAccount.getTransactionsReversed())
+        		{
+        			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
+        					+ " " + transaction.getFinalBalance());
+        		}
+        	}
+        	for (Account creditCard : customer.getCreditCards())
+        	{
+        		database.println(Customer.CREDIT_CARD_ID + " " + creditCard.getBalance());
+        		for (Transaction transaction : creditCard.getTransactionsReversed())
+        		{
+        			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
+        					+ " " + transaction.getFinalBalance());
+        		}
+        	}
+        }
+    	// wrap up
+        database.close();
+    } // end of exportList(String fileName) ...
         
     // other methods, string methods
     
@@ -208,7 +274,7 @@ public class CustomerList
     {
     	String customers = "";
         for (int i = 0; i < customerList.size(); i++)
-            customers = customers + (i + 1) + ": " + customerList.get(i).getSummary();
+            customers = customers + (i + 1) + ": " + customerList.get(i).getSummary() + "\n";
         return customers;
     } // end of getCustomers()  
     

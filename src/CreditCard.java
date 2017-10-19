@@ -22,10 +22,10 @@ public class CreditCard extends Account
     /**
      * Constructs a credit card account with the specified balance.
      */
-    public CreditCard(int initialBalance)
+    public CreditCard(double initialBalance)
     {
         super(initialBalance);
-    } // end of constructor CreditCard(initialBalance)
+    } // end of constructor CreditCard(double initialBalance)
     
     // accessors
         

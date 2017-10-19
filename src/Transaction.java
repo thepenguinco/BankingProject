@@ -71,7 +71,7 @@ public class Transaction
      * 
      * @return the type of this transaction
      */
-    public double getTransactionType()
+    public int getTransactionType()
     {
     	return transactionType;
     } // end of getAmount()

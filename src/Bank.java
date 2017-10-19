@@ -1,9 +1,10 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.Year;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.io.IOException;
 
 /**
@@ -22,16 +23,24 @@ public class Bank
 	
 	public static void main(String[] argument) throws IOException
 	{
-	    // Load customer list from file (if exists)
-	    // TODO
-	
 	    // Establish a connection to the console.
         BufferedReader console = 
                 new BufferedReader(new InputStreamReader(System.in));
-	    
-    	System.out.println("");
-    	
-    	CustomerList customerList = new CustomerList();
+
+	    // Load customer list from file (if exists)
+		System.out.print("Enter file name: ");
+		String fileName = console.readLine();
+		CustomerList customerList;
+		try
+		{
+			System.out.println("Loading from file...");
+			customerList = new CustomerList(fileName);
+		}
+		catch (FileNotFoundException exception)
+		{
+			System.out.println("File not found, creating new database...");
+			customerList = new CustomerList();
+		}
         
 	    // Main loop
 	    while (true)
@@ -56,7 +65,8 @@ public class Bank
 	            System.out.println();
 	           
 	            boolean failure = false;
-	
+	            ArrayList<Customer> customerSearch;;
+	            
 	            // Process the console input
 	            switch (option)
 	            {
@@ -127,7 +137,7 @@ public class Bank
 		                    System.out.println("What is the initial opening balance of this account: ");
 		                    int initialBalance = Integer.parseInt(console.readLine());
 		                    account.depositFunds(initialBalance);
-		                    Customer customer = new Customer(lastName, firstName, sin, birthYear, birthMonth, birthDay, account);
+		                    Customer customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay, account);
 		                    customerList.addCustomer(customer);
 		                    System.out.println("Customer created successfully.");
 	                    } // end of try
@@ -136,6 +146,7 @@ public class Bank
 	                        System.out.println("Please enter a valid "
 	                        		+ "birthdate and SIN number.");
 		                	System.out.println("Please enter a valid account type to be created.");
+		                	System.out.println("Please enter a valid balance for the account to be created.");
 		                	System.out.println("Customer creation failed.");
 	                    } // end of catch (NumberFormatException exception) ...
 	                    break;
@@ -169,12 +180,10 @@ public class Bank
 	                	System.out.println("Enter the first name of the customer: ");
 	                	String firstName = console.readLine();
 	                	System.out.println("The following customers matched your search criteria: ");
-	                	for (Customer customer : customerList.getList())
+	                	customerSearch = customerList.getCustomersByName(firstName, lastName);
+	                	for (int i = 0; i < customerSearch.size(); i++)
 	                	{
-	                		if (customer.getLastName().equals(lastName) && customer.getFirstName().equals(firstName))
-	                		{
-	                			System.out.println(customer.getSummary());
-	                		}
+	                		System.out.println(customerSearch.get(i).getSummary());
 	                	}
 	                	// TODO
 	                    break;
@@ -183,19 +192,17 @@ public class Bank
 	                	System.out.println("Enter the SIN of the customer: ");
 	                	int sin = Integer.parseInt(console.readLine());
 	                	System.out.println("The following customers matched your search criteria: ");
-	                	for (Customer customer : customerList.getList())
+	                	customerSearch = customerList.getCustomersBySin(sin);
+	                	for (int i = 0; i < customerSearch.size(); i++)
 	                	{
-	                		if (customer.getSin() == sin)
-	                		{
-	                			System.out.println(customer.getSummary());
-	                		}
+	                		System.out.println((i + 1) + customerSearch.get(i).getSummary());
 	                	}
 	                	// TODO
 	                	break;
 	                case 8:
 	                	// SAVE TO FILE
 	                	System.out.println("Saving bank files...");
-	                	// TODO
+	                	customerList.exportList(fileName);
 	                    System.exit(0);
 	                default:
 	                    System.out.println(option + " is  not a valid menu choice!");

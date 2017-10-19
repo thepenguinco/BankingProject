@@ -37,10 +37,10 @@ public class ChequingAccount extends Account
      * @param initialBalance the initial balance of this chequing account,
      * may not be negative
      */
-    public ChequingAccount(int initialBalance)
+    public ChequingAccount(double initialBalance)
     {
     	super(initialBalance);    	
-    } // end of constructor ChequingAccount(int initialBalance)
+    } // end of constructor ChequingAccount(double initialBalance)
     
     // accessors
         

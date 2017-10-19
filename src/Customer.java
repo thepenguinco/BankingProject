@@ -137,6 +137,16 @@ public class Customer
     } // end of getChequingAccount()
     
     /**
+     * Returns the chequing accounts of this customer.
+     * 
+     * @return the chequing accounts of this customer
+     */
+    public ArrayList<Account> getChequingAccounts()
+    {
+    	return chequingAccount;
+    } // end of getChequingAccounts()
+	    
+    /**
      * Returns the specified credit card of this customer.
      * 
      * @return the specified credit card of this customer
@@ -145,7 +155,17 @@ public class Customer
     {
     	return creditCard.get(index);
     } // end of getCreditCard()
-        
+    
+    /**
+     * Returns the credit card accounts of this customer.
+     * 
+     * @return the credit cards accounts of this customer
+     */
+    public ArrayList<Account> getCreditCards()
+    {
+    	return creditCard;
+    } // end of getCreditCards()
+    
     /**
      * Returns the first name of this customer.
      * 
@@ -163,7 +183,7 @@ public class Customer
      */
     public String getLastName()
     {
-        return firstName;
+        return lastName;
     } // end of getLastName()
     
     /**
@@ -175,6 +195,16 @@ public class Customer
     {
     	return savingsAccount.get(index);
     } // end of getSavingsAccount()
+    
+    /**
+     * Returns the savings accounts of this customer.
+     * 
+     * @return the savings accounts of this customer
+     */
+    public ArrayList<Account> getSavingsAccounts()
+    {
+    	return savingsAccount;
+    } // end of getSavingsAccounts()
     
     /**
      * Returns the SIN of this customer.
@@ -258,7 +288,7 @@ public class Customer
      */
     public void setBirthYear(int birthYear)
     {
-        this.birthYear= birthYear;
+        this.birthYear = birthYear;
     } // end of setBirthYear(int birthYear)
         
     /**
@@ -299,47 +329,20 @@ public class Customer
 	 * @return the string containing the full name and SIN of this customer
 	 */
 	public String getSummary() {
-		return this.lastName + ", " + this.firstName + " " + this.sin + "\n";
+		return this.lastName + ", " + this.firstName + " " + this.sin;
 	}
 	
     /**
-     * Returns the chequing accounts of this customer.
-     * 
-     * @return the chequing accounts of this customer
+     * TEMP
+     * @return
      */
-    public String getChequingAccounts()
-    {
-    	String accounts = "";
-        for (int i = 0; i < chequingAccount.size(); i++)
-            accounts = accounts + i + ": " + chequingAccount.get(i);
-        return accounts;
-    } // end of getChequingAccounts()
-	
-    /**
-     * Returns the credit card accounts of this customer.
-     * 
-     * @return the credit cards accounts of this customer
-     */
-    public String getCreditCards()
-    {
-    	String accounts = "";
-        for (int i = 0; i < creditCard.size(); i++)
-            accounts = accounts + i + ": " + creditCard.get(i);
-        return accounts;
-    } // end of getCreditCards()
-	
-    /**
-     * Returns the savings accounts of this customer.
-     * 
-     * @return the savings accounts of this customer
-     */
-    public String getSavingsAccounts()
+    public String temp() 
     {
     	String accounts = "";
         for (int i = 0; i < savingsAccount.size(); i++)
             accounts = accounts + i + ": " + savingsAccount.get(i);
         return accounts;
-    } // end of getSavingsAccounts()
+    }
     
     /**
      * Shows a string representation of this customer.

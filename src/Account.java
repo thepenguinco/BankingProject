@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * An abstract account belonging to a customer
@@ -19,7 +20,7 @@ public abstract class Account
     // instance fields
 	
     private double balance;
-    private ArrayList<Transaction> transaction;
+    private ArrayList<Transaction> transactionList;
     
     // constructors
     
@@ -29,7 +30,7 @@ public abstract class Account
     public Account()
     {
         balance = 0;
-        transaction = new ArrayList<Transaction>();
+        transactionList = new ArrayList<Transaction>();
     } // end of constructor Account()
     
     /**
@@ -37,10 +38,10 @@ public abstract class Account
      * 
      * @param initialBalance the initial balance of this account
      */
-    public Account(int initialBalance)
+    public Account(double initialBalance)
     {
         balance = initialBalance;
-        transaction = new ArrayList<Transaction>();
+        transactionList = new ArrayList<Transaction>();
     } // end of constructor Account(int initalBalance)
     
     // accessors
@@ -64,9 +65,9 @@ public abstract class Account
      */
     public void addTransaction(Transaction transaction)
     {
-    	this.transaction.add(0, transaction);
+    	transactionList.add(0, transaction);
     } // end of addTransaction(Transaction transaction)
-    
+        
     /**
      * Adds funds into this account.
      * 
@@ -94,16 +95,38 @@ public abstract class Account
      * 
      * @return the last 5 transactions of this account
      */
-    public String getTransactions()
+    public String getTransactionHistory()
     {
     	String transactions = "";
-        for (int i = 0; i < transaction.size(); i++)
+        for (int i = 0; i < transactionList.size(); i++)
         {
         	if (i >= TRANSACTION_HISTORY) break;
-            transactions = transactions + i + ": " + transaction.get(i).getTransactionSummary() + "\n";
+            transactions = transactions + i + ": " + transactionList.get(i).getTransactionSummary() + "\n";
         }
         return transactions;
     } // end of getTransactions()
+    
+    /**
+     * Returns the list of transactions of this account
+     * 
+     * @return the list of transactions of this account
+     */
+    public ArrayList<Transaction> getTransactions()
+    {
+        return transactionList;
+    } // end of getTransactions()
+    
+    /**
+     * Returns the list of transactions of this account in reverse order for file IO.
+     * 
+     * @return the list of transactions of this account in reverse order
+     */
+    public ArrayList<Transaction> getTransactionsReversed()
+    {
+    	ArrayList<Transaction> reversedTransactions = (ArrayList<Transaction>) transactionList.clone();
+    	Collections.reverse(reversedTransactions);
+        return reversedTransactions;
+    } // end of getTransactionsReversed()
     
     /**
      * Shows a string representation of this account.
@@ -116,7 +139,7 @@ public abstract class Account
         getClass().getName() 
         + " ["
         + "Current Balance: " + balance
-        + ", Transactions: " + transaction
+        + ", Transactions: " + transactionList
         + "]";
     } // end of toString()
     
