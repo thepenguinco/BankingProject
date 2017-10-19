@@ -42,6 +42,8 @@ public class Bank
 			customerList = new CustomerList();
 		}
         
+		System.out.println();
+		
 	    // Main loop
 	    while (true)
 	    {
@@ -50,13 +52,12 @@ public class Bank
 			System.out.println("-----------------------");
 			System.out.println("Please choose an action from the following: ");
 			System.out.println("1: Add a customer");
-			System.out.println("2: Delete a customer");
-			System.out.println("3: Sort customers by last name, first name");
-			System.out.println("4: Sort customers by SIN");
-			System.out.println("5: Display customers in this bank (name, SIN)");
-			System.out.println("6: Find profile by last name, first name");
-			System.out.println("7: Find profile by SIN");
-			System.out.println("8: Quit");
+			System.out.println("2: Sort customers by last name, first name");
+			System.out.println("3: Sort customers by SIN");
+			System.out.println("4: Display customers in this bank (name, SIN)");
+			System.out.println("5: Find profile by last name, first name");
+			System.out.println("6: Find profile by SIN");
+			System.out.println("7: Quit");
 	
 	        try
 	        {
@@ -64,6 +65,7 @@ public class Bank
 	            int option = Integer.parseInt(console.readLine());
 	            System.out.println();
 	           
+	            // required for scope
 	            boolean failure = false;
 	            ArrayList<Customer> customerSearch;;
 	            
@@ -101,7 +103,6 @@ public class Bank
 			                    System.out.println("1. Chequing Account ");
 			                    System.out.println("2. Savings Account");
 			                    System.out.println("3. Credit Card ");
-			                   
 			                    int selection = Integer.parseInt(console.readLine());
 			                    switch (selection)
 			                    {
@@ -151,29 +152,20 @@ public class Bank
 	                    } // end of catch (NumberFormatException exception) ...
 	                    break;
 	                case 2:
-	                    // Delete a customer
-	                    System.out.print("How would you like to search for the customer to delete: ");
-	                    System.out.print("1. By SIN.");
-	                    System.out.print("2. By first and last name.");
-	                    // TODO
-	                    // HANDLE FINDING MULTIPLES
-	                    break;
-	                  
-	                case 3:
 	                    // Sort customers by last name, then first name
 	                	customerList.sortByName();
 	                	System.out.println("Successfully sorted by first name, then last name!");
 	                	break;
-	                case 4:
+	                case 3:
 	                	// Sort customers by SIN
 	                	customerList.sortBySin();
 	                	System.out.println("Successfully sorted by SIN!");
 	                    break;
-	                case 5:
+	                case 4:
 	                    // Display customer summary (name, SIN)
 	                	System.out.println(customerList.getCustomers());
 	                    break;
-	                case 6:
+	                case 5:
 	                    // Find profile by first name, last name
 	                	System.out.println("Enter the last name of the customer: ");
 	                	String lastName = console.readLine();
@@ -187,7 +179,7 @@ public class Bank
 	                	}
 	                	// TODO
 	                    break;
-	                case 7:
+	                case 6:
 	                	// Find profile by SIN
 	                	System.out.println("Enter the SIN of the customer: ");
 	                	int sin = Integer.parseInt(console.readLine());
@@ -199,7 +191,7 @@ public class Bank
 	                	}
 	                	// TODO
 	                	break;
-	                case 8:
+	                case 7:
 	                	// SAVE TO FILE
 	                	System.out.println("Saving bank files...");
 	                	customerList.exportList(fileName);

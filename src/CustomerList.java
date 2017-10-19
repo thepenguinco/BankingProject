@@ -70,7 +70,7 @@ public class CustomerList
     	{
     		lineOfText = database.readLine();
     		if (lineOfText == null) break;
-    		System.out.println(lineOfText);
+    		// System.out.println(lineOfText);
     		String[] line = lineOfText.split(" ");
     		if (line.length == CUSTOMER_LENGTH)
      		{
@@ -232,7 +232,6 @@ public class CustomerList
         			+ " " + customer.getBirthMonth() + " " + customer.getBirthDay());
         	for (Account chequingAccount : customer.getChequingAccounts())
         	{
-        		System.out.println(chequingAccount.getBalance());
         		database.println(Customer.CHEQUING_ID + " " + chequingAccount.getBalance());
         		for (Transaction transaction : chequingAccount.getTransactionsReversed())
         		{
