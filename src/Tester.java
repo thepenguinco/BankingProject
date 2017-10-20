@@ -11,6 +11,7 @@ public class Tester
 		 * QUESTIONS
 		 * - instantiate other objects within private class methods or instantiate in main method
 		 * - try catch for everything (also in methods?? or just use loops and booleans)
+		 * System.out.println(%.2f, 
 		 */
 	}
 }

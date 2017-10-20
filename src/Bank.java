@@ -84,6 +84,19 @@ public class Bank
 		                    String firstName = console.readLine();
 		                    System.out.print("Enter the customer's SIN: ");
 		                    int sin = Integer.parseInt(console.readLine());
+		                    // check SIN
+		                    for (Customer customer : customerList.getList())
+		                    {
+		                    	if (sin == customer.getSin())
+		                    	{
+		                    		System.out.println("This is not a unique sin!");
+		                    		System.out.println("You are a victim of identity fraud!");
+		                    		failure = true;
+		                    	}
+		                    	
+		                    }
+	                    	if (failure) break;
+	                    	failure = false;
 		                    System.out.print("Enter the customer's birth year: ");
 		                    int birthYear = Integer.parseInt(console.readLine());
 		                    System.out.print("Enter the customer's birth month: ");
@@ -154,7 +167,7 @@ public class Bank
 	                case 2:
 	                    // Sort customers by last name, then first name
 	                	customerList.sortByName();
-	                	System.out.println("Successfully sorted by first name, then last name!");
+	                	System.out.println("Successfully sorted by last name, then first name!");
 	                	break;
 	                case 3:
 	                	// Sort customers by SIN

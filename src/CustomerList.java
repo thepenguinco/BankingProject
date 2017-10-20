@@ -32,6 +32,11 @@ public class CustomerList
 	 */
 	public static final int TRANSACTION_LENGTH = 3;
 	
+	/**
+	 * The delimiter for a space in the file database
+	 */
+	public static final String MAGIC_SPACE = "\\s";
+	
     // instance fields
 
     private ArrayList<Customer> customerList;
@@ -74,8 +79,8 @@ public class CustomerList
     		String[] line = lineOfText.split(" ");
     		if (line.length == CUSTOMER_LENGTH)
      		{
-    			String lastName = line[0];
-            	String firstName = line[1];
+    			String lastName = line[0].replace(MAGIC_SPACE, " ");
+    			String firstName = line[1].replace(MAGIC_SPACE, " ");
             	int sin = Integer.parseInt(line[2]);
             	int birthYear = Integer.parseInt(line[3]);
             	int birthMonth = Integer.parseInt(line[4]);
@@ -102,6 +107,8 @@ public class CustomerList
     		{
     			System.out.println("Your database is corrupt!");
     			System.out.println("Halting program!");
+    			// throws Exception
+    			// throws new ParseException()
     			System.exit(0);
     		}
     	}
@@ -227,7 +234,8 @@ public class CustomerList
 		
         for (Customer customer : customerList)
         {
-        	database.println(customer.getLastName() + " " + customer.getFirstName()
+        	database.println(customer.getLastName().replace(" ", MAGIC_SPACE)
+        			+ " " + customer.getFirstName().replace(" ", MAGIC_SPACE)
         			+ " " + customer.getSin() + " " + customer.getBirthYear()
         			+ " " + customer.getBirthMonth() + " " + customer.getBirthDay());
         	for (Account chequingAccount : customer.getChequingAccounts())
