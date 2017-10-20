@@ -52,12 +52,13 @@ public class Bank
 			System.out.println("-----------------------");
 			System.out.println("Please choose an action from the following: ");
 			System.out.println("1: Add a customer");
-			System.out.println("2: Sort customers by last name, first name");
-			System.out.println("3: Sort customers by SIN");
-			System.out.println("4: Display customers in this bank (name, SIN)");
-			System.out.println("5: Find profile by last name, first name");
-			System.out.println("6: Find profile by SIN");
-			System.out.println("7: Quit");
+			System.out.println("2: Delete a customer");
+			System.out.println("3: Sort customers by last name, first name");
+			System.out.println("4: Sort customers by SIN");
+			System.out.println("5: Display customers in this bank (name, SIN)");
+			System.out.println("6: Find profile by last name, first name");
+			System.out.println("7: Find profile by SIN");
+			System.out.println("8: Quit");
 	
 	        try
 	        {
@@ -165,20 +166,74 @@ public class Bank
 	                    } // end of catch (NumberFormatException exception) ...
 	                    break;
 	                case 2:
+	                	// Delete a customer
+	                	System.out.println("How would you like to search for the customer to delete: ");
+	                	System.out.println("1. By SIN");
+	                	System.out.println("2. By name");
+	                	int selection = Integer.parseInt(console.readLine());
+	                	if (selection == 1)
+	                	{
+		                	// Find profile by SIN
+		                	System.out.println("Enter the SIN of the customer: ");
+		                	int sin = Integer.parseInt(console.readLine());
+		                	System.out.println("The following customers matched your search criteria: ");
+		                	customerSearch = customerList.getCustomersBySin(sin);
+		                	for (int i = 0; i < customerSearch.size(); i++)
+		                	{
+		                		System.out.println((i + 1) + " " + customerSearch.get(i).getSummary());
+		                	}
+		                	if (customerSearch.size() > 0)
+		                	{
+		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
+		                		if (customerIndex < customerSearch.size())
+		                		{
+		                			customerList.removeCustomer(customerSearch.get(customerIndex));
+		                			System.out.println("Customer deleted!");
+		                		}
+		                		else 
+		                		{
+		                			System.out.println("That's not a valid customer!");
+		                		}
+		                	}
+		                	else 
+		                	{
+		                		System.out.println("No customers found!");
+		                	}
+		                	// TODO
+	                	}
+	                	else if (selection == 2)
+	                	{
+		                    // Find profile by first name, last name
+		                	System.out.println("Enter the last name of the customer: ");
+		                	String lastName = console.readLine();
+		                	System.out.println("Enter the first name of the customer: ");
+		                	String firstName = console.readLine();
+		                	System.out.println("The following customers matched your search criteria: ");
+		                	customerSearch = customerList.getCustomersByName(firstName, lastName);
+		                	for (int i = 0; i < customerSearch.size(); i++)
+		                	{
+		                		System.out.println(customerSearch.get(i).getSummary());
+		                	}
+	                	}
+	                	else {
+	                		System.out.println("That's not a valid option!");
+	                	}
+		                break;
+	                case 3:
 	                    // Sort customers by last name, then first name
 	                	customerList.sortByName();
 	                	System.out.println("Successfully sorted by last name, then first name!");
 	                	break;
-	                case 3:
+	                case 4:
 	                	// Sort customers by SIN
 	                	customerList.sortBySin();
 	                	System.out.println("Successfully sorted by SIN!");
 	                    break;
-	                case 4:
+	                case 5:
 	                    // Display customer summary (name, SIN)
 	                	System.out.println(customerList.getCustomers());
 	                    break;
-	                case 5:
+	                case 6:
 	                    // Find profile by first name, last name
 	                	System.out.println("Enter the last name of the customer: ");
 	                	String lastName = console.readLine();
@@ -192,7 +247,7 @@ public class Bank
 	                	}
 	                	// TODO
 	                    break;
-	                case 6:
+	                case 7:
 	                	// Find profile by SIN
 	                	System.out.println("Enter the SIN of the customer: ");
 	                	int sin = Integer.parseInt(console.readLine());
@@ -204,7 +259,7 @@ public class Bank
 	                	}
 	                	// TODO
 	                	break;
-	                case 7:
+	                case 8:
 	                	// SAVE TO FILE
 	                	System.out.println("Saving bank files...");
 	                	customerList.exportList(fileName);

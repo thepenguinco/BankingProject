@@ -192,9 +192,9 @@ public class CustomerList
      * 
      * @param index the index in the list of this customer
      */
-	public void removeCustomer(int index) {
-		customerList.remove(index);		
-	} // end of removeCustomer(int index)
+	public void removeCustomer(Customer customer) {
+		customerList.remove(customer);		
+	} // end of removeCustomer(int customer)
 
     /**
      * Sorts the customers in this customer list by name
