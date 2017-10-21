@@ -281,7 +281,6 @@ public class Customer
     	savingsAccount.remove(index);
     } // end of addSavingsAccount(int initialBalance)
 
-    
     /**
      * Sets the birth day of this customer.
      * 
@@ -349,21 +348,10 @@ public class Customer
 	 * 
 	 * @return the string containing the full name and SIN of this customer
 	 */
-	public String getSummary() {
+	public String getSummary() 
+	{
 		return this.lastName + ", " + this.firstName + " " + this.sin;
 	}
-	
-    /**
-     * TEMP
-     * @return
-     */
-    public String temp() 
-    {
-    	String accounts = "";
-        for (int i = 0; i < savingsAccount.size(); i++)
-            accounts = accounts + i + ": " + savingsAccount.get(i);
-        return accounts;
-    }
     
     /**
      * Shows a string representation of this customer.
@@ -390,7 +378,8 @@ public class Customer
 	/**
 	 * Compares two customers by SIN
 	 */
-    public static final Comparator<Customer> compareBySin = new Comparator<Customer>(){
+    public static final Comparator<Customer> compareBySin = new Comparator<Customer>()
+    {
         @Override
         public int compare(Customer customer1, Customer customer2) {
             return customer1.sin - customer2.sin;
@@ -400,7 +389,8 @@ public class Customer
     /**
      * Compares two customers by first name, then last name
      */
-    public static final Comparator<Customer> compareByName = new Comparator<Customer>(){
+    public static final Comparator<Customer> compareByName = new Comparator<Customer>()
+    {
         @Override
         public int compare(Customer customer1, Customer customer2) {
         	// first sort by last name

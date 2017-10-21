@@ -8,8 +8,9 @@ public class Tester
 	{
 		ChequingAccount acc = new ChequingAccount();
 		/*
-		 * QUESTIONS
-		 * - instantiate other objects within private class methods or instantiate in main method
+		 * TODO
+		 * - combine ArrayLists of accounts into one arrayList
+		 * - cleanup code this is gross
 		 * - try catch for everything (also in methods?? or just use loops and booleans)
 		 * System.out.println(%.2f, 
 		 */
