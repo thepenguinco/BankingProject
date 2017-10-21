@@ -84,13 +84,10 @@ public class Bank
 		                    System.out.print("Enter the customer's birth day: ");
 		                    int birthDay = Integer.parseInt(console.readLine());
 		                    System.out.println();
-		                    // Validate birthday
-		                    LocalDate birthDate = LocalDate.of(birthYear,
-		                    		birthMonth, birthDay);
-		                    LocalDate today = LocalDate.now();
-		                    long age = ChronoUnit.YEARS.between(birthDate, today);
+		                    // Validate birthday;
+		                    Customer customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay);
 		                    Account account = null;
-		                    if (age >= AGE_OF_MAJORITY)
+		                    if (customer.getAge() >= AGE_OF_MAJORITY)
 		                    {
 		                    	System.out.println("Select an account to be created: ");
 			                    System.out.println("1. Chequing Account ");
@@ -131,7 +128,6 @@ public class Bank
 		                    System.out.print("What is the initial opening balance of this account: ");
 		                    double initialBalance = Double.parseDouble(console.readLine());
 		                    account.depositFunds(initialBalance);
-		                    Customer customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay, account);
 		                    customerList.addCustomer(customer);
 		                    System.out.println("Customer created successfully.");
 	                    } // end of try
@@ -281,16 +277,16 @@ public class Bank
 	                    break;
 	                case 7:
 	                	// Find profile by SIN
-	                	System.out.print("Enter the SIN of the customer: ");
-	                	int sin = Integer.parseInt(console.readLine());
-	                	System.out.println("The following customers matched your search criteria: ");
-	                	customerSearch = customerList.getCustomersBySin(sin);
-	                	for (int i = 0; i < customerSearch.size(); i++)
-	                	{
-	                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
-	                	}
 	                	try
 	                	{
+		                	System.out.print("Enter the SIN of the customer: ");
+		                	int sin = Integer.parseInt(console.readLine());
+		                	System.out.println("The following customers matched your search criteria: ");
+		                	customerSearch = customerList.getCustomersBySin(sin);
+		                	for (int i = 0; i < customerSearch.size(); i++)
+		                	{
+		                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
+		                	}
 		                	if (customerSearch.size() > 0)
 		                	{
 		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
@@ -307,7 +303,7 @@ public class Bank
 	                	}
 	                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
 	                	{
-	                		System.out.println("That is not a valid customer!");
+	                		System.out.println("Please enter a valid SIN number and a valid menu choice!");
 	                	}
 	                	finally
 	                	{
@@ -334,7 +330,6 @@ public class Bank
 	
 	/**
 	 * Display the profile menu for a customer
-	 * 
 	 */
 	public static void profileMenu(Customer customer) throws IOException
 	{
@@ -356,91 +351,55 @@ public class Bank
 			switch (option)
 			{
 				case 1:
-					if (customer.getAccounts().size() == 0) 
+					// View account activity
+					System.out.println("Please select an account: ");
+					System.out.println(customer.getAccountSummary());
+					try
 					{
-						System.out.println("This customer has no accounts!");
+						int accountIndex = Integer.parseInt(console.readLine()) - 1;
+						System.out.println(customer.getAccounts().get(accountIndex).getTransactionHistory());
 					}
-					else
+					catch (IndexOutOfBoundsException | NumberFormatException e)
 					{
-						System.out.println("The accounts of this customer: ");
-						for (int i = 0; i < customer.getAccounts().size(); i++)
-						{
-							System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-									" " + customer.getAccounts().get(i).getBalance());
-						}
-						// Account menu
-						
+						System.out.println("Please enter a valid account!");
 					}
-					
-					
 					break;
 				case 2:
-					if (customer.getAccounts().size() == 0) 
-					{
-						System.out.println("This customer has no accounts!");
-					}
-					else
-					{
-						System.out.println("The accounts of this customer: ");
-						for (int i = 0; i < customer.getAccounts().size(); i++)
-						{
-							System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-									" " + customer.getAccounts().get(i).getBalance());
-						}
-						// Account menu
-						
-					}
+					// Deposit
 					break;
 				case 3:
-					if (customer.getAccounts().size() == 0) 
-					{
-						System.out.println("This customer has no accounts!");
-					}
-					else
-					{
-						System.out.println("The accounts of this customer: ");
-						for (int i = 0; i < customer.getAccounts().size(); i++)
-						{
-							System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-									" " + customer.getAccounts().get(i).getBalance());
-						}
-						// Account menu
-						
-					}
+					// Withdraw
 					break;
 				case 4:
-					if (customer.getAccounts().size() == 0) 
+					// Process Cheque
+					if (customer.getAge() >= AGE_OF_MAJORITY)
 					{
-						System.out.println("This customer has no accounts!");
-					}
-					else
-					{
-						System.out.println("The accounts of this customer: ");
-						for (int i = 0; i < customer.getAccounts().size(); i++)
+						ArrayList<Account> chequingAccounts = customer.getChequingAccounts();
+						System.out.println("The chequing accounts of this customer: ");
+						for (int i = 0; i < chequingAccounts.size(); i++)
 						{
-							System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-									" " + customer.getAccounts().get(i).getBalance());
+							System.out.println((i + 1) + " " + chequingAccounts.get(i).getType() + " " + chequingAccounts.get(i).getBalance());
 						}
-						// Account menu
-						
+						try
+						{
+							int accountIndex = Integer.parseInt(console.readLine()) - 1;
+							Account account = chequingAccounts.get(accountIndex);
+							System.out.println("Enter the amount you wish to write a cheque: ");
+							account.processCheque(amount);
+							System.out.println("Cheque successfully processed");
+						}
+						catch (IndexOutOfBoundsException | NumberFormatException e)
+						{
+							System.out.println("Please enter a valid account and a valid amount to process a cheque!");
+						}
+					}
+					else 
+					{
+						System.out.println("Minors cannot write cheques.");
 					}
 					break;
 				case 5:
-					if (customer.getAccounts().size() == 0) 
-					{
-						System.out.println("This customer has no accounts!");
-					}
-					else
-					{
-						System.out.println("The accounts of this customer: ");
-						for (int i = 0; i < customer.getAccounts().size(); i++)
-						{
-							System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-									" " + customer.getAccounts().get(i).getBalance());
-						}
-						// Account menu
-						
-					}
+					// 
 					break;
 				case 6:
 					System.out.println("The accounts of this customer: ");
@@ -460,40 +419,69 @@ public class Bank
 					// Account menu
 					break;
 				case 8:
-					if (customer.getAccounts().size() == 0) 
-					{
-						System.out.println("This customer has no accounts!");
-					}
-					else
-					{
-						System.out.println("The accounts of this customer: ");
-						for (int i = 0; i < customer.getAccounts().size(); i++)
+					// Open an account
+					try
+	                {
+						Account account = null;
+						if (customer.getAge() >= AGE_OF_MAJORITY)
 						{
-							System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-									" " + customer.getAccounts().get(i).getBalance());
-						}
-						// Account menu
-						
+		                    System.out.println("Select an account to be created: ");
+		                    System.out.println("1. Chequing Account ");
+		                    System.out.println("2. Savings Account");
+		                    System.out.println("3. Credit Card ");
+		                    int selection = Integer.parseInt(console.readLine());
+		                    switch (selection)
+		                    {
+		                    	case 1:
+				                    account = new ChequingAccount();
+				                    System.out.println("Creating new chequing account.");
+				                    break;
+		                    	case 2:
+				                    account = new SavingsAccount();
+				                    System.out.println("Creating new savings account.");
+				                    break;
+		                    	case 3:
+				                    account = new CreditCard();
+				                    System.out.println("Creating new credit card.");
+				                    break;
+				                default:
+				                	System.out.println("Please enter a valid menu selection.");
+		                    }
+	                    } // end of if (age >= AGE_OF_MAJORITY)
+	                    else
+	                    {
+	                    	System.out.println("The customer is under the age of "
+	                    			+ AGE_OF_MAJORITY + ".");
+	                    	System.out.println("A savings account will be created.");
+	                    	account = new SavingsAccount();
+	                    }
+	                    System.out.print("What is the initial opening balance of this account: ");
+	                    double initialBalance = Double.parseDouble(console.readLine());
+	                    account.depositFunds(initialBalance);
+	                    customer.addAccount(account);
+	                }
+					catch (NumberFormatException e)
+					{
+						System.out.println("Please enter a valid menu choice and valid numerical data.");
 					}
 					break;
 				case 9:
+					// Delete or cancel an account
 					System.out.println("Please select an account: ");
-					for (int i = 0; i < customer.getAccounts().size(); i++)
-					{
-						System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-								" " + customer.getAccounts().get(i).getBalance());
-					}
+					System.out.println(customer.getAccountSummary());
 					try
 					{
 						int accountIndex = Integer.parseInt(console.readLine());
-						// separately return the chequing, savings and credit card accounts
-						customer.getAccounts().get(accountIndex);
+						customer.removeAccount(customer.getAccounts().get(accountIndex));
+						System.out.println("Account sucessfully deleted.");
 						if (customer.getAccounts().size() == 0)
 						{
+							System.out.println("No accounts exist for this customer.");
 							customerList.removeCustomer(customer);
+							System.out.println("This customer has been deleted.");
 						}
 					}
-					catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
+					catch (IndexOutOfBoundsException | NumberFormatException e)
 					{
 						System.out.println("Please enter a valid account!");
 					}

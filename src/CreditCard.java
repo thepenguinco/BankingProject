@@ -7,6 +7,13 @@
 
 public class CreditCard extends Account
 {
+	// class fields
+	
+	/**
+	 * The ID of a credit card
+	 */
+	public static final int ID = 3;
+	
     // instance fields
     
     // constructors
@@ -29,9 +36,14 @@ public class CreditCard extends Account
     
     // accessors
     
-    public String getType()
+    public String getStringType()
     {
     	return "Credit Card";
+    }
+    
+    public int getType()
+    {
+    	return ID;
     } // end of getType()
     
     // mutators

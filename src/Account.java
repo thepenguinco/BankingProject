@@ -46,7 +46,9 @@ public abstract class Account
     
     // accessors
     
-    public abstract String getType();
+    public abstract int getType();
+    
+    public abstract String getStringType();
     
     /**
      * Returns the balance of this account.

@@ -9,9 +9,10 @@ public class Tester
 		ChequingAccount acc = new ChequingAccount();
 		/*
 		 * TODO
-		 * - combine ArrayLists of accounts into one arrayList
+		 * - handle negatives
 		 * - cleanup code this is gross
 		 * - try catch for everything (also in methods?? or just use loops and booleans)
+		 * 
 		 * System.out.println(%.2f, 
 		 */
 	}

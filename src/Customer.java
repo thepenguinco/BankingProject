@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -11,32 +13,15 @@ import java.util.Comparator;
 public class Customer
 {
 	// class fields
-	
-	/**
-	 * The ID of a chequing account belonging to a customer
-	 */
-	public static final int CHEQUING_ID = 1;
-	
-	/**
-	 * The ID of a savings account belonging to a customer
-	 */
-	public static final int SAVINGS_ID = 2;
-	
-	/**
-	 * The ID of a credit card
-	 */
-	public static final int CREDIT_CARD_ID = 3;
-	
+
     // instance fields
     
+	private ArrayList<Account> accountList;
     private int birthDay;
     private int birthMonth;
     private int birthYear;
-    private ArrayList<Account> chequingAccount;
-    private ArrayList<Account> creditCard;
     private String firstName;
     private String lastName;
-    private ArrayList<Account> savingsAccount;
     private int sin;
     
     // constructors
@@ -60,9 +45,7 @@ public class Customer
         this.birthYear = birthYear;
         this.birthMonth = birthMonth;
         this.birthDay = birthDay;
-        this.chequingAccount = new ArrayList<Account>();
-        this.creditCard = new ArrayList<Account>();
-        this.savingsAccount = new ArrayList<Account>();
+        this.accountList = new ArrayList<Account>();
     } // end of constructor Customer(String firstName ...
     
     /**
@@ -86,35 +69,34 @@ public class Customer
         this.birthYear = birthYear;
         this.birthMonth = birthMonth;
         this.birthDay = birthDay;
-        this.chequingAccount = new ArrayList<Account>();
-        this.creditCard = new ArrayList<Account>();
-        this.savingsAccount = new ArrayList<Account>();
-        if (account instanceof ChequingAccount) chequingAccount.add(account);
-        if (account instanceof SavingsAccount) savingsAccount.add(account);
-        if (account instanceof CreditCard) creditCard.add(account);
+        this.accountList = new ArrayList<Account>();
+        this.accountList.add(account);
     } // end of constructor Customer(String firstName ...
     
     // accessors
 
     /**
      * Returns the accounts of this customer
+     * 
+     * @return the accounts of this customer
      */
     public ArrayList<Account> getAccounts()
     {
-    	ArrayList<Account> account = new ArrayList<Account>();
-    	for (Account chequingAccount : chequingAccount)
-    	{
-    		account.add(chequingAccount);
-    	}
-    	for (Account savingsAccount : savingsAccount)
-    	{
-    		account.add(savingsAccount);
-    	}
-    	for (Account creditCard : creditCard)
-    	{
-    		account.add(creditCard);
-    	}
-    	return account;
+    	return accountList;
+    } // end of getAccounts()
+    
+    /**
+     * Returns the age of this customer
+     * 
+     * @return the age of this customer
+     */
+    public long getAge()
+    {
+        LocalDate birthDate = LocalDate.of(birthYear,
+        		birthMonth, birthDay);
+        LocalDate today = LocalDate.now();
+        return ChronoUnit.YEARS.between(birthDate, today);
+        
     } // end of getAccounts()
     
     /**
@@ -148,34 +130,22 @@ public class Customer
     } // end of getBirthYear()
     
     /**
-     * Returns the specified chequing account of this customer.
-     * 
-     * @return the specified chequing account of this customer
-     */
-    public Account getChequingAccount(int index)
-    {
-    	return chequingAccount.get(index);
-    } // end of getChequingAccount()
-    
-    /**
      * Returns the chequing accounts of this customer.
      * 
      * @return the chequing accounts of this customer
      */
     public ArrayList<Account> getChequingAccounts()
     {
-    	return chequingAccount;
+    	ArrayList<Account> chequingAccounts = new ArrayList<Account>();
+    	for (Account account : accountList)
+    	{
+    		if (account.getType() == ChequingAccount.ID)
+    		{
+    			chequingAccounts.add(account);
+    		}
+    	}
+    	return chequingAccounts;
     } // end of getChequingAccounts()
-	    
-    /**
-     * Returns the specified credit card of this customer.
-     * 
-     * @return the specified credit card of this customer
-     */
-    public Account getCreditCard(int index)
-    {
-    	return creditCard.get(index);
-    } // end of getCreditCard()
     
     /**
      * Returns the credit card accounts of this customer.
@@ -184,7 +154,15 @@ public class Customer
      */
     public ArrayList<Account> getCreditCards()
     {
-    	return creditCard;
+    	ArrayList<Account> creditCards = new ArrayList<Account>();
+    	for (Account account : accountList)
+    	{
+    		if (account.getType() == CreditCard.ID)
+    		{
+    			creditCards.add(account);
+    		}
+    	}
+    	return creditCards;
     } // end of getCreditCards()
     
     /**
@@ -208,23 +186,21 @@ public class Customer
     } // end of getLastName()
     
     /**
-     * Returns the specified savings account of this customer.
-     * 
-     * @return the specified savings account of this customer
-     */
-    public Account getSavingsAccount(int index)
-    {
-    	return savingsAccount.get(index);
-    } // end of getSavingsAccount()
-    
-    /**
      * Returns the savings accounts of this customer.
      * 
      * @return the savings accounts of this customer
      */
     public ArrayList<Account> getSavingsAccounts()
     {
-    	return savingsAccount;
+    	ArrayList<Account> savingsAccounts = new ArrayList<Account>();
+    	for (Account account : accountList)
+    	{
+    		if (account.getType() == SavingsAccount.ID)
+    		{
+    			savingsAccounts.add(account);
+    		}
+    	}
+    	return savingsAccounts;
     } // end of getSavingsAccounts()
     
     /**
@@ -246,41 +222,19 @@ public class Customer
      */
     public void addAccount(Account account)
     {
-        if (account instanceof ChequingAccount) chequingAccount.add(account);
-        if (account instanceof SavingsAccount) savingsAccount.add(account);
-        if (account instanceof CreditCard) creditCard.add(account);
+        accountList.add(account);
     } // end of addAccount(Account account)
-    
-    /**
-     * Removes a chequing account from this customer with the specified index.
-     * 
-     * @param index the index of the chequing account
-     */
-    public void removeChequingAccount(int index)
-    {
-    	chequingAccount.remove(index);
-    } // end of removeChequingAccount()
-    
-    /**
-     * Removes a credit card from this customer with the specified index.
-     * 
-     * @param index the index of the credit card
-     */
-    public void removeCreditCard(int index)
-    {
-    	creditCard.remove(index);
-    } // end of removeCreditCard()
-    
-    /**
-     * Adds a savings account to this customer.
-     * 
-     * @param initialBalance the initial balance of this savings account
-     */
-    public void removeSavingsAccount(int index)
-    {
-    	savingsAccount.remove(index);
-    } // end of addSavingsAccount(int initialBalance)
 
+    /**
+     * Removes an account from this customer.
+     * 
+     * @param account the account to be remove from this customer
+     */
+    public void removeAccount(Account account)
+    {
+        accountList.remove(account);
+    } // end of removeAccount(Account account)
+    
     /**
      * Sets the birth day of this customer.
      * 
@@ -343,6 +297,17 @@ public class Customer
     
     // other methods, string methods
 	
+    public String getAccountSummary()
+    {
+    	String accounts = "";
+    	for (int i = 0; i < accountList.size(); i++)
+    	{
+    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+    				" " + accountList.get(i).getBalance() + "\n");
+    	}
+    	return accounts;
+    }
+    
 	/**
 	 * Shows the basic summary of this customer.
 	 * 
@@ -367,9 +332,7 @@ public class Customer
         + ", Last Name: " + lastName
         + ", Birthdate: " + birthYear + "-" + birthMonth + "-" + birthDay
         + ", SIN: " + sin
-        + ", Chequing Accounts" + chequingAccount
-        + ", Credit Cards" + creditCard
-        + ", Savings Accounts" + savingsAccount
+        + ", Accounts" + accountList
         + "]";
 	} // end of toString()
 

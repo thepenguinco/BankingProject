@@ -90,11 +90,11 @@ public class CustomerList
      		}
     		else if (line.length == ACCOUNT_LENGTH && customer != null)
     		{
-    			if (Integer.parseInt(line[0]) == Customer.CHEQUING_ID)
+    			if (Integer.parseInt(line[0]) == ChequingAccount.ID)
     				account = new ChequingAccount(Double.parseDouble(line[1]));
-    			else if (Integer.parseInt(line[0]) == Customer.SAVINGS_ID)
+    			else if (Integer.parseInt(line[0]) == SavingsAccount.ID)
 					account = new SavingsAccount(Double.parseDouble(line[1]));
-    			else if (Integer.parseInt(line[0]) == Customer.CREDIT_CARD_ID)
+    			else if (Integer.parseInt(line[0]) == CreditCard.ID)
 					account = new CreditCard(Double.parseDouble(line[1]));
     			customer.addAccount(account);
     		}
@@ -240,7 +240,7 @@ public class CustomerList
         			+ " " + customer.getBirthMonth() + " " + customer.getBirthDay());
         	for (Account chequingAccount : customer.getChequingAccounts())
         	{
-        		database.println(Customer.CHEQUING_ID + " " + chequingAccount.getBalance());
+        		database.println(ChequingAccount.ID + " " + chequingAccount.getBalance());
         		for (Transaction transaction : chequingAccount.getTransactionsReversed())
         		{
         			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
@@ -249,7 +249,7 @@ public class CustomerList
         	}
         	for (Account savingsAccount : customer.getSavingsAccounts())
         	{
-        		database.println(Customer.SAVINGS_ID + " " + savingsAccount.getBalance());
+        		database.println(SavingsAccount.ID + " " + savingsAccount.getBalance());
         		for (Transaction transaction : savingsAccount.getTransactionsReversed())
         		{
         			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
@@ -258,7 +258,7 @@ public class CustomerList
         	}
         	for (Account creditCard : customer.getCreditCards())
         	{
-        		database.println(Customer.CREDIT_CARD_ID + " " + creditCard.getBalance());
+        		database.println(CreditCard.ID + " " + creditCard.getBalance());
         		for (Transaction transaction : creditCard.getTransactionsReversed())
         		{
         			database.println(transaction.getTransactionType() + " " + transaction.getAmount()

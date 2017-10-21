@@ -7,6 +7,13 @@
 
 public class SavingsAccount extends Account
 {
+	// class fields
+	
+	/**
+	 * The ID of a savings account belonging to a customer
+	 */
+	public static final int ID = 2;
+	
     // instance fields
 	
     // constructors
@@ -31,9 +38,14 @@ public class SavingsAccount extends Account
     
     // accessors
     
-    public String getType()
+    public String getStringType()
     {
     	return "Savings Account";
+    }
+    
+    public int getType()
+    {
+    	return ID;
     } // end of getType()
     
     // other methods

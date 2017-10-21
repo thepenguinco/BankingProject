@@ -10,6 +10,11 @@ public class ChequingAccount extends Account
 	// class fields
 	
 	/**
+	 * The ID of a chequing account belonging to a customer
+	 */
+	public static final int ID = 1;
+	
+	/**
 	 * Minimum balance required to be exempt from the cheque processing fee
 	 */
 	public static final double FEE_EXEMPTION_BALANCE = 1000;
@@ -44,9 +49,14 @@ public class ChequingAccount extends Account
     
     // accessors
     
-    public String getType()
+    public String getStringType()
     {
     	return "Chequing Account";
+    }
+    
+    public int getType()
+    {
+    	return ID;
     } // end of getType()
     
     // mutators
