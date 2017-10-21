@@ -21,6 +21,21 @@ public class Bank
 	 */
 	public static final int AGE_OF_MAJORITY = 18;
 	
+	/**
+	 * Display the profile menu for a customer
+	 * 
+	 */
+	public static void profileMenu()
+	{
+		// TODO
+	}
+	
+	/**
+	 * The main bank interface
+	 * 
+	 * @param argument
+	 * @throws IOException
+	 */
 	public static void main(String[] argument) throws IOException
 	{
 	    // Establish a connection to the console.
@@ -93,8 +108,8 @@ public class Bank
 		                    		System.out.println("This is not a unique sin!");
 		                    		System.out.println("You are a victim of identity fraud!");
 		                    		failure = true;
+		                    		break;
 		                    	}
-		                    	
 		                    }
 	                    	if (failure) break;
 	                    	failure = false;
@@ -244,7 +259,7 @@ public class Bank
 	                	for (int i = 0; i < customerSearch.size(); i++)
 	                	{
 	                		System.out.println(customerSearch.get(i).getSummary());
-	                	}
+	                	} // end of for (int i = 0 ...
 	                	// TODO
 	                    break;
 	                case 7:
@@ -265,6 +280,7 @@ public class Bank
 	                	customerList.exportList(fileName);
 	                    System.exit(0);
 	                default:
+	                	// INVALID MENU OPTION
 	                    System.out.println(option + " is  not a valid menu choice!");
 	            } // end of switch (option)
 	            System.out.println();
