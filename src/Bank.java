@@ -22,46 +22,11 @@ public class Bank
 	public static final int AGE_OF_MAJORITY = 18;
 	
 	/**
-	 * Display the profile menu for a customer
-	 * 
+	 * Display the main bank menu
+	 * @throws IOException 
 	 */
-	public static void profileMenu()
+	public static void mainMenu() throws IOException
 	{
-		// TODO
-	}
-	
-	/**
-	 * The main bank interface
-	 * 
-	 * @param argument
-	 * @throws IOException
-	 */
-	public static void main(String[] argument) throws IOException
-	{
-	    // Establish a connection to the console.
-        BufferedReader console = 
-                new BufferedReader(new InputStreamReader(System.in));
-
-	    // Load customer list from file (if exists)
-		System.out.print("Enter file name: ");
-		String fileName = console.readLine();
-		CustomerList customerList;
-		try
-		{
-			System.out.println("Loading from file...");
-			customerList = new CustomerList(fileName);
-		}
-		catch (FileNotFoundException exception)
-		{
-			System.out.println("File not found, creating new database...");
-			customerList = new CustomerList();
-		}
-        
-		System.out.println();
-		
-	    // Main loop
-	    while (true)
-	    {
 	        // Prompt for input
 	    	System.out.println("Welcome to the VP bank.");
 			System.out.println("-----------------------");
@@ -78,7 +43,7 @@ public class Bank
 	        try
 	        {
 	            // Read console input
-	            int option = Integer.parseInt(console.readLine());
+	            int mainOption = Integer.parseInt(console.readLine());
 	            System.out.println();
 	           
 	            // required for scope
@@ -86,7 +51,7 @@ public class Bank
 	            ArrayList<Customer> customerSearch;;
 	            
 	            // Process the console input
-	            switch (option)
+	            switch (mainOption)
 	            {
 	                case 1:
 	                    // Create a customer
@@ -197,24 +162,30 @@ public class Bank
 		                	{
 		                		System.out.println((i + 1) + " " + customerSearch.get(i).getSummary());
 		                	}
-		                	if (customerSearch.size() > 0)
+		                	try
+			                {
+			                	if (customerSearch.size() > 0)
+			                	{
+			                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
+			                		if (customerIndex < customerSearch.size())
+			                		{
+			                			customerList.removeCustomer(customerSearch.get(customerIndex));
+			                			System.out.println("Customer deleted!");
+			                		}
+			                	}
+			                	else 
+			                	{
+			                		System.out.println("No customers found!");
+			                	}
+			                }
+		                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
 		                	{
-		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
-		                		if (customerIndex < customerSearch.size())
-		                		{
-		                			customerList.removeCustomer(customerSearch.get(customerIndex));
-		                			System.out.println("Customer deleted!");
-		                		}
-		                		else 
-		                		{
-		                			System.out.println("That's not a valid customer!");
-		                		}
+		                		System.out.println("That's not a valid customer!");
 		                	}
-		                	else 
+		                	finally
 		                	{
-		                		System.out.println("No customers found!");
+		                		System.out.println("Exiting to main menu.");
 		                	}
-		                	// TODO
 	                	}
 	                	else if (selection == 2)
 	                	{
@@ -227,7 +198,31 @@ public class Bank
 		                	customerSearch = customerList.getCustomersByName(firstName, lastName);
 		                	for (int i = 0; i < customerSearch.size(); i++)
 		                	{
-		                		System.out.println(customerSearch.get(i).getSummary());
+		                		System.out.println((i + 1) + " " + customerSearch.get(i).getSummary());
+		                	}
+		                	try
+			                {
+			                	if (customerSearch.size() > 0)
+			                	{
+			                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
+			                		if (customerIndex < customerSearch.size())
+			                		{
+			                			customerList.removeCustomer(customerSearch.get(customerIndex));
+			                			System.out.println("Customer deleted!");
+			                		}
+			                	}
+			                	else 
+			                	{
+			                		System.out.println("No customers found!");
+			                	}
+			                }
+		                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
+		                	{
+		                		System.out.println("That's not a valid customer!");
+		                	}
+		                	finally
+		                	{
+		                		System.out.println("Exiting to main menu.");
 		                	}
 	                	}
 	                	else {
@@ -260,7 +255,30 @@ public class Bank
 	                	{
 	                		System.out.println(customerSearch.get(i).getSummary());
 	                	} // end of for (int i = 0 ...
-	                	// TODO
+	                	try
+	                	{
+		                	if (customerSearch.size() > 0)
+		                	{
+		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
+		                		if (customerIndex < customerSearch.size())
+		                		{
+		                			Customer customer = customerSearch.get(customerIndex);
+			                		profileMenu(customer);
+		                		}
+		                		else
+		                		{
+		                			System.out.println("That is not a valid customer!");
+		                		}
+		                	}
+	                	}
+	                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
+	                	{
+	                		System.out.println("That is not a valid customer!");
+	                	}
+	                	finally
+	                	{
+	                		System.out.println("Exiting to main menu.");
+	                	}
 	                    break;
 	                case 7:
 	                	// Find profile by SIN
@@ -281,8 +299,8 @@ public class Bank
 	                    System.exit(0);
 	                default:
 	                	// INVALID MENU OPTION
-	                    System.out.println(option + " is  not a valid menu choice!");
-	            } // end of switch (option)
+	                    System.out.println(mainOption + " is  not a valid menu choice!");
+	            } // end of switch (mainOption)
 	            System.out.println();
 	        } // end of try
 	        catch (NumberFormatException exception) 
@@ -290,6 +308,116 @@ public class Bank
 	            System.out.println("Please enter a valid numerical menu choice selection!");
 	            System.out.println();
 	        } // end of catch (InputMismatchException exception)
-	    } // end of while (true)
+	}
+	
+	/**
+	 * Display the profile menu for a customer
+	 * 
+	 */
+	public static void profileMenu(Customer customer) throws IOException
+	{
+		System.out.println("PROFILE MENU");
+		System.out.println("-----------------------");
+		System.out.println("1: View account activity");
+		System.out.println("2: Deposit");
+		System.out.println("3: Withdraw");
+		System.out.println("4: Process cheque");
+		System.out.println("5: Process purchase");
+		System.out.println("6: Process payment");
+		System.out.println("7: Transfer funds");
+		System.out.println("8: Open account or issue card");
+		System.out.println("9: Cancel account or card");
+		System.out.println("10: Return to main menu");
+		try
+		{
+			int option = Integer.parseInt(console.readLine());
+			switch (option)
+			{
+				case 1:
+					if (customer.getAccounts().size() == 0) 
+					{
+						System.out.println("This customer has no accounts!");
+					}
+					else
+					{
+						System.out.println("The accounts of this customer: ");
+						for (int i = 0; i < customer.getAccounts().size(); i++)
+						{
+							System.out.println((i+1) + customer.getAccounts().get(i).getType() + customer.getAccounts().get(i).getBalance());
+						}
+						
+					}
+					
+					
+					break;
+				case 2:
+					break;
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
+				case 10:
+					break;
+				default:
+					System.out.println("Please enter a valid menu option!");
+					profileMenu(customer);
+				}
+		}
+		catch (NumberFormatException e)
+		{
+			System.out.println("Please enter a valid menu option!");
+			profileMenu(customer);
+		}
+	}
+	
+	/*
+	 * Global console input
+	 */
+	private static BufferedReader console;
+	
+	/*
+	 * Global customer list
+	 */
+	private static CustomerList customerList;
+	
+	/*
+	 * Global file name 
+	 */
+	private static String fileName;
+	
+	/**
+	 * The main bank interface
+	 * 
+	 * @param argument
+	 * @throws IOException
+	 */
+	public static void main(String[] argument) throws IOException
+	{
+	    // Establish a connection to the console.
+      	console = 
+                new BufferedReader(new InputStreamReader(System.in));
+
+	    // Load customer list from file (if exists)
+		System.out.print("Enter file name: ");
+		fileName = console.readLine();
+		try
+		{
+			System.out.println("Loading from file...");
+			customerList = new CustomerList(fileName);
+		}
+		catch (FileNotFoundException exception)
+		{
+			System.out.println("File not found, creating new database...");
+			customerList = new CustomerList();
+		}
+        
+		while(true)
+		{
+			mainMenu();
+		} // end of while(true)
+		
 	} // end of method main (String[] argument) ...
 } // end of class Bank

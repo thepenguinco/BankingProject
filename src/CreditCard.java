@@ -28,7 +28,12 @@ public class CreditCard extends Account
     } // end of constructor CreditCard(double initialBalance)
     
     // accessors
-        
+    
+    public String getType()
+    {
+    	return "Credit Card";
+    } // end of getType()
+    
     // mutators
   
     // other methods

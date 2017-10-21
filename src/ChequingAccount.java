@@ -43,7 +43,12 @@ public class ChequingAccount extends Account
     } // end of constructor ChequingAccount(double initialBalance)
     
     // accessors
-        
+    
+    public String getType()
+    {
+    	return "Chequing Account";
+    } // end of getType()
+    
     // mutators
     
     /**

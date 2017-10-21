@@ -97,6 +97,27 @@ public class Customer
     // accessors
 
     /**
+     * Returns the accounts of this customer
+     */
+    public ArrayList<Account> getAccounts()
+    {
+    	ArrayList<Account> account = new ArrayList<Account>();
+    	for (Account chequingAccount : chequingAccount)
+    	{
+    		account.add(chequingAccount);
+    	}
+    	for (Account savingsAccount : savingsAccount)
+    	{
+    		account.add(savingsAccount);
+    	}
+    	for (Account creditCard : creditCard)
+    	{
+    		account.add(creditCard);
+    	}
+    	return account;
+    } // end of getAccounts()
+    
+    /**
      * Returns the birth day of this customer.
      * 
      * @return the birth day of this customer 

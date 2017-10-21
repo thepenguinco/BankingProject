@@ -31,6 +31,11 @@ public class SavingsAccount extends Account
     
     // accessors
     
+    public String getType()
+    {
+    	return "Savings Account";
+    } // end of getType()
+    
     // other methods
         
 } // end of class SavingsAccount
