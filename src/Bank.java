@@ -14,7 +14,7 @@ import java.io.IOException;
 // HASN'T BEEN CHECKED THOROUGHLY
 public class Bank
 {
-	// global constants
+	// Global constants
 	
 	/**
 	 * The age of majority at this bank
@@ -26,7 +26,7 @@ public class Bank
 	 */
 	public static final int FUNDS_TRANSFER_REQUIREMENT = 2;
 	
-	// global variables
+	// Global variables
 	
 	/*
 	 * Global console input
@@ -43,7 +43,7 @@ public class Bank
 	 */
 	private static String fileName;
 	
-	// menu methods
+	// Menu methods
 	
 	/**
 	 * Display the main bank menu
@@ -69,7 +69,7 @@ public class Bank
             int mainOption = Integer.parseInt(console.readLine());
             System.out.println();
            
-            // required for scope
+            // Required for scope
             boolean failure = false;
             ArrayList<Customer> customerSearch;;
             
@@ -88,19 +88,14 @@ public class Bank
 	                    String firstName = console.readLine();
 	                    System.out.print("Enter the customer's SIN: ");
 	                    int sin = Integer.parseInt(console.readLine());
-	                    // check SIN
-	                    for (Customer customer : customerList.getList())
+	                    // check unique SIN
+	                    if(!customerList.hasUniqueSin(sin))
 	                    {
-	                    	if (sin == customer.getSin())
-	                    	{
-	                    		System.out.println("This is not a unique sin.");
-	                    		System.out.println("You may be a victim of identity fraud!");
-	                    		failure = true;
-	                    		break;
-	                    	}
-	                    }
-                    	if (failure) break;
-                    	failure = false;
+	                    	System.out.println("This is not a unique sin.");
+	                    	System.out.println("You may be a victim of identity fraud!");
+	                    	System.out.println("This account will not be created.");
+	                    	break;
+	                    } // if (!customerList.isUniqueSin(sin))
 	                    System.out.print("Enter the customer's birth year: ");
 	                    int birthYear = Integer.parseInt(console.readLine());
 	                    System.out.print("Enter the customer's birth month: ");
@@ -110,6 +105,7 @@ public class Bank
 	                    System.out.println();
 	                    Customer customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay);
 	                    Account account = null;
+	                    // check age
 	                    if (customer.getAge() >= AGE_OF_MAJORITY)
 	                    {
 	                    	System.out.println("Select an account to be created: ");
@@ -732,13 +728,13 @@ public class Bank
 					break;
 				default:
 					System.out.println("Please enter a valid menu option.");
-				}
+			}
 		}
 		catch (NumberFormatException e)
 		{
 			System.out.println("Please enter a valid menu option.");
 		} // end of catch (NumberFormatException e)
-	}
+	} // end of method profileMenu
 	
 	/**
 	 * The main bank interface

@@ -134,7 +134,7 @@ public class CustomerList
     		} // end of if (customer.getFirstName ...
     	} // end of for (Customer customer ...
     	return customerSearch;
-    } // end of ArrayList<Customer> getCustomersByName(String ...
+    } // end of method getCustomersByName(String firstName ...
     
     /**
      * Returns the customers from this list that match the SIN search criteria.
@@ -149,7 +149,7 @@ public class CustomerList
     		if (customer.getSin() == sin) customerSearch.add(customer);
     	} // end of for (Customer customer : customerList)
     	return customerSearch;
-    } // end of ArrayList<Customer> getCustomersBySin(int ...
+    } // end of method getCustomersBySin(int sin)
     
     /**
      * Returns this customer list.
@@ -159,21 +159,21 @@ public class CustomerList
     public ArrayList<Customer> getList()
     {
     	return customerList;
-    } // end of getList() 
+    } // end of method getList() 
     
     /**
      * Returns <code>true</code> if this SIN is unique; otherwise <code>false</code>.
      * 
      * @return <code>true</code> if the given sin is unique; otherwise <code>false</code>
      */
-    public boolean isUniqueSin(int sin) 
+    public boolean hasUniqueSin(int sin) 
     {
     	for (Customer customer : customerList)
     	{
     		if (customer.getSin() == sin) return false;
     	} // end of for (Customer customer : customerList)
     	return true;
-    } // end of isUniqueSin()
+    } // end of method hasUniqueSin()
     
     // mutators
     
@@ -185,7 +185,7 @@ public class CustomerList
 	public void addCustomer(Customer customer)
 	{
 		customerList.add(customer);
-	} // end of addCustomer(Customer customer)
+	} // end of method addCustomer(Customer customer)
 	
     /**
      * Deletes a customer from this customer list.
@@ -194,7 +194,7 @@ public class CustomerList
      */
 	public void removeCustomer(Customer customer) {
 		customerList.remove(customer);		
-	} // end of removeCustomer(Customer customer)
+	} // end of method removeCustomer(Customer customer)
 
     /**
      * Sorts the customers in this customer list by name.
@@ -202,7 +202,7 @@ public class CustomerList
     public void sortByName() 
     {
     	Collections.sort(customerList, Customer.compareByName);
-    } // end of sortByName()
+    } // end of method sortByName()
 	
     /**
      * Sorts the customers in this customer list by SIN.
@@ -210,7 +210,7 @@ public class CustomerList
     public void sortBySin() 
     {
     	Collections.sort(customerList, Customer.compareBySin);
-    } // end of sortBySin()
+    } // end of method sortBySin()
     
     // file IO
     
@@ -266,7 +266,7 @@ public class CustomerList
         
     	// wrap up
         database.close();
-    } // end of exportList(String fileName) ...
+    } // end of method exportList(String fileName) ...
         
     // other methods, string methods
     
@@ -281,7 +281,7 @@ public class CustomerList
         for (int i = 0; i < customerList.size(); i++)
             customers = customers + (i + 1) + ": " + customerList.get(i).getSummary() + "\n";
         return customers;
-    } // end of getCustomers()  
+    } // end of method getCustomers()  
     
     /**
      * Shows a string representation of this customer list
@@ -295,5 +295,5 @@ public class CustomerList
         + " ["
         + "Customers: " + customerList
         + "]";
-    } // end of toString()
+    } // end of method toString()
 } // end of class CustomerList

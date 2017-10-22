@@ -9,7 +9,6 @@ import java.util.Comparator;
  * @author Eric Li 
  * @version 1.0 2017-10-12
  */
-
 public class Customer
 {
 	// class fields
@@ -97,7 +96,7 @@ public class Customer
         LocalDate today = LocalDate.now();
         return ChronoUnit.YEARS.between(birthDate, today);
         
-    } // end of getAge()
+    } // end of method getAge()
     
     /**
      * Returns the birth day of this customer.
@@ -107,7 +106,7 @@ public class Customer
     public int getBirthDay()
     {
         return birthDay;
-    } // end of getBirthDay()
+    } // end of method getBirthDay()
     
     /**
      * Returns the birth month of this customer.
@@ -117,7 +116,7 @@ public class Customer
     public int getBirthMonth()
     {
         return birthMonth;
-    } // end of getBirthMonth()
+    } // end of method getBirthMonth()
     
     /**
      * Returns the birth year of this customer.
@@ -127,7 +126,7 @@ public class Customer
     public int getBirthYear()
     {
         return birthYear;
-    } // end of getBirthYear()
+    } // end of method getBirthYear()
     
     /**
      * Returns the chequing accounts of this customer.
@@ -145,7 +144,7 @@ public class Customer
     		}
     	}
     	return chequingAccounts;
-    } // end of getChequingAccounts()
+    } // end of method getChequingAccounts()
     
     /**
      * Returns the credit card accounts of this customer.
@@ -160,10 +159,10 @@ public class Customer
     		if (account.getType() == CreditCard.ID)
     		{
     			creditCards.add(account);
-    		}
-    	}
+    		} // end of if (account.getType() ...
+    	} // end of for (Account account ...
     	return creditCards;
-    } // end of getCreditCards()
+    } // end of method getCreditCards()
     
     /**
      * Returns the first name of this customer.
@@ -173,7 +172,7 @@ public class Customer
     public String getFirstName()
     {
         return firstName;
-    } // end of getFirstName()
+    } // end of method getFirstName()
         
     /**
      * Returns the last name of this customer.
@@ -183,7 +182,7 @@ public class Customer
     public String getLastName()
     {
         return lastName;
-    } // end of getLastName()
+    } // end of method getLastName()
     
     /**
      * Returns the chequing and savings accounts of this customer.
@@ -201,7 +200,7 @@ public class Customer
     		}
     	}
     	return primaryAccounts;
-    } // end of getPrimaryAccounts()
+    } // end of method getPrimaryAccounts()
     
     /**
      * Returns the savings accounts of this customer.
@@ -219,7 +218,7 @@ public class Customer
     		}
     	}
     	return savingsAccounts;
-    } // end of getSavingsAccounts()
+    } // end of method getSavingsAccounts()
     
     /**
      * Returns the SIN of this customer.
@@ -229,7 +228,7 @@ public class Customer
     public int getSin()
     {
         return sin;
-    } // end of getSin()
+    } // end of method getSin()
     
     // mutators
     
@@ -241,7 +240,7 @@ public class Customer
     public void addAccount(Account account)
     {
         accountList.add(account);
-    } // end of addAccount(Account account)
+    } // end of method addAccount(Account account)
 
     /**
      * Removes an account from this customer.
@@ -251,7 +250,7 @@ public class Customer
     public void removeAccount(Account account)
     {
         accountList.remove(account);
-    } // end of removeAccount(Account account)
+    } // end of method removeAccount(Account account)
     
     /**
      * Sets the birth day of this customer.
@@ -261,7 +260,7 @@ public class Customer
     public void setBirthDay(int birthDay)
     {
         this.birthDay = birthDay;
-    } // end of setBirthDay(int birthDay)
+    } // end of method setBirthDay(int birthDay)
     
     /**
      * Sets the birth month of this customer.
@@ -271,7 +270,7 @@ public class Customer
     public void setBirthMonth(int birthMonth)
     {
         this.birthMonth = birthMonth;
-    } // end of setBirthMonth(int birthMonth)
+    } // end of method setBirthMonth(int birthMonth)
     
     /**
      * Returns the birth year of this customer.
@@ -281,7 +280,7 @@ public class Customer
     public void setBirthYear(int birthYear)
     {
         this.birthYear = birthYear;
-    } // end of setBirthYear(int birthYear)
+    } // end of method setBirthYear(int birthYear)
         
     /**
      * Sets the first name of this customer.
@@ -291,7 +290,7 @@ public class Customer
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
-    } // end of setFirstName(String firstName)
+    } // end of method setFirstName(String firstName)
         
     /**
      * Sets the last name of this customer.
@@ -301,7 +300,7 @@ public class Customer
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
-    } // end of setLastName(String lastName)
+    } // end of method setLastName(String lastName)
     
     /**
      * Sets the SIN of this customer.
@@ -311,7 +310,7 @@ public class Customer
     public void setSin(int sin)
     {
         this.sin = sin;
-    } // end of setSin(int sin)
+    } // end of method setSin(int sin)
     
     // other methods, string methods
 	    
@@ -341,7 +340,7 @@ public class Customer
         + ", SIN: " + sin
         + ", Accounts" + accountList
         + "]";
-	} // end of toString()
+	} // end of method toString()
 
 	// comparators
 	

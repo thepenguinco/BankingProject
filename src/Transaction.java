@@ -70,7 +70,7 @@ public class Transaction
     public double getAmount()
     {
     	return amount;
-    } // end of getAmount()
+    } // end of method getAmount()
     
     /**
      * Returns the resultant balance after this transaction.
@@ -80,7 +80,7 @@ public class Transaction
     public double getFinalBalance()
     {
     	return finalBalance;
-    } // end of getFinalBalance()
+    } // end of method getFinalBalance()
     
     /**
      * Returns the string type of this transaction.
@@ -117,7 +117,7 @@ public class Transaction
 		{
 			return "Unknown";
 		} // end of else
-    } // end of getTransactionStringType()
+    } // end of method getTransactionStringType()
     
     /**
      * Returns the type of this transaction.
@@ -127,7 +127,7 @@ public class Transaction
     public int getTransactionType()
     {
     	return transactionType;
-    } // end of getTransactionType()
+    } // end of method getTransactionType()
     
     // mutators
     
@@ -143,7 +143,7 @@ public class Transaction
         return "Transaction type: " + this.getTransactionStringType()
         + ", Amount transferred: " + Utility.MONEY_FORMAT.format(amount)
         + ", Final balance: " + Utility.MONEY_FORMAT.format(finalBalance);
-    } // end of getTransactionSummary()
+    } // end of method getTransactionSummary()
     
     /**
      * Shows a string representation of this transaction.
@@ -159,5 +159,5 @@ public class Transaction
         + ", Amount transferred: " + amount
         + ", Balance after transaction: " + finalBalance
         + "]";
-    } // end of toString()
+    } // end of method toString()
 } // end of class Transaction

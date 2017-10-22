@@ -56,7 +56,7 @@ public class ChequingAccount extends Account
     public String getStringType()
     {
     	return "chequing account";
-    } // end of getStringType()
+    } // end of method getStringType()
     
     /**
      * Returns the numerical type of this chequing account.
@@ -66,7 +66,7 @@ public class ChequingAccount extends Account
     public int getType()
     {
     	return ID;
-    } // end of getType()
+    } // end of method getType()
     
     // mutators
     
@@ -82,7 +82,7 @@ public class ChequingAccount extends Account
     	{
     		this.withdrawFunds(PROCESSING_FEE);
     	}
-    } // end of withdrawFunds(int amount)
+    } // end of method withdrawFunds(int amount)
     
     // other methods
     

@@ -10,7 +10,7 @@ import java.text.NumberFormat;
 public class Utility 
 {
 	/**
-	 * Format to two decimal places to reflect banking on Earth.
+	 * Format money to two decimal places to reflect banking on Earth.
 	 */
 	public static final NumberFormat MONEY_FORMAT = new DecimalFormat("#0.00");
-}
+} // end of class Utility

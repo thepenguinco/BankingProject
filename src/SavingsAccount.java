@@ -4,7 +4,6 @@
  * @author Eric Li 
  * @version 1.0 2017-10-10
  */
-
 public class SavingsAccount extends Account
 {
 	// class fields
@@ -38,15 +37,25 @@ public class SavingsAccount extends Account
     
     // accessors
     
+    /**
+     * Returns the string representing the type of this savings account.
+     * 
+     * @return the string representing the type of this savings account.
+     */
     public String getStringType()
     {
     	return "savings account";
-    }
+    } // end of method getStringType()
     
+    /**
+     * Returns the numerical type of this savings account.
+     * 
+     * @return the numerical type of this savings account.
+     */
     public int getType()
     {
     	return ID;
-    } // end of getType()
+    } // end of method getType()
     
     // other methods
         

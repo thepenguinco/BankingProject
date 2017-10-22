@@ -4,7 +4,6 @@
  * @author Eric Li 
  * @version 1.0 2017-10-10
  */
-
 public class CreditCard extends Account
 {
 	// class fields
@@ -46,7 +45,7 @@ public class CreditCard extends Account
     public String getStringType()
     {
     	return "credit card";
-    } // end of getStringType()
+    } // end of method getStringType()
     
     /**
      * Returns the numerical type of this credit card.
@@ -56,7 +55,7 @@ public class CreditCard extends Account
     public int getType()
     {
     	return ID;
-    } // end of getType()
+    } // end of method getType()
     
     // mutators
   
