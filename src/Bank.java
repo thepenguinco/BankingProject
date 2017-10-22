@@ -2,8 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.io.IOException;
 
@@ -16,10 +14,36 @@ import java.io.IOException;
 
 public class Bank
 {
+	// global constants
+	
 	/**
 	 * The age of majority at this bank
 	 */
 	public static final int AGE_OF_MAJORITY = 18;
+	
+	/**
+	 * The minimum number of accounts required for a funds transfer to take place
+	 */
+	public static final int FUNDS_TRANSFER_REQUIREMENT = 2;
+	
+	// global variables
+	
+	/*
+	 * Global console input
+	 */
+	private static BufferedReader console;
+	
+	/*
+	 * Global customer list
+	 */
+	private static CustomerList customerList;
+	
+	/*
+	 * Global file name 
+	 */
+	private static String fileName;
+	
+	// menu methods
 	
 	/**
 	 * Display the main bank menu
@@ -69,7 +93,7 @@ public class Bank
 		                    {
 		                    	if (sin == customer.getSin())
 		                    	{
-		                    		System.out.println("This is not a unique sin!");
+		                    		System.out.println("This is not a unique sin.");
 		                    		System.out.println("You may be a victim of identity fraud!");
 		                    		failure = true;
 		                    		break;
@@ -125,7 +149,7 @@ public class Bank
 			                	System.out.println("Customer creation failed.");
 			                	break;
 		                    }
-		                    System.out.print("What is the initial opening balance of this account: ");
+		                    System.out.print("What is the initial balance of this account: ");
 		                    double initialBalance = Double.parseDouble(console.readLine());
 		                    account.depositFunds(initialBalance);
 		                    customerList.addCustomer(customer);
@@ -165,17 +189,17 @@ public class Bank
 			                		if (customerIndex < customerSearch.size())
 			                		{
 			                			customerList.removeCustomer(customerSearch.get(customerIndex));
-			                			System.out.println("Customer deleted!");
+			                			System.out.println("Customer deleted.");
 			                		}
 			                	}
 			                	else 
 			                	{
-			                		System.out.println("No customers found!");
+			                		System.out.println("No customers found.");
 			                	}
 			                }
 		                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
 		                	{
-		                		System.out.println("That's not a valid customer!");
+		                		System.out.println("That's not a valid customer.");
 		                	}
 		                	finally
 		                	{
@@ -203,17 +227,17 @@ public class Bank
 			                		if (customerIndex < customerSearch.size())
 			                		{
 			                			customerList.removeCustomer(customerSearch.get(customerIndex));
-			                			System.out.println("Customer deleted!");
+			                			System.out.println("Customer deleted.");
 			                		}
 			                	}
 			                	else 
 			                	{
-			                		System.out.println("No customers found!");
+			                		System.out.println("No customers found.");
 			                	}
 			                }
 		                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
 		                	{
-		                		System.out.println("That's not a valid customer!");
+		                		System.out.println("That's not a valid customer.");
 		                	}
 		                	finally
 		                	{
@@ -221,18 +245,18 @@ public class Bank
 		                	}
 	                	}
 	                	else {
-	                		System.out.println("That's not a valid option!");
+	                		System.out.println("That's not a valid option.");
 	                	}
 		                break;
 	                case 3:
 	                    // Sort customers by last name, then first name
 	                	customerList.sortByName();
-	                	System.out.println("Successfully sorted by last name, then first name!");
+	                	System.out.println("Successfully sorted by last name, then first name.");
 	                	break;
 	                case 4:
 	                	// Sort customers by SIN
 	                	customerList.sortBySin();
-	                	System.out.println("Successfully sorted by SIN!");
+	                	System.out.println("Successfully sorted by SIN.");
 	                    break;
 	                case 5:
 	                    // Display customer summary (name, SIN)
@@ -262,13 +286,13 @@ public class Bank
 		                		}
 		                		else
 		                		{
-		                			System.out.println("That is not a valid customer!");
+		                			System.out.println("That is not a valid customer.");
 		                		}
 		                	}
 	                	}
 	                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
 	                	{
-	                		System.out.println("That is not a valid customer!");
+	                		System.out.println("That is not a valid customer.");
 	                	}
 	                	finally
 	                	{
@@ -297,13 +321,13 @@ public class Bank
 		                		}
 		                		else
 		                		{
-		                			System.out.println("That is not a valid customer!");
+		                			System.out.println("That is not a valid customer.");
 		                		}
 		                	}
 	                	}
 	                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
 	                	{
-	                		System.out.println("Please enter a valid SIN number and a valid menu choice!");
+	                		System.out.println("Please enter a valid SIN number and a valid menu choice.");
 	                	}
 	                	finally
 	                	{
@@ -317,19 +341,21 @@ public class Bank
 	                    System.exit(0);
 	                default:
 	                	// INVALID MENU OPTION
-	                    System.out.println(mainOption + " is  not a valid menu choice!");
+	                    System.out.println(mainOption + " is  not a valid menu choice.");
 	            } // end of switch (mainOption)
 	            System.out.println();
 	        } // end of try
 	        catch (NumberFormatException exception) 
 	        {
-	            System.out.println("Please enter a valid numerical menu choice selection!");
+	            System.out.println("Please enter a valid numerical menu choice selection.");
 	            System.out.println();
 	        } // end of catch (NumberFormatException exception)
 	}
 	
 	/**
 	 * Display the profile menu for a customer
+	 * 
+	 * @throws IOException
 	 */
 	public static void profileMenu(Customer customer) throws IOException
 	{
@@ -348,12 +374,21 @@ public class Bank
 		try
 		{
 			int option = Integer.parseInt(console.readLine());
+			// source account list, required for scope
+			ArrayList<Account> accountList;
+			// destination account list, required for scope
+			ArrayList<Account> accountList2;
 			switch (option)
 			{
 				case 1:
 					// View account activity
+					accountList = customer.getAccounts();
 					System.out.println("Please select an account: ");
-					System.out.println(customer.getAccountSummary());
+			    	for (int i = 0; i < accountList.size(); i++)
+			    	{
+			    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+			    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+			    	}
 					try
 					{
 						int accountIndex = Integer.parseInt(console.readLine()) - 1;
@@ -361,62 +396,277 @@ public class Bank
 					}
 					catch (IndexOutOfBoundsException | NumberFormatException e)
 					{
-						System.out.println("Please enter a valid account!");
+						System.out.println("Please enter a valid account.");
 					}
 					break;
 				case 2:
 					// Deposit
-					break;
-				case 3:
-					// Withdraw
-					break;
-				case 4:
-					// Process Cheque
-					if (customer.getAge() >= AGE_OF_MAJORITY)
+					accountList = customer.getPrimaryAccounts();
+					if (accountList.size() > 0)
 					{
-						ArrayList<Account> chequingAccounts = customer.getChequingAccounts();
-						System.out.println("The chequing accounts of this customer: ");
-						for (int i = 0; i < chequingAccounts.size(); i++)
-						{
-							System.out.println((i + 1) + " " + chequingAccounts.get(i).getType() + " " + chequingAccounts.get(i).getBalance());
-						}
+						System.out.println("Please select an account: ");
+				    	for (int i = 0; i < accountList.size(); i++)
+				    	{
+				    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+				    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+				    	}
 						try
 						{
 							int accountIndex = Integer.parseInt(console.readLine()) - 1;
-							Account account = chequingAccounts.get(accountIndex);
-							System.out.println("Enter the amount you wish to write a cheque: ");
-							account.processCheque(amount);
-							System.out.println("Cheque successfully processed");
+							System.out.println("Enter an amount to deposit into the account: ");
+							double amount = Double.parseDouble(console.readLine());
+							if (amount < 0)
+							{
+								System.out.println("You cannot deposit a negative amount.");
+							}
+							else
+							{
+								Account account = accountList.get(accountIndex);
+								account.depositFunds(amount);
+								Transaction transaction = new Transaction(Transaction.DEPOSIT_ID, amount, account.getBalance());
+								account.addTransaction(transaction);
+								System.out.println("You have deposited $" + Utility.MONEY_FORMAT.format(amount) + ".");
+								System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
+							}
 						}
 						catch (IndexOutOfBoundsException | NumberFormatException e)
 						{
-							System.out.println("Please enter a valid account and a valid amount to process a cheque!");
+							System.out.println("Please enter a valid account and amount to deposit.");
 						}
 					}
 					else 
 					{
-						System.out.println("Minors cannot write cheques.");
+						System.out.println("You have no primary (chequing or savings) accounts.");
+					}
+					break;
+				case 3:
+					// withdraw
+					accountList = customer.getAccounts();
+					System.out.println("Please select an account: ");
+					try
+					{
+				    	for (int i = 0; i < accountList.size(); i++)
+				    	{
+				    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+				    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+				    	}
+						int accountIndex = Integer.parseInt(console.readLine()) - 1;
+						System.out.println("Enter an amount to withdraw from the account: ");
+						double amount = Double.parseDouble(console.readLine());
+						if (amount < 0)
+						{
+							System.out.println("You cannot withdraw a negative amount.");
+						}
+						else
+						{
+							Account account = accountList.get(accountIndex);
+							account.withdrawFunds(amount);
+							Transaction transaction = new Transaction(Transaction.WITHDRAW_ID, amount, account.getBalance());
+							account.addTransaction(transaction);
+							System.out.println("You have withdrawn $" + Utility.MONEY_FORMAT.format(amount) + ".");
+							System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
+						}
+					}
+					catch (IndexOutOfBoundsException | NumberFormatException e)
+					{
+						System.out.println("Please enter a valid account and amount to withdraw.");
+					}
+					break;
+				case 4:
+					// process cheque
+					accountList = customer.getChequingAccounts();
+					if (customer.getAge() >= AGE_OF_MAJORITY && accountList.size() > 0)
+					{
+						try
+						{
+							System.out.println("The chequing accounts of this customer: ");
+							for (int i = 0; i < accountList.size(); i++)
+							{
+								System.out.println((i + 1) + " " + accountList.get(i).getStringType() + " $" 
+										+ Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+							}
+							int accountIndex = Integer.parseInt(console.readLine()) - 1;
+							ChequingAccount account = (ChequingAccount) accountList.get(accountIndex);
+							System.out.print("Enter the amount you wish to write a cheque out for: ");
+							double amount = Double.parseDouble(console.readLine());
+							if ((account.getBalance() < ChequingAccount.FEE_EXEMPTION_BALANCE  
+									&& account.getBalance() - amount - ChequingAccount.PROCESSING_FEE < 0)
+									|| account.getBalance() - amount < 0)
+							{
+								System.out.println("Insufficient funds for the transaction.");
+							}
+							else
+							{
+								account.processCheque(amount);
+								Transaction transaction = new Transaction(Transaction.PROCESS_CHEQUE_ID, amount, account.getBalance());
+								account.addTransaction(transaction);
+								System.out.println("Cheque successfully processed");
+								System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
+							}
+						}
+						catch (IndexOutOfBoundsException | NumberFormatException e)
+						{
+							System.out.println("Please enter a valid account and a valid amount to process a cheque.");
+						}
+					}
+					else 
+					{
+						System.out.println("You have no chequing accounts.");
 					}
 					break;
 				case 5:
-					// 
+					// credit card purchase
+					accountList = customer.getCreditCards();
+					if (accountList.size() > 0)
+					{
+						try
+						{
+							System.out.println("Please select a credit card: ");
+					    	for (int i = 0; i < accountList.size(); i++)
+					    	{
+					    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+					    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+					    	}
+							int accountIndex = Integer.parseInt(console.readLine()) - 1;
+							System.out.println("Enter an amount to purchase using this credit card: ");
+							double amount = Double.parseDouble(console.readLine());
+							if (amount < 0)
+							{
+								System.out.println("You cannot purchase a negative amount.");
+							}
+							else
+							{
+								Account account = accountList.get(accountIndex);
+								account.withdrawFunds(amount);
+								Transaction transaction = new Transaction(Transaction.CREDIT_PURCHASE_ID, amount, account.getBalance());
+								account.addTransaction(transaction);
+								System.out.println("You have purchased $" + Utility.MONEY_FORMAT.format(amount) + " with this credit card.");
+								System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
+							}
+						}
+						catch (IndexOutOfBoundsException | NumberFormatException e)
+						{
+							System.out.println("Please enter a valid account and a valid amount to purchase using your credit card.");
+						}
+					}
+					else 
+					{
+						System.out.println("You have no credit cards.");
+					}
 					break;
 				case 6:
-					System.out.println("The accounts of this customer: ");
-					for (int i = 0; i < customer.getAccounts().size(); i++)
+					// credit card payment
+					accountList = customer.getPrimaryAccounts();
+					accountList2 = customer.getCreditCards();
+					if (accountList.size() > 0 && accountList2.size() > 0)
 					{
-						System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-								" " + customer.getAccounts().get(i).getBalance());
+						try
+						{
+							System.out.println("Please select a primary source account: ");
+					    	for (int i = 0; i < accountList.size(); i++)
+					    	{
+					    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+					    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+					    	}
+					    	int sourceAccountIndex = Integer.parseInt(console.readLine()) - 1;
+							System.out.println("Please select a credit card to be paid off: ");
+					    	for (int i = 0; i < accountList2.size(); i++)
+					    	{
+					    		System.out.println((i + 1) + ". " + accountList2.get(i).getStringType() + 
+					    				" $" + Utility.MONEY_FORMAT.format(accountList2.get(i).getBalance()));
+					    	}
+							int creditCardIndex = Integer.parseInt(console.readLine()) - 1;
+							Account sourceAccount = accountList.get(sourceAccountIndex);
+							CreditCard destinationAccount = (CreditCard) accountList2.get(creditCardIndex);
+							System.out.println("Enter an amount to pay of using this credit card: ");
+							double amount = Double.parseDouble(console.readLine());
+							if (amount < 0)
+							{
+								System.out.println("You cannot pay off using a negative amount.");
+							}
+							else if (sourceAccount.getBalance() - amount < 0)
+							{
+								System.out.println("This primary account cannot go into a negative balance.");
+							}
+							else
+							{
+								sourceAccount.withdrawFunds(amount);
+								destinationAccount.depositFunds(amount);
+								Transaction transaction = new Transaction(Transaction.CREDIT_PAYMENT_ID, amount, sourceAccount.getBalance());
+								sourceAccount.addTransaction(transaction);
+								transaction = new Transaction(Transaction.CREDIT_PAYMENT_ID, amount, destinationAccount.getBalance());
+								destinationAccount.addTransaction(transaction);
+								System.out.println("You have submitted a payment of $" + Utility.MONEY_FORMAT.format(amount) + " to this credit card.");
+								System.out.println("This " + sourceAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(sourceAccount.getBalance()));
+								System.out.println("This " + destinationAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(destinationAccount.getBalance()));
+							}
+						}
+						catch (IndexOutOfBoundsException | NumberFormatException e)
+						{
+							System.out.println("Please enter valid accounts and a valid amount to pay off your credit card.");
+						}
+					}
+					else 
+					{
+						System.out.println("You have no credit cards or no primary (savings or chequing) accounts to pay off a credit card.");
 					}
 					break;
 				case 7:
-					System.out.println("The accounts of this customer: ");
-					for (int i = 0; i < customer.getAccounts().size(); i++)
+					// transfer funds
+					accountList = customer.getPrimaryAccounts();
+					if (accountList.size() >= FUNDS_TRANSFER_REQUIREMENT)
 					{
-						System.out.println((i + 1) + ". " + customer.getAccounts().get(i).getType() + 
-								" " + customer.getAccounts().get(i).getBalance());
+						try
+						{
+							System.out.println("Please select a primary source account: ");
+					    	for (int i = 0; i < accountList.size(); i++)
+					    	{
+					    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+					    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+					    	}
+					    	int sourceAccountIndex = Integer.parseInt(console.readLine()) - 1;
+					    	accountList.remove(sourceAccountIndex);
+							System.out.println("Please select a primary account to transfer funds to: ");
+					    	for (int i = 0; i < accountList.size(); i++)
+					    	{
+					    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+					    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+					    	}
+							int destinationAccountIndex = Integer.parseInt(console.readLine()) - 1;
+							Account sourceAccount = accountList.get(sourceAccountIndex);
+							Account destinationAccount = accountList.get(destinationAccountIndex);
+							System.out.println("Enter an amount to transfer of using this credit card: ");
+							double amount = Double.parseDouble(console.readLine());
+							if (amount < 0)
+							{
+								System.out.println("You cannot transfer a negative amount of funds.");
+							}
+							else if (sourceAccount.getBalance() - amount < 0)
+							{
+								System.out.println("The source primary account cannot go into a negative balance.");
+							}
+							else
+							{
+								sourceAccount.withdrawFunds(amount);
+								destinationAccount.depositFunds(amount);
+								Transaction transaction = new Transaction(Transaction.TRANSFER_FUNDS_ID, amount, sourceAccount.getBalance());
+								sourceAccount.addTransaction(transaction);
+								transaction = new Transaction(Transaction.CREDIT_PAYMENT_ID, amount, destinationAccount.getBalance());
+								destinationAccount.addTransaction(transaction);
+								System.out.println("You have submitted a payment of $" + Utility.MONEY_FORMAT.format(amount) + " to this credit card.");
+								System.out.println("The source " + sourceAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(sourceAccount.getBalance()));
+								System.out.println("The destination " + destinationAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(destinationAccount.getBalance()));
+							}
+						}
+						catch (IndexOutOfBoundsException | NumberFormatException e)
+						{
+							System.out.println("Please enter valid accounts and a valid amount to transfer.");
+						}
 					}
-					// Account menu
+					else 
+					{
+						System.out.println("You do not have a sufficient amount of primary (savings or chequing) accounts to transfer funds.");
+					}
 					break;
 				case 8:
 					// Open an account
@@ -455,24 +705,32 @@ public class Bank
 	                    	System.out.println("A savings account will be created.");
 	                    	account = new SavingsAccount();
 	                    }
-	                    System.out.print("What is the initial opening balance of this account: ");
+	                    System.out.print("What is the initial balance of this account: ");
 	                    double initialBalance = Double.parseDouble(console.readLine());
 	                    account.depositFunds(initialBalance);
 	                    customer.addAccount(account);
+	                    System.out.println("A " + account.getStringType() + " account with an initial balance of $"
+	                    		+ Utility.MONEY_FORMAT.format(account.getBalance()) + " has been created");
 	                }
 					catch (NumberFormatException e)
 					{
 						System.out.println("Please enter a valid menu choice and valid numerical data.");
+						System.out.println("Account creation failed.");
 					}
 					break;
 				case 9:
 					// Delete or cancel an account
+					accountList = customer.getAccounts();
 					System.out.println("Please select an account: ");
-					System.out.println(customer.getAccountSummary());
+			    	for (int i = 0; i < accountList.size(); i++)
+			    	{
+			    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
+			    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
+			    	}
 					try
 					{
-						int accountIndex = Integer.parseInt(console.readLine());
-						customer.removeAccount(customer.getAccounts().get(accountIndex));
+						int accountIndex = Integer.parseInt(console.readLine()) - 1;
+						customer.removeAccount(accountList.get(accountIndex));
 						System.out.println("Account sucessfully deleted.");
 						if (customer.getAccounts().size() == 0)
 						{
@@ -483,37 +741,22 @@ public class Bank
 					}
 					catch (IndexOutOfBoundsException | NumberFormatException e)
 					{
-						System.out.println("Please enter a valid account!");
+						System.out.println("Please enter a valid account.");
 					}
 					break;
 				case 10:
 					break;
 				default:
-					System.out.println("Please enter a valid menu option!");
+					System.out.println("Please enter a valid menu option.");
 					profileMenu(customer);
 				}
 		}
 		catch (NumberFormatException e)
 		{
-			System.out.println("Please enter a valid menu option!");
+			System.out.println("Please enter a valid menu option.");
 			profileMenu(customer);
 		}
 	}
-	
-	/*
-	 * Global console input
-	 */
-	private static BufferedReader console;
-	
-	/*
-	 * Global customer list
-	 */
-	private static CustomerList customerList;
-	
-	/*
-	 * Global file name 
-	 */
-	private static String fileName;
 	
 	/**
 	 * The main bank interface
@@ -524,8 +767,7 @@ public class Bank
 	public static void main(String[] argument) throws IOException
 	{
 	    // Establish a connection to the console.
-      	console = 
-                new BufferedReader(new InputStreamReader(System.in));
+      	console = new BufferedReader(new InputStreamReader(System.in));
 
 	    // Load customer list from file (if exists)
 		System.out.print("Enter file name: ");
@@ -534,19 +776,18 @@ public class Bank
 		{
 			System.out.println("Loading from file...");
 			customerList = new CustomerList(fileName);
-		}
+		} // end of try
 		catch (FileNotFoundException exception)
 		{
 			System.out.println("File not found, creating new database...");
 			customerList = new CustomerList();
-		}
+		} // end of catch (FileNotFoundException exception)
 		
 		System.out.println();
         
-		while(true)
+		while (true)
 		{
 			mainMenu();
-		} // end of while(true)
-		
+		} // end of while (true)
 	} // end of method main (String[] argument) ...
 } // end of class Bank

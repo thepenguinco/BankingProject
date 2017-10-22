@@ -105,10 +105,10 @@ public abstract class Account
         for (int i = 0; i < transactionList.size(); i++)
         {
         	if (i >= TRANSACTION_HISTORY) break;
-            transactions = transactions + i + ": " + transactionList.get(i).getTransactionSummary() + "\n";
+            transactions = transactions + (i + 1) + ": " + transactionList.get(i).getTransactionSummary() + "\n";
         }
         return transactions;
-    } // end of getTransactions()
+    } // end of getTransactionHistory()
     
     /**
      * Returns the list of transactions of this account

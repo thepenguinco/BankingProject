@@ -232,6 +232,7 @@ public class CustomerList
         // Print first line
         database.println("START");
 		
+        // Populate databae
         for (Customer customer : customerList)
         {
         	database.println(customer.getLastName().replace(" ", MAGIC_SPACE)
@@ -266,6 +267,7 @@ public class CustomerList
         		}
         	}
         }
+        
     	// wrap up
         database.close();
     } // end of exportList(String fileName) ...

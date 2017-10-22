@@ -186,6 +186,24 @@ public class Customer
     } // end of getLastName()
     
     /**
+     * Returns the chequing and savings accounts of this customer.
+     * 
+     * @return the chequing and savings accounts of this customer
+     */
+    public ArrayList<Account> getPrimaryAccounts()
+    {
+    	ArrayList<Account> primaryAccounts = new ArrayList<Account>();
+    	for (Account account : accountList)
+    	{
+    		if (account.getType() == ChequingAccount.ID || account.getType() == SavingsAccount.ID)
+    		{
+    			primaryAccounts.add(account);
+    		}
+    	}
+    	return primaryAccounts;
+    } // end of getPrimaryAccounts()
+    
+    /**
      * Returns the savings accounts of this customer.
      * 
      * @return the savings accounts of this customer
@@ -296,18 +314,7 @@ public class Customer
     } // end of setSin(int sin)
     
     // other methods, string methods
-	
-    public String getAccountSummary()
-    {
-    	String accounts = "";
-    	for (int i = 0; i < accountList.size(); i++)
-    	{
-    		System.out.println((i + 1) + ". " + accountList.get(i).getStringType() + 
-    				" " + accountList.get(i).getBalance() + "\n");
-    	}
-    	return accounts;
-    }
-    
+	    
 	/**
 	 * Shows the basic summary of this customer.
 	 * 

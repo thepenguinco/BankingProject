@@ -40,7 +40,7 @@ public class SavingsAccount extends Account
     
     public String getStringType()
     {
-    	return "Savings Account";
+    	return "savings account";
     }
     
     public int getType()

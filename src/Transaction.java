@@ -17,12 +17,27 @@ public class Transaction
 	/**
 	 * The transaction type ID for a withdrawal
 	 */
-	public static final int WITHDRAWAL_ID = 2;
+	public static final int WITHDRAW_ID = 2;
 	
 	/**
 	 * The transaction type ID for processing a cheque
 	 */
 	public static final int PROCESS_CHEQUE_ID = 3;
+	
+	/**
+	 * The transaction type ID for a purchase using credit card
+	 */
+	public static final int CREDIT_PURCHASE_ID = 4;
+	
+	/**
+	 * The transaction type ID for making payment to a credit card
+	 */
+	public static final int CREDIT_PAYMENT_ID = 5;
+	
+	/**
+	 * The transaction type ID for making payment to a credit card
+	 */
+	public static final int TRANSFER_FUNDS_ID = 6;
 	
     // instance fields
 
@@ -67,6 +82,43 @@ public class Transaction
     } // end of getFinalBalance()
     
     /**
+     * Returns the string type of this transaction.
+     * 
+     * @return the string type of this transaction
+     */
+    public String getTransactionStringType()
+    {
+    	if (this.getTransactionType() == DEPOSIT_ID)
+    	{
+    		return "Deposit";
+    	}
+    	else if (this.getTransactionType() == WITHDRAW_ID)
+    	{
+    		return "Withdrawal";
+    	}
+		else if (this.getTransactionType() == PROCESS_CHEQUE_ID)
+		{
+			return "Process Cheque";
+		}
+		else if (this.getTransactionType() == CREDIT_PURCHASE_ID)
+		{
+			return "Credit Card Purchase";
+		}
+		else if (this.getTransactionType() == CREDIT_PAYMENT_ID)
+		{
+			return "Credit Card Payment";
+		}
+		else if (this.getTransactionType() == TRANSFER_FUNDS_ID)
+		{
+			return "Transfer";
+		}
+		else
+		{
+			return "Unknown";
+		}
+    } // end of getAmount()
+    
+    /**
      * Returns the type of this transaction.
      * 
      * @return the type of this transaction
@@ -87,9 +139,9 @@ public class Transaction
      */
     public String getTransactionSummary()
     {
-        return "Transaction type: " + transactionType
-        + ", Amount transferred: " + amount
-        + ", Final balance: " + finalBalance;
+        return "Transaction type: " + this.getTransactionStringType()
+        + ", Amount transferred: " + Utility.MONEY_FORMAT.format(amount)
+        + ", Final balance: " + Utility.MONEY_FORMAT.format(finalBalance);
     } // end of toString()
     
     /**

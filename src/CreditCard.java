@@ -38,7 +38,7 @@ public class CreditCard extends Account
     
     public String getStringType()
     {
-    	return "Credit Card";
+    	return "credit card";
     }
     
     public int getType()

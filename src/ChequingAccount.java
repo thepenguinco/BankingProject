@@ -51,7 +51,7 @@ public class ChequingAccount extends Account
     
     public String getStringType()
     {
-    	return "Chequing Account";
+    	return "chequing account";
     }
     
     public int getType()
@@ -66,7 +66,7 @@ public class ChequingAccount extends Account
      * 
      * @param amount amount to be processed, may not be negative
      */
-    public void processCheque(int amount)
+    public void processCheque(double amount)
     {
     	if (amount > 0) this.withdrawFunds(amount);
     	if (this.getBalance() < FEE_EXEMPTION_BALANCE) 
