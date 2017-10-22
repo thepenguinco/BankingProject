@@ -7,28 +7,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * A customer list of the bank
+ * A list of the customers of a bank
  * 
  * @author Eric Li 
  * @version 1.0 2017-10-10
  */
-
 public class CustomerList
 {
 	// class fields
 	
 	/**
-	 * The delimiter for each customer in the file database 
+	 * The line length for each customer in the file database 
 	 */
 	public static final int CUSTOMER_LENGTH = 6;
 	
 	/**
-	 * The delimiter for each account in the file database 
+	 * The line length for each account in the file database 
 	 */
 	public static final int ACCOUNT_LENGTH = 2;
 	
 	/**
-	 * The delimiter for each transaction in the file database 
+	 * The line length for each transaction in the file database 
 	 */
 	public static final int TRANSACTION_LENGTH = 3;
 	
@@ -44,7 +43,7 @@ public class CustomerList
     // constructors
     
     /**
-     * Constructs a default customer list
+     * Constructs a default empty customer list.
      * 
      */
     public CustomerList()
@@ -52,21 +51,23 @@ public class CustomerList
     	customerList = new ArrayList<Customer>();
     } // end of constructor CustomerList()
        
-    /*
-     * Constructs a customer list from a file database
+    /**
+     * Constructs a customer list from a file database.
      * 
+     * @param fileName the file name of the database
      * @throws IOException
      */
     public CustomerList(final String fileName) throws IOException
     {
     	customerList = new ArrayList<Customer>();
         
-        // Establish connections to the text files.
+        // Establish connections to the text files
         BufferedReader database = new BufferedReader(new FileReader(fileName));
         
         // Read from the first file
         String lineOfText = database.readLine();
         
+        // variables, scope required
 		Customer customer = null;
 		Account account = null;
 		Transaction transaction = null;
@@ -87,7 +88,7 @@ public class CustomerList
             	int birthDay = Integer.parseInt(line[5]);
             	customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay);
             	customerList.add(customer);
-     		}
+     		} // end of if (line.length ...
     		else if (line.length == ACCOUNT_LENGTH && customer != null)
     		{
     			if (Integer.parseInt(line[0]) == ChequingAccount.ID)
@@ -97,42 +98,30 @@ public class CustomerList
     			else if (Integer.parseInt(line[0]) == CreditCard.ID)
 					account = new CreditCard(Double.parseDouble(line[1]));
     			customer.addAccount(account);
-    		}
+    		} // end of else if (line.length ...
     		else if (line.length == TRANSACTION_LENGTH && account != null)
     		{
     			transaction = new Transaction(Integer.parseInt(line[0]),Double.parseDouble(line[1]),Double.parseDouble(line[2]));
     			account.addTransaction(transaction);
-    		}
+    		} // end of else if (line.length ...
     		else 
     		{
     			System.out.println("Your database is corrupt!");
     			System.out.println("Halting program!");
-    			// throws Exception
-    			// throws new ParseException()
     			System.exit(0);
-    		}
-    	}
+    		} // end of else
+    	} // end of while (true)
         
-        // Wrap up.
+        // wrap up
         database.close();
     } // end of constructor CustomerList(String fileName)
     
     // accessors
-    
-    /**
-     * Returns the customer in this list with the specified index.
-     * 
-     * @return the customer in this list with the specified index
-     */
-    public Customer getCustomer(int index)
-    {
-    	return customerList.get(index);
-    } // end of getCustomer() 
-    
+     
     /**
      * Returns the customers from this list that match the name search criteria.
      * 
-     * @return the array list of customers matching the name search criteria
+     * @return the list of customers matching the name search criteria
      */
     public ArrayList<Customer> getCustomersByName(String firstName, String lastName)
     {
@@ -142,26 +131,23 @@ public class CustomerList
     		if (customer.getFirstName().equalsIgnoreCase(firstName) && customer.getLastName().equalsIgnoreCase(lastName))
     		{
     			customerSearch.add(customer);
-    		}
-    	}
+    		} // end of if (customer.getFirstName ...
+    	} // end of for (Customer customer ...
     	return customerSearch;
     } // end of ArrayList<Customer> getCustomersByName(String ...
     
     /**
-     * Returns the customers from this list that match the sin search criteria.
+     * Returns the customers from this list that match the SIN search criteria.
      * 
-     * @return the array list of customers matching the sin search criteria
+     * @return the list of customers matching the SIN search criteria
      */
     public ArrayList<Customer> getCustomersBySin(int sin)
     {
     	ArrayList<Customer> customerSearch = new ArrayList<Customer>(); 
     	for (Customer customer : customerList)
     	{
-    		if (customer.getSin() == sin)
-    		{
-    			customerSearch.add(customer);
-    		}
-    	}
+    		if (customer.getSin() == sin) customerSearch.add(customer);
+    	} // end of for (Customer customer : customerList)
     	return customerSearch;
     } // end of ArrayList<Customer> getCustomersBySin(int ...
     
@@ -175,10 +161,24 @@ public class CustomerList
     	return customerList;
     } // end of getList() 
     
+    /**
+     * Returns <code>true</code> if this SIN is unique; otherwise <code>false</code>.
+     * 
+     * @return <code>true</code> if the given sin is unique; otherwise <code>false</code>
+     */
+    public boolean isUniqueSin(int sin) 
+    {
+    	for (Customer customer : customerList)
+    	{
+    		if (customer.getSin() == sin) return false;
+    	} // end of for (Customer customer : customerList)
+    	return true;
+    } // end of isUniqueSin()
+    
     // mutators
     
     /**
-     * Adds a customer to this customer list
+     * Adds a customer to this customer list.
      * 
      * @param customer a customer to be added to this customer list
      */
@@ -188,18 +188,16 @@ public class CustomerList
 	} // end of addCustomer(Customer customer)
 	
     /**
-     * Deletes a customer from this customer list
+     * Deletes a customer from this customer list.
      * 
      * @param index the index in the list of this customer
      */
 	public void removeCustomer(Customer customer) {
 		customerList.remove(customer);		
-	} // end of removeCustomer(int customer)
+	} // end of removeCustomer(Customer customer)
 
     /**
-     * Sorts the customers in this customer list by name
-     * 
-     * @return the customers in this customer list
+     * Sorts the customers in this customer list by name.
      */
     public void sortByName() 
     {
@@ -207,9 +205,7 @@ public class CustomerList
     } // end of sortByName()
 	
     /**
-     * Sorts the customers in this customer list by sin
-     * 
-     * @return the customers in this customer list
+     * Sorts the customers in this customer list by SIN.
      */
     public void sortBySin() 
     {
@@ -219,12 +215,12 @@ public class CustomerList
     // file IO
     
     /**
-     * Saves this customer list to a file database
+     * Saves this customer list to a file database.
      * 
      * @param fileName the name of the file containing the database
      * @throws IOException
      */
-    public void exportList(String fileName) throws IOException
+    public void exportList(final String fileName) throws IOException
     {        
     	// Establish connections to the text files.
         PrintWriter database = new PrintWriter(new FileWriter(fileName));
@@ -232,7 +228,7 @@ public class CustomerList
         // Print first line
         database.println("START");
 		
-        // Populate databae
+        // Populate database
         for (Customer customer : customerList)
         {
         	database.println(customer.getLastName().replace(" ", MAGIC_SPACE)
@@ -246,8 +242,8 @@ public class CustomerList
         		{
         			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
         					+ " " + transaction.getFinalBalance());
-        		}
-        	}
+        		} // end of for (Transaction transaction ...
+        	} // end of for (Account chequingAccount ...
         	for (Account savingsAccount : customer.getSavingsAccounts())
         	{
         		database.println(SavingsAccount.ID + " " + savingsAccount.getBalance());
@@ -255,8 +251,8 @@ public class CustomerList
         		{
         			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
         					+ " " + transaction.getFinalBalance());
-        		}
-        	}
+        		} // end of for (Transaction transaction ...
+        	} // end of for (Account savingsAccount ...
         	for (Account creditCard : customer.getCreditCards())
         	{
         		database.println(CreditCard.ID + " " + creditCard.getBalance());
@@ -264,9 +260,9 @@ public class CustomerList
         		{
         			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
         					+ " " + transaction.getFinalBalance());
-        		}
-        	}
-        }
+        		} // end of for (Transaction transaction ...
+        	} // end of for (Account creditCard ...
+        } // end of for (Customer customer ...
         
     	// wrap up
         database.close();
@@ -275,9 +271,9 @@ public class CustomerList
     // other methods, string methods
     
     /**
-     * Returns the customers in this customer list.
+     * Returns the string of customers in this customer list.
      * 
-     * @return the customers in this customer list
+     * @return the string of customers in this customer list
      */
     public String getCustomers()
     {
@@ -300,5 +296,4 @@ public class CustomerList
         + "Customers: " + customerList
         + "]";
     } // end of toString()
-    
 } // end of class CustomerList

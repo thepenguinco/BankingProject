@@ -34,7 +34,7 @@ public class SavingsAccount extends Account
     public SavingsAccount(double initialBalance)
     {
         super(initialBalance);
-    } // end of constructor SavingsAccount(double initalBalance)
+    } // end of constructor SavingsAccount(double initialBalance)
     
     // accessors
     

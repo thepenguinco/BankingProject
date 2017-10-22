@@ -4,7 +4,6 @@
  * @author Eric Li 
  * @version 1.0 2017-10-10
  */
-
 public class Transaction
 {
 	// class fields
@@ -50,14 +49,16 @@ public class Transaction
     /**
      * Constructs a transaction with the specified characteristics
      * 
-     * @param initialBalance the initial balance of this savings account, may not be negative
+     * @param transactionType the type of this transaction
+     * @param amount the amount involved in this transaction
+     * @param finalBalance the resultant balance of the account this transaction belongs to
      */
     public Transaction(int transactionType, double amount, double finalBalance)
     {
     	this.transactionType = transactionType;
     	this.amount = amount;
     	this.finalBalance = finalBalance;
-    } // end of constructor Transaction (int transactionType...)
+    } // end of constructor Transaction (int transactionType ... 
     
     // accessors
     
@@ -91,32 +92,32 @@ public class Transaction
     	if (this.getTransactionType() == DEPOSIT_ID)
     	{
     		return "Deposit";
-    	}
+    	} // end of if (this.getTransactionType ...
     	else if (this.getTransactionType() == WITHDRAW_ID)
     	{
     		return "Withdrawal";
-    	}
+    	} // end of else if (this.getTransactionType ...
 		else if (this.getTransactionType() == PROCESS_CHEQUE_ID)
 		{
 			return "Process Cheque";
-		}
+		} // end of else if (this.getTransactionType ...
 		else if (this.getTransactionType() == CREDIT_PURCHASE_ID)
 		{
 			return "Credit Card Purchase";
-		}
+		} // end of else if (this.getTransactionType ...
 		else if (this.getTransactionType() == CREDIT_PAYMENT_ID)
 		{
 			return "Credit Card Payment";
-		}
+		} // end of else if (this.getTransactionType ...
 		else if (this.getTransactionType() == TRANSFER_FUNDS_ID)
 		{
 			return "Transfer";
-		}
+		} // end of else if (this.getTransactionType ...
 		else
 		{
 			return "Unknown";
-		}
-    } // end of getAmount()
+		} // end of else
+    } // end of getTransactionStringType()
     
     /**
      * Returns the type of this transaction.
@@ -126,7 +127,7 @@ public class Transaction
     public int getTransactionType()
     {
     	return transactionType;
-    } // end of getAmount()
+    } // end of getTransactionType()
     
     // mutators
     
@@ -142,7 +143,7 @@ public class Transaction
         return "Transaction type: " + this.getTransactionStringType()
         + ", Amount transferred: " + Utility.MONEY_FORMAT.format(amount)
         + ", Final balance: " + Utility.MONEY_FORMAT.format(finalBalance);
-    } // end of toString()
+    } // end of getTransactionSummary()
     
     /**
      * Shows a string representation of this transaction.
@@ -159,5 +160,4 @@ public class Transaction
         + ", Balance after transaction: " + finalBalance
         + "]";
     } // end of toString()
-    
 } // end of class Transaction

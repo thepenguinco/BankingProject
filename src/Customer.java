@@ -97,7 +97,7 @@ public class Customer
         LocalDate today = LocalDate.now();
         return ChronoUnit.YEARS.between(birthDate, today);
         
-    } // end of getAccounts()
+    } // end of getAge()
     
     /**
      * Returns the birth day of this customer.
@@ -346,7 +346,7 @@ public class Customer
 	// comparators
 	
 	/**
-	 * Compares two customers by SIN
+	 * Compares two customers by SIN.
 	 */
     public static final Comparator<Customer> compareBySin = new Comparator<Customer>()
     {
@@ -354,10 +354,10 @@ public class Customer
         public int compare(Customer customer1, Customer customer2) {
             return customer1.sin - customer2.sin;
         }
-    }; // end of Comparator<Customer> compareBySin...
+    }; // end of Comparator<Customer> compareBySin ...
     
     /**
-     * Compares two customers by first name, then last name
+     * Compares two customers by last name, then first name.
      */
     public static final Comparator<Customer> compareByName = new Comparator<Customer>()
     {
@@ -369,6 +369,5 @@ public class Customer
             if (result == 0) result = customer1.getFirstName().compareToIgnoreCase(customer2.getFirstName());
             return result;
         }
-    }; // end of Comparator<Customer> compareByName...
-    
+    }; // end of Comparator<Customer> compareByName ...
 } // end of class Customer

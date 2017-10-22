@@ -7,13 +7,12 @@ import java.util.Collections;
  * @author Eric Li 
  * @version 1.0 2017-10-10
  */
-
 public abstract class Account
 {
 	// class fields
 	
 	/**
-	 * Transaction history limit for display
+	 * The transaction history display limit.
 	 */
 	public static final int TRANSACTION_HISTORY = 5;
 	
@@ -46,8 +45,18 @@ public abstract class Account
     
     // accessors
     
+    /**
+     * Returns the numerical type of this account
+     * 
+     * @return the numerical type of this account
+     */
     public abstract int getType();
     
+    /**
+     * Returns the string type of this account
+     * 
+     * @return the string type of this account
+     */    
     public abstract String getStringType();
     
     /**
@@ -80,7 +89,7 @@ public abstract class Account
     public void depositFunds(double amount)
     {
     	if (amount > 0) balance = balance + amount;
-    } // end of depositFunds(int amount)
+    } // end of depositFunds(double amount)
     
     /**
      * Removes funds from this account.
@@ -90,7 +99,7 @@ public abstract class Account
     public void withdrawFunds(double amount)
     {
     	if (amount > 0) balance = balance - amount;
-    } // end of withDrawFunds(int amount)
+    } // end of withDrawFunds(double amount)
     
     // other methods
     
@@ -146,5 +155,4 @@ public abstract class Account
         + ", Transactions: " + transactionList
         + "]";
     } // end of toString()
-    
 } // end of class Account

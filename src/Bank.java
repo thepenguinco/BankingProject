@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Eric Li 
  * @version 1.0 2017-10-08
  */
-
+// HASN'T BEEN CHECKED THOROUGHLY
 public class Bank
 {
 	// global constants
@@ -51,222 +51,162 @@ public class Bank
 	 */
 	public static void mainMenu() throws IOException
 	{
-	        // Prompt for input
-	    	System.out.println("Welcome to the VP bank.");
-			System.out.println("-----------------------");
-			System.out.println("Please choose an action from the following: ");
-			System.out.println("1: Add a customer");
-			System.out.println("2: Delete a customer");
-			System.out.println("3: Sort customers by last name, first name");
-			System.out.println("4: Sort customers by SIN");
-			System.out.println("5: Display customers in this bank (name, SIN)");
-			System.out.println("6: Find profile by last name, first name");
-			System.out.println("7: Find profile by SIN");
-			System.out.println("8: Quit");
-	        try
-	        {
-	            // Read console input
-	            int mainOption = Integer.parseInt(console.readLine());
-	            System.out.println();
-	           
-	            // required for scope
-	            boolean failure = false;
-	            ArrayList<Customer> customerSearch;;
-	            
-	            // Process the console input
-	            switch (mainOption)
-	            {
-	                case 1:
-	                    // Create a customer
-	                    try
+		// Prompt for input
+    	System.out.println("Welcome to the VP bank.");
+		System.out.println("-----------------------");
+		System.out.println("Please choose an action from the following: ");
+		System.out.println("1: Add a customer");
+		System.out.println("2: Delete a customer");
+		System.out.println("3: Sort customers by last name, first name");
+		System.out.println("4: Sort customers by SIN");
+		System.out.println("5: Display customers in this bank (name, SIN)");
+		System.out.println("6: Find profile by last name, first name");
+		System.out.println("7: Find profile by SIN");
+		System.out.println("8: Quit");
+        try
+        {
+            // Read console input
+            int mainOption = Integer.parseInt(console.readLine());
+            System.out.println();
+           
+            // required for scope
+            boolean failure = false;
+            ArrayList<Customer> customerSearch;;
+            
+            // Process the console input
+            switch (mainOption)
+            {
+                case 1:
+                    // Create a customer
+                    try
+                    {
+                    	System.out.println("Creating a new customer...");
+                    	System.out.println();
+	                    System.out.print("Enter the customer's last name: ");
+	                    String lastName = console.readLine();
+	                    System.out.print("Enter the customer's first name: ");
+	                    String firstName = console.readLine();
+	                    System.out.print("Enter the customer's SIN: ");
+	                    int sin = Integer.parseInt(console.readLine());
+	                    // check SIN
+	                    for (Customer customer : customerList.getList())
 	                    {
-	                    	System.out.println("Creating a new customer...");
-	                    	System.out.println();
-		                    System.out.print("Enter the customer's last name: ");
-		                    String lastName = console.readLine();
-		                    System.out.print("Enter the customer's first name: ");
-		                    String firstName = console.readLine();
-		                    System.out.print("Enter the customer's SIN: ");
-		                    int sin = Integer.parseInt(console.readLine());
-		                    // check SIN
-		                    for (Customer customer : customerList.getList())
-		                    {
-		                    	if (sin == customer.getSin())
-		                    	{
-		                    		System.out.println("This is not a unique sin.");
-		                    		System.out.println("You may be a victim of identity fraud!");
-		                    		failure = true;
-		                    		break;
-		                    	}
-		                    }
-	                    	if (failure) break;
-	                    	failure = false;
-		                    System.out.print("Enter the customer's birth year: ");
-		                    int birthYear = Integer.parseInt(console.readLine());
-		                    System.out.print("Enter the customer's birth month: ");
-		                    int birthMonth = Integer.parseInt(console.readLine());
-		                    System.out.print("Enter the customer's birth day: ");
-		                    int birthDay = Integer.parseInt(console.readLine());
-		                    System.out.println();
-		                    // Validate birthday;
-		                    Customer customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay);
-		                    Account account = null;
-		                    if (customer.getAge() >= AGE_OF_MAJORITY)
-		                    {
-		                    	System.out.println("Select an account to be created: ");
-			                    System.out.println("1. Chequing Account ");
-			                    System.out.println("2. Savings Account");
-			                    System.out.println("3. Credit Card ");
-			                    int selection = Integer.parseInt(console.readLine());
-			                    switch (selection)
-			                    {
-			                    	case 1:
-					                    account = new ChequingAccount();
-					                    System.out.println("Creating new chequing account.");
-					                    break;
-			                    	case 2:
-					                    account = new SavingsAccount();
-					                    System.out.println("Creating new savings account.");
-					                    break;
-			                    	case 3:
-					                    account = new CreditCard();
-					                    System.out.println("Creating new credit card.");
-					                    break;
-					                default:
-					                	System.out.println("Please enter a valid menu selection.");
-					                	failure = true;
-			                    }
-		                    } // end of if (age >= AGE_OF_MAJORITY)
-		                    else
-		                    {
-		                    	System.out.println("The customer is under the age of "
-		                    			+ AGE_OF_MAJORITY + ".");
-		                    	System.out.println("A savings account will be created.");
-		                    	account = new SavingsAccount();
-		                    }
-		                    if (failure)
-		                    {
-			                	System.out.println("Customer creation failed.");
-			                	break;
-		                    }
-		                    System.out.print("What is the initial balance of this account: ");
-		                    double initialBalance = Double.parseDouble(console.readLine());
-		                    account.depositFunds(initialBalance);
-		                    customerList.addCustomer(customer);
-		                    System.out.println("Customer created successfully.");
-	                    } // end of try
-	                    catch (NumberFormatException | DateTimeException exception)
+	                    	if (sin == customer.getSin())
+	                    	{
+	                    		System.out.println("This is not a unique sin.");
+	                    		System.out.println("You may be a victim of identity fraud!");
+	                    		failure = true;
+	                    		break;
+	                    	}
+	                    }
+                    	if (failure) break;
+                    	failure = false;
+	                    System.out.print("Enter the customer's birth year: ");
+	                    int birthYear = Integer.parseInt(console.readLine());
+	                    System.out.print("Enter the customer's birth month: ");
+	                    int birthMonth = Integer.parseInt(console.readLine());
+	                    System.out.print("Enter the customer's birth day: ");
+	                    int birthDay = Integer.parseInt(console.readLine());
+	                    System.out.println();
+	                    Customer customer = new Customer(firstName, lastName, sin, birthYear, birthMonth, birthDay);
+	                    Account account = null;
+	                    if (customer.getAge() >= AGE_OF_MAJORITY)
 	                    {
-	                        System.out.println("Please enter a valid "
-	                        		+ "birthdate and SIN number.");
-		                	System.out.println("Please enter a valid account type to be created.");
-		                	System.out.println("Please enter a valid balance for the account to be created.");
+	                    	System.out.println("Select an account to be created: ");
+		                    System.out.println("1. Chequing Account ");
+		                    System.out.println("2. Savings Account");
+		                    System.out.println("3. Credit Card ");
+		                    int selection = Integer.parseInt(console.readLine());
+		                    switch (selection)
+		                    {
+		                    	case 1:
+				                    account = new ChequingAccount();
+				                    System.out.println("Creating new chequing account.");
+				                    break;
+		                    	case 2:
+				                    account = new SavingsAccount();
+				                    System.out.println("Creating new savings account.");
+				                    break;
+		                    	case 3:
+				                    account = new CreditCard();
+				                    System.out.println("Creating new credit card.");
+				                    break;
+				                default:
+				                	System.out.println("Please enter a valid menu selection.");
+				                	failure = true;
+		                    }
+	                    } // end of if (age >= AGE_OF_MAJORITY)
+	                    else
+	                    {
+	                    	System.out.println("The customer is under the age of "
+	                    			+ AGE_OF_MAJORITY + ".");
+	                    	System.out.println("A savings account will be created.");
+	                    	account = new SavingsAccount();
+	                    }
+	                    if (failure)
+	                    {
 		                	System.out.println("Customer creation failed.");
-	                    } // end of catch (NumberFormatException exception) ...
-	                    break;
-	                case 2:
-	                	// Delete a customer
-	                	System.out.println("How would you like to search for the customer to delete: ");
-	                	System.out.println("1. By SIN");
-	                	System.out.println("2. By name");
-	                	int selection = Integer.parseInt(console.readLine());
-	                	if (selection == 1)
+		                	break;
+	                    } 
+	                    System.out.print("What is the initial balance of this account: ");
+	                    double initialBalance = Double.parseDouble(console.readLine());
+	                    account.depositFunds(initialBalance);
+	                    customerList.addCustomer(customer);
+	                    System.out.println("Customer created successfully.");
+                    } // end of try
+                    catch (NumberFormatException | DateTimeException exception)
+                    {
+                        System.out.println("Please enter a valid "
+                        		+ "birthdate and SIN number.");
+	                	System.out.println("Please enter a valid account type to be created.");
+	                	System.out.println("Please enter a valid balance for the account to be created.");
+	                	System.out.println("Customer creation failed.");
+                    } // end of catch (NumberFormatException exception) ...
+                    break;
+                case 2:
+                	// Delete a customer
+                	System.out.println("How would you like to search for the customer to delete: ");
+                	System.out.println("1. By SIN");
+                	System.out.println("2. By name");
+                	int selection = Integer.parseInt(console.readLine());
+                	if (selection == 1)
+                	{
+	                	// Find profile by SIN
+	                	System.out.println("Enter the SIN of the customer: ");
+	                	int sin = Integer.parseInt(console.readLine());
+	                	System.out.println("The following customers matched your search criteria: ");
+	                	customerSearch = customerList.getCustomersBySin(sin);
+	                	for (int i = 0; i < customerSearch.size(); i++)
 	                	{
-		                	// Find profile by SIN
-		                	System.out.println("Enter the SIN of the customer: ");
-		                	int sin = Integer.parseInt(console.readLine());
-		                	System.out.println("The following customers matched your search criteria: ");
-		                	customerSearch = customerList.getCustomersBySin(sin);
-		                	for (int i = 0; i < customerSearch.size(); i++)
+	                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
+	                	} // end of for (int i = 0 ...
+	                	try
+		                {
+		                	if (customerSearch.size() > 0)
 		                	{
-		                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
-		                	}
-		                	try
-			                {
-			                	if (customerSearch.size() > 0)
-			                	{
-			                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
-			                		if (customerIndex < customerSearch.size())
-			                		{
-			                			customerList.removeCustomer(customerSearch.get(customerIndex));
-			                			System.out.println("Customer deleted.");
-			                		}
-			                	}
-			                	else 
-			                	{
-			                		System.out.println("No customers found.");
-			                	}
-			                }
-		                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
+		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
+		                		if (customerIndex < customerSearch.size())
+		                		{
+		                			customerList.removeCustomer(customerSearch.get(customerIndex));
+		                			System.out.println("Customer deleted.");
+		                		} // end of if (customerIndex < customerSearch.size())
+		                	} // end of if (customerSearch.size() > 0)
+		                	else 
 		                	{
-		                		System.out.println("That's not a valid customer.");
-		                	}
-		                	finally
-		                	{
-		                		System.out.println("Exiting to main menu.");
-		                	}
-	                	}
-	                	else if (selection == 2)
+		                		System.out.println("No customers found.");
+		                	} // end of else
+		                } // end of try
+	                	catch (IndexOutOfBoundsException | NumberFormatException e)
 	                	{
-		                    // Find profile by first name, last name
-		                	System.out.println("Enter the last name of the customer: ");
-		                	String lastName = console.readLine();
-		                	System.out.println("Enter the first name of the customer: ");
-		                	String firstName = console.readLine();
-		                	System.out.println("The following customers matched your search criteria: ");
-		                	customerSearch = customerList.getCustomersByName(firstName, lastName);
-		                	for (int i = 0; i < customerSearch.size(); i++)
-		                	{
-		                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
-		                	}
-		                	try
-			                {
-			                	if (customerSearch.size() > 0)
-			                	{
-			                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
-			                		if (customerIndex < customerSearch.size())
-			                		{
-			                			customerList.removeCustomer(customerSearch.get(customerIndex));
-			                			System.out.println("Customer deleted.");
-			                		}
-			                	}
-			                	else 
-			                	{
-			                		System.out.println("No customers found.");
-			                	}
-			                }
-		                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
-		                	{
-		                		System.out.println("That's not a valid customer.");
-		                	}
-		                	finally
-		                	{
-		                		System.out.println("Exiting to main menu.");
-		                	}
-	                	}
-	                	else {
-	                		System.out.println("That's not a valid option.");
-	                	}
-		                break;
-	                case 3:
-	                    // Sort customers by last name, then first name
-	                	customerList.sortByName();
-	                	System.out.println("Successfully sorted by last name, then first name.");
-	                	break;
-	                case 4:
-	                	// Sort customers by SIN
-	                	customerList.sortBySin();
-	                	System.out.println("Successfully sorted by SIN.");
-	                    break;
-	                case 5:
-	                    // Display customer summary (name, SIN)
-	                	System.out.println(customerList.getCustomers());
-	                    break;
-	                case 6:
+	                		System.out.println("That's not a valid customer.");
+	                	} // end of catch (IndexOutOfBoundsException | NumberFormatException ...
+                	} // end of if (selection == 1)
+                	else if (selection == 2)
+                	{
 	                    // Find profile by first name, last name
-	                	System.out.print("Enter the last name of the customer: ");
+	                	System.out.println("Enter the last name of the customer: ");
 	                	String lastName = console.readLine();
-	                	System.out.print("Enter the first name of the customer: ");
+	                	System.out.println("Enter the first name of the customer: ");
 	                	String firstName = console.readLine();
 	                	System.out.println("The following customers matched your search criteria: ");
 	                	customerSearch = customerList.getCustomersByName(firstName, lastName);
@@ -275,81 +215,125 @@ public class Bank
 	                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
 	                	} // end of for (int i = 0 ...
 	                	try
-	                	{
+		                {
 		                	if (customerSearch.size() > 0)
 		                	{
 		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
 		                		if (customerIndex < customerSearch.size())
 		                		{
-		                			Customer customer = customerSearch.get(customerIndex);
-			                		profileMenu(customer);
-		                		}
-		                		else
-		                		{
-		                			System.out.println("That is not a valid customer.");
-		                		}
-		                	}
-	                	}
-	                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
-	                	{
-	                		System.out.println("That is not a valid customer.");
-	                	}
-	                	finally
-	                	{
-	                		System.out.println("Exiting to main menu.");
-	                	}
-	                    break;
-	                case 7:
-	                	// Find profile by SIN
-	                	try
-	                	{
-		                	System.out.print("Enter the SIN of the customer: ");
-		                	int sin = Integer.parseInt(console.readLine());
-		                	System.out.println("The following customers matched your search criteria: ");
-		                	customerSearch = customerList.getCustomersBySin(sin);
-		                	for (int i = 0; i < customerSearch.size(); i++)
+		                			customerList.removeCustomer(customerSearch.get(customerIndex));
+		                			System.out.println("Customer deleted.");
+		                		} // end of if (customerIndex < ...
+		                	} // end of if (customerSearch.size() > 0)
+		                	else 
 		                	{
-		                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
-		                	}
-		                	if (customerSearch.size() > 0)
-		                	{
-		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
-		                		if (customerIndex < customerSearch.size())
-		                		{
-		                			Customer customer = customerSearch.get(customerIndex);
-			                		profileMenu(customer);
-		                		}
-		                		else
-		                		{
-		                			System.out.println("That is not a valid customer.");
-		                		}
-		                	}
-	                	}
-	                	catch (ArrayIndexOutOfBoundsException | NumberFormatException e)
+		                		System.out.println("No customers found.");
+		                	} // end of else
+		                } // end of try
+	                	catch (IndexOutOfBoundsException | NumberFormatException e)
 	                	{
-	                		System.out.println("Please enter a valid SIN number and a valid menu choice.");
-	                	}
-	                	finally
+	                		System.out.println("That's not a valid customer.");
+	                	} // end of catch (ArrayIndexOutOfBounds Exception | NumberFormatException ...
+                	} // end of if (selection == 2)
+                	else 
+                	{
+                		System.out.println("That's not a valid option.");
+                	} // end of else
+	                break;
+                case 3:
+                    // Sort customers by last name, then first name
+                	customerList.sortByName();
+                	System.out.println("Successfully sorted by last name, then first name.");
+                	break;
+                case 4:
+                	// Sort customers by SIN
+                	customerList.sortBySin();
+                	System.out.println("Successfully sorted by SIN.");
+                    break;
+                case 5:
+                    // Display customer summary (name, SIN)
+                	System.out.println(customerList.getCustomers());
+                    break;
+                case 6:
+                    // Find profile by first name, last name
+                	System.out.print("Enter the last name of the customer: ");
+                	String lastName = console.readLine();
+                	System.out.print("Enter the first name of the customer: ");
+                	String firstName = console.readLine();
+                	System.out.println("The following customers matched your search criteria: ");
+                	customerSearch = customerList.getCustomersByName(firstName, lastName);
+                	for (int i = 0; i < customerSearch.size(); i++)
+                	{
+                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
+                	} // end of for (int i = 0 ...
+                	try
+                	{
+	                	if (customerSearch.size() > 0)
 	                	{
-	                		System.out.println("Exiting to main menu.");
-	                	}
-	                	break;
-	                case 8:
-	                	// SAVE TO FILE
-	                	System.out.println("Saving bank files...");
-	                	customerList.exportList(fileName);
-	                    System.exit(0);
-	                default:
-	                	// INVALID MENU OPTION
-	                    System.out.println(mainOption + " is  not a valid menu choice.");
-	            } // end of switch (mainOption)
-	            System.out.println();
-	        } // end of try
-	        catch (NumberFormatException exception) 
-	        {
-	            System.out.println("Please enter a valid numerical menu choice selection.");
-	            System.out.println();
-	        } // end of catch (NumberFormatException exception)
+	                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
+	                		if (customerIndex < customerSearch.size())
+	                		{
+	                			Customer customer = customerSearch.get(customerIndex);
+		                		profileMenu(customer);
+	                		} // end of if (customerIndex < customerSearch.size())
+	                		else
+	                		{
+	                			System.out.println("That is not a valid customer.");
+	                		} // end of else
+	                	} // end of if (customerSearch.size() > 0)
+                	} // end of try
+                	catch (IndexOutOfBoundsException | NumberFormatException e)
+                	{
+                		System.out.println("That is not a valid customer.");
+                	} // end of catch (IndexOutOfBoundsException | NumberFormatException ...
+                    break;
+                case 7:
+                	// Find profile by SIN
+                	try
+                	{
+	                	System.out.print("Enter the SIN of the customer: ");
+	                	int sin = Integer.parseInt(console.readLine());
+	                	System.out.println("The following customers matched your search criteria: ");
+	                	customerSearch = customerList.getCustomersBySin(sin);
+	                	for (int i = 0; i < customerSearch.size(); i++)
+	                	{
+	                		System.out.println((i + 1) + ". " + customerSearch.get(i).getSummary());
+	                	} // end of for (int i = 0 ...
+	                	if (customerSearch.size() > 0)
+	                	{
+	                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
+	                		if (customerIndex < customerSearch.size())
+	                		{
+	                			Customer customer = customerSearch.get(customerIndex);
+		                		profileMenu(customer);
+	                		} // end of if (customerIndex < customerSearch.size()
+	                		else
+	                		{
+	                			System.out.println("That is not a valid customer.");
+	                		} // end of else
+	                	} // end of if (customer.searchSize() > 0)
+                	} // end of try
+                	catch (IndexOutOfBoundsException | NumberFormatException e)
+                	{
+                		System.out.println("Please enter a valid SIN number and a valid menu choice.");
+                	} // end of catch (IndexOutOfBoundsException | NumberFormatException ...
+                	break;
+                case 8:
+                	// SAVE TO FILE
+                	System.out.println("Saving bank files...");
+                	customerList.exportList(fileName);
+                    System.exit(0);
+                default:
+                	// INVALID MENU OPTION
+                    System.out.println(mainOption + " is not a valid menu choice.");
+            } // end of switch (mainOption)
+            System.out.println();
+        } // end of try
+        catch (NumberFormatException exception) 
+        {
+            System.out.println("Please enter a valid numerical menu choice selection.");
+            System.out.println();
+        } // end of catch (NumberFormatException exception)
 	}
 	
 	/**
@@ -374,7 +358,7 @@ public class Bank
 		try
 		{
 			int option = Integer.parseInt(console.readLine());
-			// source account list, required for scope
+			// main/source account list, required for scope
 			ArrayList<Account> accountList;
 			// destination account list, required for scope
 			ArrayList<Account> accountList2;
@@ -748,14 +732,12 @@ public class Bank
 					break;
 				default:
 					System.out.println("Please enter a valid menu option.");
-					profileMenu(customer);
 				}
 		}
 		catch (NumberFormatException e)
 		{
 			System.out.println("Please enter a valid menu option.");
-			profileMenu(customer);
-		}
+		} // end of catch (NumberFormatException e)
 	}
 	
 	/**
@@ -785,6 +767,7 @@ public class Bank
 		
 		System.out.println();
         
+		// main menu
 		while (true)
 		{
 			mainMenu();

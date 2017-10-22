@@ -4,18 +4,17 @@
  * @author Eric Li 
  * @version 1.0 2017-10-10
  */
-
 public class ChequingAccount extends Account
 {
 	// class fields
 	
 	/**
-	 * The ID of a chequing account belonging to a customer
+	 * The ID of a chequing account belonging to a customer.
 	 */
 	public static final int ID = 1;
 	
 	/**
-	 * Minimum balance required to be exempt from the cheque processing fee
+	 * The minimum balance required to be exempt from the cheque processing fee.
 	 */
 	public static final double FEE_EXEMPTION_BALANCE = 1000;
 	
@@ -49,11 +48,21 @@ public class ChequingAccount extends Account
     
     // accessors
     
+    /**
+     * Returns the string representing the type of this chequing account.
+     * 
+     * @return the string representing the type of this chequing account
+     */
     public String getStringType()
     {
     	return "chequing account";
-    }
+    } // end of getStringType()
     
+    /**
+     * Returns the numerical type of this chequing account.
+     * 
+     * @return the numerical type of this chequing account
+     */
     public int getType()
     {
     	return ID;

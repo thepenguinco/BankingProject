@@ -10,7 +10,7 @@ public class CreditCard extends Account
 	// class fields
 	
 	/**
-	 * The ID of a credit card
+	 * The ID of a credit card.
 	 */
 	public static final int ID = 3;
 	
@@ -28,6 +28,8 @@ public class CreditCard extends Account
     
     /**
      * Constructs a credit card account with the specified balance.
+     * 
+     * @param initialBalance the initial balance of this credit card account
      */
     public CreditCard(double initialBalance)
     {
@@ -36,11 +38,21 @@ public class CreditCard extends Account
     
     // accessors
     
+    /**
+     * Returns the string representing the type of this credit card.
+     * 
+     * @return the string representing the type of this credit card.
+     */
     public String getStringType()
     {
     	return "credit card";
-    }
+    } // end of getStringType()
     
+    /**
+     * Returns the numerical type of this credit card.
+     * 
+     * @return the numerical type of this credit card.
+     */
     public int getType()
     {
     	return ID;
