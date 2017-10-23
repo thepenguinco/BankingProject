@@ -25,6 +25,16 @@ public class Bank
 	 */
 	public static final int FUNDS_TRANSFER_REQUIREMENT = 2;
 	
+	/**
+	 * TODO
+	 */
+	public static final int MINIMUM_SIN = 100000000;
+	
+	/**
+	 * TODO
+	 */
+	public static final int MAXIMUM_SIN = 999999999;
+	
 	// Global variables
 	
 	/*
@@ -42,6 +52,11 @@ public class Bank
 	 */
 	private static String fileName;
 	
+	/*
+	 * Is the profile menu in use
+	 */
+	private static boolean profileMenu;
+	
 	// Menu methods
 	
 	/**
@@ -49,7 +64,7 @@ public class Bank
 	 * 
 	 * @throws IOException 
 	 */
-	public static void mainMenu() throws IOException
+	private static void mainMenu() throws IOException
 	{
 		// Prompt for input
     	System.out.println("Welcome to the VP bank.");
@@ -97,6 +112,11 @@ public class Bank
 	                    	System.out.println("This account will not be created.");
 	                    	break;
 	                    } // if (!customerList.isUniqueSin(sin))
+	                    else if (sin > MAXIMUM_SIN || sin < MINIMUM_SIN)
+	                    {
+	                    	System.out.println("Please enter a valid SIN.");
+	                    	break;
+	                    } // end of else if (sin > MAXIMUM) 
 	                    System.out.print("Enter the customer's birth year: ");
 	                    int birthYear = Integer.parseInt(console.readLine());
 	                    System.out.print("Enter the customer's birth month: ");
@@ -152,9 +172,20 @@ public class Bank
 	                    } // end of if (failure)
 	                    System.out.print("What is the initial balance of this account: ");
 	                    double initialBalance = Double.parseDouble(console.readLine());
-	                    account.depositFunds(initialBalance);
+	                    if (initialBalance > 0)
+	                    {
+	                    	account.depositFunds(initialBalance);
+		                    System.out.println("A " + account.getStringType() + " with an initial balance of $"
+		                    		+ Utility.MONEY_FORMAT.format(account.getBalance()) + " has been created.");
+	                    } // end of if (initialBalance < 0)
+	                    else 
+	                    {
+	                    	System.out.println("The initial account balance cannot be negative.");
+	                    } // end of else
+	                    customer.addAccount(account);
 	                    customerList.addCustomer(customer);
 	                    System.out.println("Customer created successfully.");
+	                    
                     } // end of try
                     catch (NumberFormatException | DateTimeException exception)
                     {
@@ -276,7 +307,8 @@ public class Bank
 	                		if (customerIndex < customerSearch.size())
 	                		{
 	                			Customer customer = customerSearch.get(customerIndex);
-		                		profileMenu(customer);
+	                			profileMenu = true;
+		                		while (profileMenu) profileMenu(customer);
 	                		} // end of if (customerIndex < customerSearch.size())
 	                		else
 	                		{
@@ -307,7 +339,8 @@ public class Bank
 	                		if (customerIndex < customerSearch.size())
 	                		{
 	                			Customer customer = customerSearch.get(customerIndex);
-		                		profileMenu(customer);
+	                			profileMenu = true;
+		                		while (profileMenu) profileMenu(customer);
 	                		} // end of if (customerIndex < customerSearch.size()
 	                		else
 	                		{
@@ -340,13 +373,10 @@ public class Bank
 	
 	/**
 	 * Display the profile menu for a customer
-	 * 
-	 * @param Customer a specific customer of the bank
-	 * @throws IOException
 	 */
-	public static void profileMenu(Customer customer) throws IOException
+	private static void profileMenu(final Customer customer) throws IOException
 	{
-		System.out.println("PROFILE MENU");
+		System.out.println("PROFILE MENU - " + customer.getLastName() + ", " + customer.getFirstName());
 		System.out.println("-----------------------");
 		System.out.println("1: View account activity");
 		System.out.println("2: Deposit");
@@ -400,7 +430,7 @@ public class Bank
 						try
 						{
 							int accountIndex = Integer.parseInt(console.readLine()) - 1;
-							System.out.println("Enter an amount to deposit into the account: ");
+							System.out.print("Enter an amount to deposit into the account: ");
 							double amount = Double.parseDouble(console.readLine());
 							if (amount < 0)
 							{
@@ -409,8 +439,9 @@ public class Bank
 							else
 							{
 								Account account = accountList.get(accountIndex);
+								double initialBalance = account.getBalance();
 								account.depositFunds(amount);
-								Transaction transaction = new Transaction(Transaction.DEPOSIT_ID, amount, account.getBalance());
+								Transaction transaction = new Transaction(Transaction.DEPOSIT_ID, initialBalance, amount, account.getBalance());
 								account.addTransaction(transaction);
 								System.out.println("You have deposited $" + Utility.MONEY_FORMAT.format(amount) + ".");
 								System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
@@ -438,7 +469,7 @@ public class Bank
 				    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
 				    	} // end of for (int i = 0 ...
 						int accountIndex = Integer.parseInt(console.readLine()) - 1;
-						System.out.println("Enter an amount to withdraw from the account: ");
+						System.out.print("Enter an amount to withdraw from the account: ");
 						double amount = Double.parseDouble(console.readLine());
 						if (amount < 0)
 						{
@@ -447,8 +478,9 @@ public class Bank
 						else
 						{
 							Account account = accountList.get(accountIndex);
+							double initialBalance = account.getBalance();
 							account.withdrawFunds(amount);
-							Transaction transaction = new Transaction(Transaction.WITHDRAW_ID, amount, account.getBalance());
+							Transaction transaction = new Transaction(Transaction.WITHDRAW_ID, initialBalance, amount, account.getBalance());
 							account.addTransaction(transaction);
 							System.out.println("You have withdrawn $" + Utility.MONEY_FORMAT.format(amount) + ".");
 							System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
@@ -484,8 +516,9 @@ public class Bank
 							} // end of if ((account.getBalance() ...
 							else
 							{
+								double initialBalance = account.getBalance();
 								account.processCheque(amount);
-								Transaction transaction = new Transaction(Transaction.PROCESS_CHEQUE_ID, amount, account.getBalance());
+								Transaction transaction = new Transaction(Transaction.PROCESS_CHEQUE_ID, initialBalance, amount, account.getBalance());
 								account.addTransaction(transaction);
 								System.out.println("Cheque successfully processed");
 								System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
@@ -515,7 +548,7 @@ public class Bank
 					    				" $" + Utility.MONEY_FORMAT.format(accountList.get(i).getBalance()));
 					    	} // end of for (int i = 0 ...
 							int accountIndex = Integer.parseInt(console.readLine()) - 1;
-							System.out.println("Enter an amount to purchase using this credit card: ");
+							System.out.print("Enter an amount to purchase using this credit card: ");
 							double amount = Double.parseDouble(console.readLine());
 							if (amount < 0)
 							{
@@ -524,8 +557,9 @@ public class Bank
 							else
 							{
 								Account account = accountList.get(accountIndex);
+								double initialBalance = account.getBalance();
 								account.withdrawFunds(amount);
-								Transaction transaction = new Transaction(Transaction.CREDIT_PURCHASE_ID, amount, account.getBalance());
+								Transaction transaction = new Transaction(Transaction.CREDIT_PURCHASE_ID, initialBalance, amount, account.getBalance());
 								account.addTransaction(transaction);
 								System.out.println("You have purchased $" + Utility.MONEY_FORMAT.format(amount) + " with this credit card.");
 								System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
@@ -565,7 +599,7 @@ public class Bank
 							int creditCardIndex = Integer.parseInt(console.readLine()) - 1;
 							Account sourceAccount = accountList.get(sourceAccountIndex);
 							CreditCard destinationAccount = (CreditCard) accountList2.get(creditCardIndex);
-							System.out.println("Enter an amount to pay of using this credit card: ");
+							System.out.print("Enter an amount to pay of using this credit card: ");
 							double amount = Double.parseDouble(console.readLine());
 							if (amount < 0)
 							{
@@ -577,12 +611,19 @@ public class Bank
 							} // end of else if (sourceAccount.getBalance() ...
 							else
 							{
+								// required for scope
+								Transaction sourceTransaction = null;
+								Transaction destinationTransaction = null;
+								double sourceInitialBalance = sourceAccount.getBalance();
+								double destinationInitialBalance = destinationAccount.getBalance();
+								// handle transactions
 								sourceAccount.withdrawFunds(amount);
 								destinationAccount.depositFunds(amount);
-								Transaction transaction = new Transaction(Transaction.CREDIT_PAYMENT_ID, amount, sourceAccount.getBalance());
-								sourceAccount.addTransaction(transaction);
-								transaction = new Transaction(Transaction.CREDIT_PAYMENT_ID, amount, destinationAccount.getBalance());
-								destinationAccount.addTransaction(transaction);
+								if (sourceAccount.getType() == ChequingAccount.ID) destinationTransaction = new Transaction(Transaction.CREDIT_PAYMENT_FROM_CHEQUING_ID, destinationInitialBalance, amount, destinationAccount.getBalance());
+								else destinationTransaction = new Transaction(Transaction.CREDIT_PAYMENT_FROM_SAVINGS_ID, destinationInitialBalance, amount, destinationAccount.getBalance());
+								sourceTransaction = new Transaction(Transaction.PAYMENT_TO_CREDIT_CARD_ID, sourceInitialBalance, amount, sourceAccount.getBalance());
+								sourceAccount.addTransaction(sourceTransaction);
+								destinationAccount.addTransaction(destinationTransaction);
 								System.out.println("You have submitted a payment of $" + Utility.MONEY_FORMAT.format(amount) + " to this credit card.");
 								System.out.println("This " + sourceAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(sourceAccount.getBalance()));
 								System.out.println("This " + destinationAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(destinationAccount.getBalance()));
@@ -638,15 +679,20 @@ public class Bank
 								System.out.println("The source primary account cannot go into a negative balance.");
 							} // end of if (sourceAccount.getBalance() ...
 							else
-							{
+							{ 
+								double sourceInitialBalance = sourceAccount.getBalance();
+								double destinationInitialBalance = destinationAccount.getBalance();
 								sourceAccount.withdrawFunds(amount);
 								destinationAccount.depositFunds(amount);
-								System.out.println(sourceAccount.getBalance());
-								System.out.println(destinationAccount.getBalance());
-								Transaction transaction = new Transaction(Transaction.TRANSFER_FUNDS_ID, amount, sourceAccount.getBalance());
-								sourceAccount.addTransaction(transaction);
-								transaction = new Transaction(Transaction.TRANSFER_FUNDS_ID, amount, destinationAccount.getBalance());
-								destinationAccount.addTransaction(transaction);
+								// required for scope
+								Transaction sourceTransaction = null;
+								Transaction destinationTransaction = null;
+								if (sourceAccount.getType() == ChequingAccount.ID) destinationTransaction = new Transaction(Transaction.TRANSFER_FROM_CHEQUING_ID, destinationInitialBalance, amount, destinationAccount.getBalance());
+								else destinationTransaction = new Transaction(Transaction.TRANSFER_FROM_SAVINGS_ID, destinationInitialBalance, amount, destinationAccount.getBalance());
+								if (destinationAccount.getType() == ChequingAccount.ID) sourceTransaction = new Transaction(Transaction.TRANSFER_TO_CHEQUING_ID, sourceInitialBalance, amount, sourceAccount.getBalance());
+								else sourceTransaction = new Transaction(Transaction.TRANSFER_TO_SAVINGS_ID, sourceInitialBalance, amount, sourceAccount.getBalance());
+								sourceAccount.addTransaction(sourceTransaction);
+								destinationAccount.addTransaction(destinationTransaction);
 								System.out.println("You have transferred $" + Utility.MONEY_FORMAT.format(amount) + ".");
 								System.out.println("The source " + sourceAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(sourceAccount.getBalance()));
 								System.out.println("The destination " + destinationAccount.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(destinationAccount.getBalance()));
@@ -740,14 +786,17 @@ public class Bank
 					} // end of catch (IndexOutOfBoundsException | NumberFormatException e)
 					break;
 				case 10:
+					profileMenu = false;
 					break;
 				default:
 					System.out.println("Please enter a valid menu option.");
+					System.out.println();
 			} // end of switch (option)
 		} // end of try
 		catch (NumberFormatException e)
 		{
 			System.out.println("Please enter a valid menu option.");
+			System.out.println();
 		} // end of catch (NumberFormatException e)
 	} // end of method profileMenu
 	

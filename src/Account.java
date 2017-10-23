@@ -88,7 +88,7 @@ public abstract class Account
      */
     public void depositFunds(double amount)
     {
-    	if (amount > 0) balance = balance + amount;
+    	balance = balance + amount;
     } // end of depositFunds(double amount)
     
     /**
@@ -98,7 +98,7 @@ public abstract class Account
      */
     public void withdrawFunds(double amount)
     {
-    	if (amount > 0) balance = balance - amount;
+    	balance = balance - amount;
     } // end of withDrawFunds(double amount)
     
     // other methods

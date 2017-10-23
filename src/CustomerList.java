@@ -29,7 +29,7 @@ public class CustomerList
 	/**
 	 * The line length for each transaction in the file database 
 	 */
-	public static final int TRANSACTION_LENGTH = 3;
+	public static final int TRANSACTION_LENGTH = 4;
 	
 	/**
 	 * The delimiter for a space in the file database
@@ -101,7 +101,7 @@ public class CustomerList
     		} // end of else if (line.length ...
     		else if (line.length == TRANSACTION_LENGTH && account != null)
     		{
-    			transaction = new Transaction(Integer.parseInt(line[0]),Double.parseDouble(line[1]),Double.parseDouble(line[2]));
+    			transaction = new Transaction(Integer.parseInt(line[0]), Double.parseDouble(line[1]),Double.parseDouble(line[2]), Double.parseDouble(line[3]));
     			account.addTransaction(transaction);
     		} // end of else if (line.length ...
     		else 
@@ -240,8 +240,8 @@ public class CustomerList
         		database.println(ChequingAccount.ID + " " + chequingAccount.getBalance());
         		for (Transaction transaction : chequingAccount.getTransactionsReversed())
         		{
-        			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
-        					+ " " + transaction.getFinalBalance());
+        			database.println(transaction.getTransactionType() + " " + transaction.getInitialBalance()
+					+ " " + transaction.getAmount() + " " + transaction.getFinalBalance());
         		} // end of for (Transaction transaction ...
         	} // end of for (Account chequingAccount ...
         	for (Account savingsAccount : customer.getSavingsAccounts())
@@ -249,8 +249,8 @@ public class CustomerList
         		database.println(SavingsAccount.ID + " " + savingsAccount.getBalance());
         		for (Transaction transaction : savingsAccount.getTransactionsReversed())
         		{
-        			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
-        					+ " " + transaction.getFinalBalance());
+        			database.println(transaction.getTransactionType() + " " + transaction.getInitialBalance()
+					+ " " + transaction.getAmount() + " " + transaction.getFinalBalance());
         		} // end of for (Transaction transaction ...
         	} // end of for (Account savingsAccount ...
         	for (Account creditCard : customer.getCreditCards())
@@ -258,8 +258,8 @@ public class CustomerList
         		database.println(CreditCard.ID + " " + creditCard.getBalance());
         		for (Transaction transaction : creditCard.getTransactionsReversed())
         		{
-        			database.println(transaction.getTransactionType() + " " + transaction.getAmount()
-        					+ " " + transaction.getFinalBalance());
+        			database.println(transaction.getTransactionType() + " " + transaction.getInitialBalance()
+        					+ " " + transaction.getAmount() + " " + transaction.getFinalBalance());
         		} // end of for (Transaction transaction ...
         	} // end of for (Account creditCard ...
         } // end of for (Customer customer ...
