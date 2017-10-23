@@ -46,6 +46,7 @@ public class Bank
 	
 	/**
 	 * Display the main bank menu
+	 * 
 	 * @throws IOException 
 	 */
 	public static void mainMenu() throws IOException
@@ -340,6 +341,7 @@ public class Bank
 	/**
 	 * Display the profile menu for a customer
 	 * 
+	 * @param Customer a specific customer of the bank
 	 * @throws IOException
 	 */
 	public static void profileMenu(Customer customer) throws IOException

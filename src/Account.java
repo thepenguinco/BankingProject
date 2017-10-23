@@ -136,6 +136,7 @@ public abstract class Account
      */
     public ArrayList<Transaction> getTransactionsReversed()
     {
+    	// dirty workaround
     	ArrayList<Transaction> reversedTransactions = (ArrayList<Transaction>) transactionList.clone();
     	Collections.reverse(reversedTransactions);
         return reversedTransactions;
