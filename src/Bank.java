@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 /**
- * A bank interface to interact with the banking application
+ * A bank interface to interact with the banking application.
  * 
- * @author Eric Li 
+ * @author Eric Li
  * @version 1.0 2017-10-08
  */
 public class Bank
@@ -26,12 +26,12 @@ public class Bank
 	public static final int FUNDS_TRANSFER_REQUIREMENT = 2;
 	
 	/**
-	 * TODO
+	 * The lower boundary of valid SIN numbers.
 	 */
 	public static final int MINIMUM_SIN = 100000000;
 	
 	/**
-	 * TODO
+	 * The upper boundary of valid SIN numbers.
 	 */
 	public static final int MAXIMUM_SIN = 999999999;
 	
@@ -53,16 +53,14 @@ public class Bank
 	private static String fileName;
 	
 	/*
-	 * Is the profile menu in use
+	 * Is the profile menu active
 	 */
-	private static boolean profileMenu;
+	private static boolean profileMenuActive;
 	
 	// Menu methods
 	
-	/**
+	/*
 	 * Display the main bank menu
-	 * 
-	 * @throws IOException 
 	 */
 	private static void mainMenu() throws IOException
 	{
@@ -150,8 +148,8 @@ public class Bank
 				                    System.out.println("Creating new credit card.");
 				                    break;
 				                default:
-				                	System.out.println("Please enter a valid menu selection.");
-				                	failure = true;
+				                	System.out.println("Invalid account type, automatically generating a savings account.");
+				                	account = new SavingsAccount();
 		                    } // end of switch (selection)
 	                    } // end of if (age >= AGE_OF_MAJORITY)
 	                    else
@@ -161,16 +159,7 @@ public class Bank
 	                    	System.out.println("A savings account will be created.");
 	                    	account = new SavingsAccount();
 	                    } // end of else
-	                    /*
-	                     * this is slightly gross, but of low priority, perhaps force the user to add
-	                     * a savings account by default if they enter an incorrect menu selection
-	                     */
-	                    if (failure)
-	                    {
-		                	System.out.println("Customer creation failed.");
-		                	break;
-	                    } // end of if (failure)
-	                    System.out.print("What is the initial balance of this account: ");
+	                    System.out.print("Enter the initial balance of this account: ");
 	                    double initialBalance = Double.parseDouble(console.readLine());
 	                    if (initialBalance > 0)
 	                    {
@@ -189,8 +178,7 @@ public class Bank
                     } // end of try
                     catch (NumberFormatException | DateTimeException exception)
                     {
-                        System.out.println("Please enter a valid "
-                        		+ "birthdate and SIN number.");
+                        System.out.println("Please enter a valid birthdate and SIN number.");
 	                	System.out.println("Please enter a valid account type to be created.");
 	                	System.out.println("Please enter a valid balance for the account to be created.");
 	                	System.out.println("Customer creation failed.");
@@ -205,7 +193,7 @@ public class Bank
                 	if (selection == 1)
                 	{
 	                	// Find profile by SIN
-	                	System.out.println("Enter the SIN of the customer: ");
+	                	System.out.print("Enter the SIN of the customer: ");
 	                	int sin = Integer.parseInt(console.readLine());
 	                	System.out.println("The following customers matched your search criteria: ");
 	                	customerSearch = customerList.getCustomersBySin(sin);
@@ -231,15 +219,15 @@ public class Bank
 		                } // end of try
 	                	catch (IndexOutOfBoundsException | NumberFormatException e)
 	                	{
-	                		System.out.println("That's not a valid customer.");
+	                		System.out.println("Please select a valid customer.");
 	                	} // end of catch (IndexOutOfBoundsException | NumberFormatException ...
                 	} // end of if (selection == 1)
                 	else if (selection == 2)
                 	{
 	                    // Find profile by first name, last name
-	                	System.out.println("Enter the last name of the customer: ");
+	                	System.out.print("Enter the last name of the customer: ");
 	                	String lastName = console.readLine();
-	                	System.out.println("Enter the first name of the customer: ");
+	                	System.out.print("Enter the first name of the customer: ");
 	                	String firstName = console.readLine();
 	                	System.out.println("The following customers matched your search criteria: ");
 	                	customerSearch = customerList.getCustomersByName(firstName, lastName);
@@ -307,14 +295,18 @@ public class Bank
 	                		if (customerIndex < customerSearch.size())
 	                		{
 	                			Customer customer = customerSearch.get(customerIndex);
-	                			profileMenu = true;
-		                		while (profileMenu) profileMenu(customer);
+	                			profileMenuActive = true;
+		                		while (profileMenuActive) profileMenu(customer);
 	                		} // end of if (customerIndex < customerSearch.size())
 	                		else
 	                		{
 	                			System.out.println("That is not a valid customer.");
 	                		} // end of else
 	                	} // end of if (customerSearch.size() > 0)
+	                	else
+	                	{
+	                		System.out.println("No customers with those search parameters were found.");
+	                	} // end of else
                 	} // end of try
                 	catch (IndexOutOfBoundsException | NumberFormatException e)
                 	{
@@ -339,14 +331,18 @@ public class Bank
 	                		if (customerIndex < customerSearch.size())
 	                		{
 	                			Customer customer = customerSearch.get(customerIndex);
-	                			profileMenu = true;
-		                		while (profileMenu) profileMenu(customer);
+	                			profileMenuActive = true;
+		                		while (profileMenuActive) profileMenu(customer);
 	                		} // end of if (customerIndex < customerSearch.size()
 	                		else
 	                		{
 	                			System.out.println("That is not a valid customer.");
 	                		} // end of else
 	                	} // end of if (customer.searchSize() > 0)
+	                	else
+	                	{
+	                		System.out.println("No customers with those search parameters were found.");
+	                	} // end of else
                 	} // end of try
                 	catch (IndexOutOfBoundsException | NumberFormatException e)
                 	{
@@ -371,7 +367,7 @@ public class Bank
         } // end of catch (NumberFormatException exception)
 	}
 	
-	/**
+	/*
 	 * Display the profile menu for a customer
 	 */
 	private static void profileMenu(final Customer customer) throws IOException
@@ -471,13 +467,17 @@ public class Bank
 						int accountIndex = Integer.parseInt(console.readLine()) - 1;
 						System.out.print("Enter an amount to withdraw from the account: ");
 						double amount = Double.parseDouble(console.readLine());
+						Account account = accountList.get(accountIndex);
 						if (amount < 0)
 						{
 							System.out.println("You cannot withdraw a negative amount.");
 						} // end of if (amount < 0)
+						else if (account.getType() != CreditCard.ID && account.getBalance() - amount < 0)
+						{
+							System.out.println("You cannot go into a negative balance with this account.");
+						} // end of else if (account.getType() 
 						else
 						{
-							Account account = accountList.get(accountIndex);
 							double initialBalance = account.getBalance();
 							account.withdrawFunds(amount);
 							Transaction transaction = new Transaction(Transaction.WITHDRAW_ID, initialBalance, amount, account.getBalance());
@@ -508,19 +508,23 @@ public class Bank
 							ChequingAccount account = (ChequingAccount) accountList.get(accountIndex);
 							System.out.print("Enter the amount you wish to write a cheque out for: ");
 							double amount = Double.parseDouble(console.readLine());
-							if ((account.getBalance() < ChequingAccount.FEE_EXEMPTION_BALANCE  
+							if (amount < 0)
+							{
+								System.out.println("You cannot process a cheque with a negative amount.");
+							}
+							else if ((account.getBalance() < ChequingAccount.FEE_EXEMPTION_BALANCE  
 									&& account.getBalance() - amount - ChequingAccount.PROCESSING_FEE < 0)
 									|| account.getBalance() - amount < 0)
 							{
 								System.out.println("Insufficient funds for the transaction.");
-							} // end of if ((account.getBalance() ...
+							} // end of else if ((account.getBalance() ...
 							else
 							{
 								double initialBalance = account.getBalance();
 								account.processCheque(amount);
 								Transaction transaction = new Transaction(Transaction.PROCESS_CHEQUE_ID, initialBalance, amount, account.getBalance());
 								account.addTransaction(transaction);
-								System.out.println("Cheque successfully processed");
+								System.out.println("Cheque successfully processed.");
 								System.out.println("This " + account.getStringType() + " has a new balance of $" + Utility.MONEY_FORMAT.format(account.getBalance()));
 							} // end of else
 						} // end of try
@@ -736,7 +740,8 @@ public class Bank
 				                    System.out.println("Creating new credit card.");
 				                    break;
 				                default:
-				                	System.out.println("Please enter a valid menu selection.");
+				                	account = new SavingsAccount();
+				                	System.out.println("Invalid account type, automatically generating a savings account.");
 		                    } // end of switch (selection)
 	                    } // end of if (age >= AGE_OF_MAJORITY)
 	                    else
@@ -748,10 +753,17 @@ public class Bank
 	                    } // end of else
 	                    System.out.print("What is the initial balance of this account: ");
 	                    double initialBalance = Double.parseDouble(console.readLine());
-	                    account.depositFunds(initialBalance);
-	                    customer.addAccount(account);
-	                    System.out.println("A " + account.getStringType() + " with an initial balance of $"
-	                    		+ Utility.MONEY_FORMAT.format(account.getBalance()) + " has been created");
+	                    if (account.getType() != CreditCard.ID && initialBalance < 0)
+	                    {
+	                    	System.out.println("This type of account cannot have a negative initial balance.");
+	                    } // end of if (account.getType() ...
+	                    else
+	                    {   
+	                    	account.depositFunds(initialBalance);
+		                    customer.addAccount(account);
+		                    System.out.println("A " + account.getStringType() + " with an initial balance of $"
+		                    		+ Utility.MONEY_FORMAT.format(account.getBalance()) + " has been created.");
+	                    } // end of else
 	                } // end of try
 					catch (NumberFormatException e)
 					{
@@ -778,6 +790,7 @@ public class Bank
 							System.out.println("No accounts exist for this customer.");
 							customerList.removeCustomer(customer);
 							System.out.println("This customer has been deleted.");
+							profileMenuActive = false;
 						} // end of if (customer.getAccounts() ...
 					} // end of try
 					catch (IndexOutOfBoundsException | NumberFormatException e)
@@ -786,7 +799,7 @@ public class Bank
 					} // end of catch (IndexOutOfBoundsException | NumberFormatException e)
 					break;
 				case 10:
-					profileMenu = false;
+					profileMenuActive = false;
 					break;
 				default:
 					System.out.println("Please enter a valid menu option.");

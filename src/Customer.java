@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
- * A bank client who uses the banking services
+ * A bank client who uses the banking services.
  * 
  * @author Eric Li 
  * @version 1.0 2017-10-12

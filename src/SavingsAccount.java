@@ -1,5 +1,5 @@
 /**
- * A savings account belonging to a customer
+ * A savings account belonging to a customer.
  * 
  * @author Eric Li 
  * @version 1.0 2017-10-10
@@ -9,7 +9,7 @@ public class SavingsAccount extends Account
 	// class fields
 	
 	/**
-	 * The ID of a savings account belonging to a customer
+	 * The ID of a savings account belonging to a customer.
 	 */
 	public static final int ID = 2;
 	
@@ -40,7 +40,7 @@ public class SavingsAccount extends Account
     /**
      * Returns the string representing the type of this savings account.
      * 
-     * @return the string representing the type of this savings account.
+     * @return the string representing the type of this savings account
      */
     public String getStringType()
     {
@@ -50,7 +50,7 @@ public class SavingsAccount extends Account
     /**
      * Returns the numerical type of this savings account.
      * 
-     * @return the numerical type of this savings account.
+     * @return the numerical type of this savings account
      */
     public int getType()
     {

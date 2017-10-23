@@ -46,14 +46,14 @@ public abstract class Account
     // accessors
     
     /**
-     * Returns the numerical type of this account
+     * Returns the numerical type of this account.
      * 
      * @return the numerical type of this account
      */
     public abstract int getType();
     
     /**
-     * Returns the string type of this account
+     * Returns the string type of this account.
      * 
      * @return the string type of this account
      */    
@@ -104,9 +104,9 @@ public abstract class Account
     // other methods
     
     /**
-     * Returns the last 5 transactions of this account
+     * Returns the transaction history of this account.
      * 
-     * @return the last 5 transactions of this account
+     * @return the transaction history of this account
      */
     public String getTransactionHistory()
     {
@@ -116,11 +116,12 @@ public abstract class Account
         	if (i >= TRANSACTION_HISTORY) break;
             transactions = transactions + (i + 1) + ": " + transactionList.get(i).getTransactionSummary() + "\n";
         }
+        if (transactions.equals("")) transactions = "There are no transactions in this account yet.";
         return transactions;
     } // end of getTransactionHistory()
     
     /**
-     * Returns the list of transactions of this account
+     * Returns the list of transactions of this account.
      * 
      * @return the list of transactions of this account
      */

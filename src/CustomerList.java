@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * A list of the customers of a bank
+ * A list of the customers of a bank.
  * 
  * @author Eric Li 
  * @version 1.0 2017-10-10
@@ -17,24 +17,24 @@ public class CustomerList
 	// class fields
 	
 	/**
-	 * The line length for each customer in the file database 
-	 */
-	public static final int CUSTOMER_LENGTH = 6;
-	
-	/**
-	 * The line length for each account in the file database 
+	 * The line length for each account in the file database. 
 	 */
 	public static final int ACCOUNT_LENGTH = 2;
 	
 	/**
-	 * The line length for each transaction in the file database 
+	 * The line length for each customer in the file database. 
 	 */
-	public static final int TRANSACTION_LENGTH = 4;
+	public static final int CUSTOMER_LENGTH = 6;
 	
 	/**
-	 * The delimiter for a space in the file database
+	 * The delimiter for a space in the file database.
 	 */
 	public static final String MAGIC_SPACE = "\\s";
+	
+	/**
+	 * The line length for each transaction in the file database. 
+	 */
+	public static final int TRANSACTION_LENGTH = 4;
 	
     // instance fields
 
@@ -44,7 +44,6 @@ public class CustomerList
     
     /**
      * Constructs a default empty customer list.
-     * 
      */
     public CustomerList()
     {
@@ -284,7 +283,7 @@ public class CustomerList
     } // end of method getCustomers()  
     
     /**
-     * Shows a string representation of this customer list
+     * Shows a string representation of this customer list.
      * 
      * @return the string representation of this customer list
      */

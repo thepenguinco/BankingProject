@@ -1,5 +1,5 @@
 /**
- * A transaction belonging to an account
+ * A transaction belonging to an account.
  * 
  * @author Eric Li 
  * @version 1.0 2017-10-10
@@ -73,7 +73,7 @@ public class Transaction
     // constructors
     
     /**
-     * Constructs a transaction with the specified characteristics
+     * Constructs a transaction with the specified characteristics.
      * 
      * @param transactionType the type of this transaction
      * @param initialBalance the initialBalance before this transaction
@@ -196,7 +196,7 @@ public class Transaction
     // other methods, string methods
     
     /**
-     * Returns the summary of this transaction
+     * Returns the summary of this transaction.
      * 
      * @return the summary of this transaction
      */
