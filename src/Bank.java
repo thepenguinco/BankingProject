@@ -26,15 +26,15 @@ public class Bank
 	public static final int FUNDS_TRANSFER_REQUIREMENT = 2;
 	
 	/**
-	 * The lower boundary of valid SIN numbers.
-	 */
-	public static final int MINIMUM_SIN = 100000000;
-	
-	/**
 	 * The upper boundary of valid SIN numbers.
 	 */
 	public static final int MAXIMUM_SIN = 999999999;
 	
+	/**
+	 * The lower boundary of valid SIN numbers.
+	 */
+	public static final int MINIMUM_SIN = 100000000;
+
 	// Global variables
 	
 	/*
@@ -53,7 +53,7 @@ public class Bank
 	private static String fileName;
 	
 	/*
-	 * Is the profile menu active
+	 * Global state of the profile menu
 	 */
 	private static boolean profileMenuActive;
 	
@@ -68,14 +68,15 @@ public class Bank
     	System.out.println("Welcome to the VP bank.");
 		System.out.println("-----------------------");
 		System.out.println("Please choose an action from the following: ");
-		System.out.println("1: Add a customer");
-		System.out.println("2: Delete a customer");
-		System.out.println("3: Sort customers by last name, first name");
-		System.out.println("4: Sort customers by SIN");
-		System.out.println("5: Display customers in this bank (name, SIN)");
-		System.out.println("6: Find profile by last name, first name");
-		System.out.println("7: Find profile by SIN");
-		System.out.println("8: Quit");
+		System.out.println("	1: Add a customer");
+		System.out.println("	2: Delete a customer");
+		System.out.println("	3: Sort customers by last name, first name");
+		System.out.println("	4: Sort customers by SIN");
+		System.out.println("	5: Display customers in this bank (name, SIN)");
+		System.out.println("	6: Find profile by last name, first name");
+		System.out.println("	7: Find profile by SIN");
+		System.out.println("	8: Quit");
+    	System.out.print("Enter an option: ");
         try
         {
             // Read console input
@@ -83,7 +84,6 @@ public class Bank
             System.out.println();
            
             // Required for scope
-            boolean failure = false;
             ArrayList<Customer> customerSearch;;
             
             // Process the console input
@@ -129,9 +129,9 @@ public class Bank
 	                    if (customer.getAge() >= AGE_OF_MAJORITY)
 	                    {
 	                    	System.out.println("Select an account to be created: ");
-		                    System.out.println("1. Chequing Account ");
-		                    System.out.println("2. Savings Account");
-		                    System.out.println("3. Credit Card ");
+		                    System.out.println("	1. Chequing Account ");
+		                    System.out.println("	2. Savings Account");
+		                    System.out.println("	3. Credit Card ");
 		                    int selection = Integer.parseInt(console.readLine());
 		                    switch (selection)
 		                    {
@@ -206,11 +206,8 @@ public class Bank
 		                	if (customerSearch.size() > 0)
 		                	{
 		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
-		                		if (customerIndex < customerSearch.size())
-		                		{
-		                			customerList.removeCustomer(customerSearch.get(customerIndex));
-		                			System.out.println("Customer deleted.");
-		                		} // end of if (customerIndex < customerSearch.size())
+		                		customerList.removeCustomer(customerSearch.get(customerIndex));
+		                		System.out.println("Customer deleted.");  
 		                	} // end of if (customerSearch.size() > 0)
 		                	else 
 		                	{
@@ -240,11 +237,8 @@ public class Bank
 		                	if (customerSearch.size() > 0)
 		                	{
 		                		int customerIndex = Integer.parseInt(console.readLine()) - 1;
-		                		if (customerIndex < customerSearch.size())
-		                		{
-		                			customerList.removeCustomer(customerSearch.get(customerIndex));
-		                			System.out.println("Customer deleted.");
-		                		} // end of if (customerIndex < ...
+		                		customerList.removeCustomer(customerSearch.get(customerIndex));
+		                		System.out.println("Customer deleted.");
 		                	} // end of if (customerSearch.size() > 0)
 		                	else 
 		                	{
@@ -253,8 +247,8 @@ public class Bank
 		                } // end of try
 	                	catch (IndexOutOfBoundsException | NumberFormatException e)
 	                	{
-	                		System.out.println("That's not a valid customer.");
-	                	} // end of catch (ArrayIndexOutOfBounds Exception | NumberFormatException ...
+	                		System.out.println("That is not a valid customer.");
+	                	} // end of catch (IndexOutOfBounds Exception | NumberFormatException ...
                 	} // end of if (selection == 2)
                 	else 
                 	{
@@ -372,18 +366,20 @@ public class Bank
 	 */
 	private static void profileMenu(final Customer customer) throws IOException
 	{
+		System.out.println();
 		System.out.println("PROFILE MENU - " + customer.getLastName() + ", " + customer.getFirstName());
 		System.out.println("-----------------------");
-		System.out.println("1: View account activity");
-		System.out.println("2: Deposit");
-		System.out.println("3: Withdraw");
-		System.out.println("4: Process cheque");
-		System.out.println("5: Process purchase");
-		System.out.println("6: Process payment");
-		System.out.println("7: Transfer funds");
-		System.out.println("8: Open account or issue card");
-		System.out.println("9: Cancel account or card");
-		System.out.println("10: Return to main menu");
+		System.out.println("	1: View account activity");
+		System.out.println("	2: Deposit");
+		System.out.println("	3: Withdraw");
+		System.out.println("	4: Process cheque");
+		System.out.println("	5: Process purchase");
+		System.out.println("	6: Process payment");
+		System.out.println("	7: Transfer funds");
+		System.out.println("	8: Open account or issue card");
+		System.out.println("	9: Cancel account or card");
+		System.out.println("	10: Return to main menu");
+    	System.out.print("Enter an option: ");
 		try
 		{
 			int option = Integer.parseInt(console.readLine());
@@ -825,7 +821,7 @@ public class Bank
       	console = new BufferedReader(new InputStreamReader(System.in));
 
 	    // Load customer list from file (if exists)
-		System.out.print("Enter file name: ");
+		System.out.print("Enter database file name: ");
 		fileName = console.readLine();
 		try
 		{

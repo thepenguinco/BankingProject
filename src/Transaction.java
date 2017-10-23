@@ -66,8 +66,8 @@ public class Transaction
     // instance fields
 
     private double amount;
-    private double initialBalance;
     private double finalBalance;
+    private double initialBalance;
     private int transactionType;
     
     // constructors
